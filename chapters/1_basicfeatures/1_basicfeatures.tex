@@ -56,54 +56,24 @@ According to the \href{https://mathnat.uni-koeln.de/sites/dekanat/official/Ordnu
 	\item a cover / title page,
 	\item an abstract (according to the PO2020, one does not need a german and an english abstract, the latter is sufficient),
 	\item several chapters including an introduction, presentation of results and a discussion,
-	\item the statement from §7 Absatz 8, PO2020, together with a list of publications.
+	\item the closing statement from §7 Absatz 8, PO2020, together with a list of publications.
 \end{itemize}
-
-The published version (i.e., not your inital submission, but the one you publish after your defense) must contain a statement that the thesis was accepted by the faculty. This should be printed either on the title page or its back (see this template for an example).
-
 It is common to also include a thesis outline and acknowledgements. There is no universal consensus on where the best place for the acknowledgments is, I put it between the bibliography and the closing statement, but have also seen otherwise (for example directly after the title page, before the abstract, I think if I had to write my thesis again, I would pick that option).
+Furthermore, you should list your referees, and, in the published version (i.e., not the initial submission, but the version you upload on the KUPS server) the date of your defense and the statement that the thesis was accepted by the faculty. This should be printed either on the title page or its back (see this template for an example). I put this on the back of the title page.
 
-Usually, acknowledgments and abstract do not go into the table of contents. Regarding the closing statement, there is apparently no clear consesus, I decided to not include it in the table of content. However, I wanted all three parts to have an individual entry in the table of content of the pdf-file, i.e., the content that is displayed in the content pane / left column of a pdf-reader, see Fig. XX.
-
-The following commands are used ...
-\verb|\addcontentsline{toc}{chapter}{Bibliography}|
-\verb|\pdfbookmark{Abstract}{abstract}|
-
-
-Sometimes one needs a \verb|\phantomsection| to ensure that one jumbs to the correct section when clicking on the corresponding entry in the pdf-table of content.
-
-It can happen that -- e.g. after you inserted a part page -- something is odd with the hierarchy...
-
-\begin{lstlisting}
-\makeatletter
-\def\toclevel@chapter{-1}
-\makeatother
-\end{lstlisting}
-or 
-\begin{lstlisting}
-\usepackage{bookmark}
-...
-
-\bookmarksetup{startatroot}
-\chapter{conclusion}
-\end{lstlisting}
-
-
-\begin{figure}
-	\includegraphics[width = \textwidth]{pdf-toc.png}
-\end{figure}
+A summary of the complete thesis structure is given in \tabref{tab:thesisstructure}.
 
 \begin{table}
 	\centering 
 	\caption{\textbf{Structure of the thesis.}}
-	\label{tab:table2}
+	\label{tab:thesistructure}
 	\vspace{5ex}
 	\begin{tabular}{lccccc} 
 		\toprule
 		 & page numbers & even/odd & in ToC & in pdf ToC & numbered  \\ 
 		\midrule 
-		Titlepage I  & none & odd & \color{bqred}\XSolidBrush& \color{bqgreen} \CheckmarkBold &\color{bqred} \XSolidBrush\\
-		Titlepage II & none & even & \color{bqred}\XSolidBrush& \color{bqred}\XSolidBrush& \color{bqred}\XSolidBrush\\
+		Titlepage front  & none & odd & \color{bqred}\XSolidBrush& \color{bqgreen} \CheckmarkBold &\color{bqred} \XSolidBrush\\
+		Titlepage back & none & even & \color{bqred}\XSolidBrush& \color{bqred}\XSolidBrush& \color{bqred}\XSolidBrush\\
 		Abstract & none & odd & \color{bqred}\XSolidBrush& \color{bqgreen}\CheckmarkBold & \color{bqred}\XSolidBrush\\
 		Table of Contents & roman & odd & \color{bqred}\XSolidBrush& \color{bqgreen}\CheckmarkBold &\color{bqred} \XSolidBrush\\
 		Outline & arabic & odd &\color{bqgreen} \CheckmarkBold &\color{bqgreen} \CheckmarkBold & \color{bqred}\XSolidBrush\\
@@ -117,7 +87,104 @@ or
 	\end{tabular}
 \end{table}
 
+
+\subsection{Frontmatter, mainmatter and page numbering}
+Books are typically divided into a frontmatter part and a mainmatter part (the backmatter part, containing the acknowledgments and the final statement, is not relevant here, as they use the \verb|\empty| pagestyle).
+The frontmatter contains everything before the actual content starts. It is common, to use a different pagenumbering (i.e. roman numbers) or no numbering for the frontmatter part and the usual arabic numbering fir the mainmatter. In this thesis, the mainmatter starts with the `Outline' chapter. 
+The frontmatter starts with the titlepage, but I prefered to not show the roman numbers counting the pages of the frontmatter on the titlepage and the abstract (i.e., only the table of content has roman numbers.)
+
+
+\subsection{Table of content}
+The entire frontmatter should not be included in the table of contents (toc). The same is true for the acknowledgments (which are often part of the frontmatter) and I also excluded the closing statement.
+However, I wanted all parts to have an individual entry in the table of content of the pdf file (pdf-toc), i.e., the content that is displayed in the content pane / left column of most pdf readers, see \figref{fig:pdf-toc}.
+
+\begin{figure}
+	\includegraphics[width = \textwidth]{pdf-toc.png}
+	\caption{\textbf{Table of content vs. pdf table of content.} Thesis parts like the title page, abstract or acknowledgments should not be typeset in the table of content. However, for ease of navigation, it is useful if they appear in the navigation panel of the pdf reader.}
+	\label{fig:pdf-toc}
+\end{figure}
+
+To taylor-made the appearance of both, the internal table toc as well as the pdf-toc, to my needs, the following commands are used: 
+\begin{itemize}
+	\item \verb|\addcontentsline{toc}{chapter}{name}| to manually add an entry to the toc, e.g., \verb|\addcontentsline{toc}{chapter}{Bibliography}| adds the bibliography as a separate chapter to the toc.
+	\item \verb|\pdfbookmark[level]{Abstract}{abstract}| to add an entry to the pfg-toc.
+	\item \verb|\phantomsection|, when necessary to guarantee that the hyperlink between the pdf-toc and the main document works correctly.
+\end{itemize}
+
+
+\paragraph{Fixing the level in the pdf-toc}
+It might happen that you need to change the level on which an entry appears in the pdf-toc. For example, imagine that you have the following thesis structure:
+\begin{lstlisting}
+\part{Part I}
+	\chapter{Chapter 1}
+	% ... 
+\part{Part II}
+	\chapter{Chapter 5}
+	% ...
+\chapter{Conclusion}
+\end{lstlisting}
+In that case, the `Concluding discussion' chapter would appear as a subchapter of ``Part II'', but you might prefer it to be on the same level as the two parts. Here are two workarounds:
+Before \verb|\chapter{Conclusion}|, insert
+\begin{lstlisting}
+\makeatletter
+\def\toclevel@chapter{-1}
+\makeatother
+\chapter{Concluding discussion}
+\end{lstlisting}
+or load the bookmark package and insert
+\begin{lstlisting}
+\usepackage{bookmark}
+...
+
+\bookmarksetup{startatroot}
+\chapter{Conclusion}
+\end{lstlisting}
+
+
 \section{Folder structure of the template}
+I structured my thesis in the following way: The root folder contains the main file (\verb|main_thesis.tex|) and four subfolders, \verb|Latex|, \verb|Auxiliary|, \verb|bib-files|, \verb|chapters|. ADD FONT FILES / GITIGNORE.
+\paragraph{bib-files} (unsurprisingly) contains all \verb|.bib|-files with the bibtex/biblatex entries.
+\paragraph{chapters} contains a subfolder for each main chapter and the appendices, see below.
+\paragraph{auxiliary} contains all the auxiliary parts of the thesis not contained in the \verb|chapters| folder, i.e., a separate tex file for titlepage, abstract, outline, acknowledgments and the final statement, as well as the folder \verb|logos| with the logos of the University of Cologne and the THP.
+\paragraph{Latex} contains additional latex files with useful commands, TikZ style settings, color definitions, biblatex settings, etc.
+
+Each subfolder in \verb|chapters| contains a main tex-file for that chapter as well as a \verb|figures| folder containing all figures for that chapter.
+At the beginning of each chapter, it is useful to set the graphicspath to the respective figure folder, e.g., \verb|\graphicspath{{chapters/1_basicfeatures/figures/}}| for this chapter, such that one can ommit the graphics path when using the \verb|\includegraphics[]{}| command.
+
+
+\section{Using TikZ / pgfplots and externalization}
+When you use TikZ / pgfplots to generate your plots, you should use the externalization capabilities of TikZ in order to prevent re-rendering of unchanged figures whenever you compile. That saves a lot (!) of time. 
+Remember that you have to include \verb|| and compile with the \verb|--shell-escape| flag. Besides these general adjustements, there are two template-specific pecularities one has to keep in mind. 
+
+\paragraph{Chapter headings} The modified chapter heading uses TikZ. Therefore, one should disable the externalization of TikZ before every new chapter. You can automate this by uncommenting this code snippet here in line ... of \verb|main_thesis.tex|:
+\begin{lstlisting}
+\let\oldchapter\chapter	% Store \chapter in \oldchapter
+\renewcommand{\chapter}{%
+	\tikzexternaldisable
+	\oldchapter%
+}
+\end{lstlisting}
+\paragraph{Modified folder structure}
+I keep an additional folder \verb|tikz_figures| folder to store a separate .tex file with the tikz source code for every figure. That folder also contains the subfolder \verb|data| that in turn contains the data that is needed in the source code tikzfiles. At the beginning of each section, I set some paths to facilitate the inclusion of figures, for example
+\begin{lstlisting}
+\renewcommand{\here}{chapters/3_colors/tikz_figures}	% Path to tikz source code
+\pgfplotsset{table/search path={\here/data}}				% Path to data used in tikz source code
+\tikzsetexternalprefix{chapters/3_colors/figures/}	% Path for storing of externalized tikz pdfs.
+\end{lstlisting}
+Then, the TikZ source code / the external pdf file is included via
+\begin{lstlisting}
+\begin{figure}
+	\centering
+	\tikzsetnextfilename{fig_colordemo}
+	\input{\here/tikz_colordemo.tex}
+	\caption{Some caption}
+	\label{fig:colordemo}
+\end{figure}
+\end{lstlisting}
+To see a working example, checkout Chap.~3 (replace by reference)
+WHERE IS HERE DEFINED FOR THE FIRST TIME?
+Of course, there are many other options on how to organize the folder structure, in particular with regard to the externalization of TikZ-figures.
+
 
 
 \section{``Outer theme'' layouting}
@@ -129,23 +196,7 @@ or
 \subsection{Header}
 
 
-\chapter{``Inner theme'' layouting, formatting and style}
-\section{Math environments}
-\subsection{The golden rules}
-\subsection{Other}
-indices, mathrm, eqnarray vs. align, spacing after ..., displaying huge numbers.
-\section{Tables}
-\subsection{Booktabs}
-\subsection{Colored rows / cells}
-\section{Figures}
-\subsection{Side by side}
-\subsection{Hyperlinks to subpanels}
-\section{Fine-tuning}
-Immer wenn ich einen der folgenden Fehler sehe, dann baut sich bei mir direkt der Gedanke auf, dass der Autor jetzt direkt in der Bringschuld ist, mir zu beweisen, dass er kein Idiot ist. Mit anderen Worten: Wenn ich so etwas sehe kriege ich schlechte Laune und bin dem Inhalte gegenüber nicht mehr neutral (sogar mehr noch, als wenn ich inhaltliche Fehler sehe). Klingt übertrieben? Mag sein, aber wenn man seine Leserschaft nicht kennt, sollte man sich trotzdem Mühe geben, es direkt richtig zu machen. Wer weiß an wen man gerät.
-\subsection{Quotation marks}
-\subsection{Hyphens}
-\subsection{nonlinear vs. non-linear}
-\subsection{Orphans and widows}
+
 
 \chapter{Colors}
 \chapter{Bibliography with biblatex}\label{chap:biblatex}
@@ -346,27 +397,5 @@ As always, the most important thing is consistency. Once you have decided on a v
 The prefix `non' appears very often and with many different following words. My impression was that it is not treated uniformly in the literature (even by the same authors) and that one finds both variants. In fact, in American English (AE), the hyphen is mostly omitted, whereas in British English (BE) it is commonly used. Compare e.g., the two reviews \cite{abaninRecentProgressManybody2017} and \cite{abaninColloquiumManybodyLocalization2019}. Ref.~\cite{abaninRecentProgressManybody2017} was published by Annals of Physics (Berlin) which belongs to the german Wiley-VCH publisher and uses BE. Therefore one finds \emph{non-quilibrium,non-entangled,non-uniform,non-thermal,non-ergodic,non-local,non-trivial,non-interacting,non-Abelian,} etc.
 Ref.~\cite{abaninColloquiumManybodyLocalization2019} was published in Reviews of modern physics, an APS journal. In consequence, they write \emph{nonequilibrium,nonzero,noninteracting,nonuniform,nonthermal,nonvanishing,nonlocal,nonthermalizing}, but however, they write \emph{non-Abelian}. I went for the AE option, because I used AE everywhere else (behavior, neighbor, gray, etc.).
 When browsing papers to find out how issues like this are handled, the best idea is not to take the arXiv versions, as there is often no consistency even within a single paper, but the published versions that have undergone some form of post-editing by the publisher.
-
-
-\subsection{Indices}
-$E_\text{kin}$ vs $E_\mathrm{kin}$ vs $E_{kin}$. Or even worse: $cos (x) $ vs. $\cos (x)$, and $exp (x) $ vs. $\exp (x)$
-$E_A$ that is fine. But as soon as you have more than one letter $E_\text{potential}$ vs. $E_{potential}$
-
-
-\subsection{Math as prose}
-I would like to remind you of the wise rules, provided by David Mermin himself, as a shining light in the darkness of mathematical typesetting. Let me quote directly from his epoch-making work:
-\paragraph{Rule 1 (Fisher's rule)} (\dots) Number all displayed equations. The most common violation of Fisher's rule is the misguided practice of numbering only those displayed equations to which the text subsequently refers back. (\dots)
-\paragraph{Rule 2 (Good Samaritan rule)}(\dots) When referring to an equation identify it by a phrase as well as a number. No compassionate and helpful person would herald the arrival of Eq.~(7.38) by saying ``inserting (2.47) and (3.51) into (5.13)'' when it is possible to say ``inserting the form (2.47) of the electricfield \textbf{E} and the Lindhard form (3.51)\dots''. (\dots) Consistent use of the Good Samaritan rule might well increase the lenght of your paper by a few percent. But admit it. Your paper is already to long by at least 30\% because you were in such a rush to get it out (\ldots).
-\paragraph{Rule 3 (Math is prose rule)} (\dots) End a displayed equation with a punctuation mark. It is implicit in this statement that the absence of a punctuation mark is itself a degenerate form of punctuation that, like periods, commas or semicolons, can be used \emph{provided it makes sense.}
-
-\section{Structure of the thesis}
-
-If you are reading this, you are probably writing your thesis according to the rules set in the \href{https://mathnat.uni-koeln.de/sites/dekanat/official/Ordnungen/Promotionsordnung_2020.pdf}{Promotionsordnung 2020}. 
-According to the Promotionsordnung, there are a few mandatory sections that must be included in your thesis:
-
-Die Veröffentlichung muss auf dem Titelblatt oder auf der Rückseite des Titelblatts einen
-Hinweis enthalten, aus der oder dem hervorgeht, dass es sich um eine von der Mathematisch-
-Naturwissenschaftlichen Fakultät der Universität zu Köln angenommene Dissertation handelt;
-dabei ist das Jahr der Disputation zu nennen.
 
 
