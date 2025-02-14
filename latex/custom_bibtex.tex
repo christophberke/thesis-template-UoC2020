@@ -1,0 +1,126 @@
+\AtEveryBibitem{% Clean up the bibtex
+	 %\clearlist{address}
+	 \clearfield{date}
+	% \clearfield{eprint}
+	 \clearfield{isbn}
+	 \clearfield{issn}
+	 \clearlist{location}
+ 	 \clearfield{month}
+ 	 \clearlist{language}
+ 	 \clearfield{series}
+ }
+
+% Biblatex category for own publications.
+\DeclareBibliographyCategory{own}
+\addtocategory{own}{BerkeFieldStability}
+\addtocategory{own}{berke_transmon_2022}
+\addtocategory{own}{CiaranS1}
+\addtocategory{own}{hickeyGenericFielddrivenPhenomena2021}
+
+% Biblatex category for `in preparation'
+\DeclareBibliographyCategory{prep}
+\addtocategory{prep}{inpreparation}
+
+\newbibmacro{string+doiurlisbn}[1]{%
+	\iffieldundef{doi}{%
+		\iffieldundef{url}{%
+			\iffieldundef{isbn}{%
+				\iffieldundef{issn}{%
+					#1%
+				}{%
+					\href{http://books.google.com/books?vid=ISSN\thefield{issn}}{#1}%
+				}%
+			}{%
+				\href{http://books.google.com/books?vid=ISBN\thefield{isbn}}{#1}%
+			}%
+		}{%
+			\href{\thefield{url}}{#1}%
+		}%
+	}{%
+		\href{http://dx.doi.org/\thefield{doi}}{#1}%
+	}%
+}
+
+
+\DeclareFieldFormat{journaltitle}{#1\isdot}
+\DeclareFieldFormat{title}{\usebibmacro{string+doiurlisbn}{\mkbibemph{#1}}}
+\DeclareFieldFormat[article,incollection,misc]{title}{\usebibmacro{string+doiurlisbn}{#1}}
+\DeclareFieldFormat[thesis]{title}{\usebibmacro{string+doiurlisbn}{\mkbibemph{#1}}}
+\DeclareFieldFormat[article,incollection,thesis]{booktitle}{\usebibmacro{string+doiurlisbn}{\mkbibemph{#1}}}
+\DeclareFieldFormat[article]{volume}{\addnbspace \textbf{#1}}
+\DeclareFieldFormat[article]{number}{\addnbspace \mkbibparens{#1}}
+\DeclareFieldFormat[article]{pages}{#1}
+\DeclareFieldFormat[incollection]{volume}{\addnbspace Vol.\addnbspace #1}
+
+\renewbibmacro*{journal+issuetitle}{%
+	\usebibmacro{journal}%
+	\setunit*{\space}%
+	\iffieldundef{series}
+	{}
+	{\newunit
+		\printfield{series}%
+		\setunit{\addspace}}%
+	\usebibmacro{volume+number+eid}%
+	\setunit{\addspace}%
+	\usebibmacro{issue}%
+	\setunit{\addcolon\space}%
+	\usebibmacro{issue}%
+	\newunit}
+
+\renewbibmacro*{volume+number+eid}{%
+	\printfield{volume}%
+	\setunit*{\addnbspace}
+	\printfield{number}%
+	\setunit{\space}%
+	\printfield{eid}
+}
+
+
+% If <issue> is a number, map <issue> to <number> and delete <issure> afterwards.
+\DeclareSourcemap{
+	\maps[datatype=bibtex]{
+		\map{
+			\step[fieldsource=issue, match=\regexp{\A[0-9]+\Z}, final]
+			\step[fieldset=number, origfieldval]
+			\step[fieldset=issue, null]
+		}
+	}
+}
+
+
+% ----------------- Make certain name bold in bibliography -----------------
+\def\makenamesetup{%
+	\def\bibnamedelima{~}%
+	\def\bibnamedelimb{ }%
+	\def\bibnamedelimc{ }%
+	\def\bibnamedelimd{ }%
+	\def\bibnamedelimi{ }%
+	\def\bibinitperiod{.}%
+	\def\bibinitdelim{~}%
+	\def\bibinithyphendelim{.-}}    
+\newcommand*{\makename}[2]{\begingroup\makenamesetup\xdef#1{#2}\endgroup}
+
+\newcommand*{\boldname}[3]{%
+	\def\lastname{#1}%
+	\def\firstname{#2}%
+	\def\firstinit{#3}}
+\boldname{}{}{}
+
+% Patch new definitions
+\renewcommand{\mkbibnamegiven}[1]{%
+	\ifboolexpr{ ( test {\ifdefequal{\firstname}{\namepartgiven}} or test {\ifdefequal{\firstinit}{\namepartgiven}} ) and test {\ifdefequal{\lastname}{\namepartfamily}} }
+	{\mkbibbold{#1}}{#1}%
+}
+
+\renewcommand{\mkbibnamefamily}[1]{%
+	\ifboolexpr{ ( test {\ifdefequal{\firstname}{\namepartgiven}} or test {\ifdefequal{\firstinit}{\namepartgiven}} ) and test {\ifdefequal{\lastname}{\namepartfamily}} }
+	{\mkbibbold{#1}}{#1}%
+}
+% ----------------------------------
+
+
+
+
+% Remove day and month.
+\AtEveryBibitem{\clearfield{month}}
+\AtEveryBibitem{\clearfield{day}}

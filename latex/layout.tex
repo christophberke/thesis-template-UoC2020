@@ -1,0 +1,146 @@
+% !TeX root = ../main_thesis.tex
+
+% layout settings 
+
+% ------------------------------------------------ %
+% headline & footline
+\usepackage[headsepline=.2pt, ilines]{scrlayer-scrpage}
+%\lohead{Peter Musterheinzel}
+%\rohead{Seitenstile mit \KOMAScript}
+\pagestyle{scrheadings}
+\setkomafont{pagehead}{\small \mainregular \color{maincolor1}}
+
+
+
+% ------------------------------------------------ %
+% declare font families
+\newfontfamily{\mainregular}{MYRIADPRO-REGULAR.OTF}		% regular sans serif font for chapter/section/... headings
+\newfontfamily{\mainsemibold}{MYRIADPRO-SEMIBOLD.OTF}	% semibold ss font for chapter/section/... headings
+% default ss font (toc, captions, ...)
+\setsansfont[
+UprightFont = *-REGULAR, 
+BoldFont = *-SEMIBOLD,
+SlantedFont = *-REGULAR,
+SlantedFeatures = {FakeSlant,Colour=FF0000}
+]
+{MYRIADPRO}
+
+%\usepackage{unicode-math}
+%\setmathfont{MdSymbol-Regular.otf}
+
+
+% choose main colors for page layout (headline, headings, ...)
+\colorlet{maincolor1}{stdwarmgrey}
+\colorlet{maincolor2}{stdred}
+
+
+% ------------------------------------------------ %
+% load caption package and specify options
+\usepackage[
+format = plain, 
+indention = .5cm, 
+labelsep=endash, 
+textfont = {footnotesize},% , sf}, % remove sf for normal (=serif) font in captions.
+justification = justified, skip = 10pt
+]{caption}
+\addtokomafont{captionlabel}{\mainregular \color{maincolor2}}
+\DeclareCaptionFormat{sidebyside}{#1#2\\#3}
+%\DeclareCaptionFont{blue}{\color{lagunita}}
+%\captionsetup[sub]{labelfont={blue}}
+\setlength{\belowcaptionskip}{-0.5\baselineskip}	% Spacing between caption and main text below.	
+% \setlength{\abovecaptionskip}{-0.25\baselineskip}	% Spacing between caption and figure above.
+
+
+
+% ------------------------------------------------ %
+% part pages 
+% Background
+\usepackage{graphicx,eso-pic,lipsum,etoolbox}
+\providecommand{\chapterhook}{}
+\makeatletter
+\patchcmd{\scr@startpart}{\thispagestyle}{\chapterhook\thispagestyle}{\typeout{Patching chapter worked OK!}}{\typeout{Patching chapter failed! Oh no!!}}
+\newcommand*{\chapterimage}[2][]{% \parthook[<options>]{<image>}
+	\renewcommand{\chapterhook}{% Update \parthook
+		\AddToShipoutPictureBG*{% Add picture to background of THIS page only
+			\AtPageLowerLeft{%
+				\begin{tikzpicture}[remember picture,overlay]
+				% \shade [top color=stdskydark,bottom color=white] (current page.south west) rectangle (current page.north east); 
+				\fill[stdsandhill!20] (current page.south west) rectangle (current page.north east);
+				% \draw (0,0) -- (1,1);
+				\end{tikzpicture}
+				% \includegraphics[width=\paperwidth,height=\paperheight,#1]{#2}%
+			}%			
+		}% Insert image
+		\renewcommand{\chapterhook}{}% Restore \parthook
+	}%
+}
+\makeatother
+
+% Text
+\setkomafont{part}{\mainregular \Huge \color{maincolor1}}
+\setkomafont{partprefix}{\mainsemibold \Huge \color{maincolor2}}
+% text in lower right corner
+\renewcommand*{\partheadstartvskip}{\vspace*{\fill}}% Abstand darüber (maximal)
+\renewcommand*{\partheadendvskip}{}% Kein Abstand unter der Überschrift
+\let\raggedpart\raggedleft% rechtsbündig
+
+
+
+% ------------------------------------------------ %
+% chapter pages 
+\setkomafont{chapter}{\mainsemibold \Huge \color{maincolor2}}
+\setkomafont{chapterprefix}{\mainregular \LARGE \color{maincolor1}}
+\newkomafont{chapternumber}{\mainregular \fontsize{70pt}{90pt} \color{maincolor1}  \selectfont}
+% \newkomafont{chapternumber}{\mainregular \fontsize{50pt}{60pt} \color{maincolor1}  \selectfont}
+
+\renewcommand\raggedchapter{\raggedleft}
+
+\tikzset{
+	headings/base/.style = {
+		outer sep = 0pt,
+		inner sep = 5pt,
+	},
+	headings/chapapp/.style = {
+		headings/base,
+		font = \usekomafont{chapterprefix}
+	},
+	headings/chapternumber/.style= {
+		headings/base,
+		font = \usekomafont{chapternumber}
+	},
+	headings/chapterline/.style = {
+		maincolor1,
+		line width = 2pt
+	}
+}
+
+\makeatletter
+\renewcommand*\chapterlinesformat[3]{%
+	\Ifstr{#1}{chapter}{%
+		\begin{tikzpicture}[baseline=(title.base)]
+		\node (title){\parbox[t]{\dimexpr\textwidth-2\pgfkeysvalueof{/pgf/inner xsep}\relax}{\raggedchapter #3}};
+		\node[headings/chapapp,anchor=south east] at (title.north east){\Ifstr{#2}{}{}{\chapapp}\strut};
+		\useasboundingbox(current bounding box.north west) rectangle ([yshift=-10pt]current bounding box.south east);
+		\draw[headings/chapterline] (current bounding box.south east)++(+.5\pgflinewidth,0)--+(0,\paperheight);
+		\node[anchor=base west,headings/chapternumber] at([xshift=10pt]title.base-|current bounding box.east){#2};
+		\end{tikzpicture}
+		\par
+	}{%
+		\@hangfrom{#2}{#3}% other section levels using style=chapter
+	}%
+}
+\makeatother
+ 
+
+
+% ------------------------------------------------ %
+% section, subsection, paragraph, ... 
+\addtokomafont{section}{\mainsemibold \Large \color{maincolor2}}
+\addtokomafont{subsection}{\mainregular \large  \color{maincolor2}}
+\addtokomafont{subsubsection}{\mainsemibold \color{maincolor2}}
+\addtokomafont{paragraph}{\mainsemibold  \color{maincolor2}}
+
+
+
+
+

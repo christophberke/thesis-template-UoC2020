@@ -1,0 +1,116 @@
+# Create `colorblind' versions of some color schemes.
+
+# I. Matplotlib colors 
+# I.1 Normal Vision
+\definecolor{matplotlibC0}{HTML}{1f77b4}
+\definecolor{matplotlibC1}{HTML}{ff7f0e}
+\definecolor{matplotlibC2}{HTML}{2ca02c}
+\definecolor{matplotlibC3}{HTML}{d62728}
+\definecolor{matplotlibC4}{HTML}{9467bd}
+\definecolor{matplotlibC5}{HTML}{8c564b}
+\definecolor{matplotlibC6}{HTML}{e377c2}
+\definecolor{matplotlibC7}{HTML}{7f7f7f}
+\definecolor{matplotlibC8}{HTML}{bcbd22}
+\definecolor{matplotlibC9}{HTML}{17becf}
+
+# I.2 Protanomaly
+\definecolor{matplotlibC0-prot}{HTML}{4576B4}
+\definecolor{matplotlibC1-prot}{HTML}{C4881B}
+\definecolor{matplotlibC2-prot}{HTML}{999B28}
+\definecolor{matplotlibC3-prot}{HTML}{8B402E}
+\definecolor{matplotlibC4-prot}{HTML}{5C6CBD}
+\definecolor{matplotlibC5-prot}{HTML}{6F594C}
+\definecolor{matplotlibC6-prot}{HTML}{9881C3}
+\definecolor{matplotlibC7-prot}{HTML}{7F7F7F}
+\definecolor{matplotlibC8-prot}{HTML}{D1BB20}
+\definecolor{matplotlibC9-prot}{HTML}{97BACE}
+
+# I.3 Deuteranomaly
+\definecolor{matplotlibC0-deut}{HTML}{3871B4}
+\definecolor{matplotlibC1-deut}{HTML}{E2A700}
+\definecolor{matplotlibC2-deut}{HTML}{778636}
+\definecolor{matplotlibC3-deut}{HTML}{B2760F}
+\definecolor{matplotlibC4-deut}{HTML}{797EBC}
+\definecolor{matplotlibC5-deut}{HTML}{7E6649}
+\definecolor{matplotlibC6-deut}{HTML}{BFA2BF}
+\definecolor{matplotlibC7-deut}{HTML}{7F7F7F}
+\definecolor{matplotlibC8-deut}{HTML}{C7B428}
+\definecolor{matplotlibC9-deut}{HTML}{73A9D1}
+
+# I.4 Tritanomaly
+\definecolor{matplotlibC0-trit}{HTML}{23779A}
+\definecolor{matplotlibC1-trit}{HTML}{FE7F7B}
+\definecolor{matplotlibC2-trit}{HTML}{23A0A4}
+\definecolor{matplotlibC3-trit}{HTML}{D62745}
+\definecolor{matplotlibC4-trit}{HTML}{95678B}
+\definecolor{matplotlibC5-trit}{HTML}{8C5658}
+\definecolor{matplotlibC6-trit}{HTML}{E4779B}
+\definecolor{matplotlibC7-trit}{HTML}{7F7F7F}
+\definecolor{matplotlibC8-trit}{HTML}{BBBDA3}
+\definecolor{matplotlibC9-trit}{HTML}{12BEDD}
+
+# 
+\definecolor{matplotlibC0-mono}{HTML}{646464}
+\definecolor{matplotlibC1-mono}{HTML}{989898}
+\definecolor{matplotlibC2-mono}{HTML}{707070}
+\definecolor{matplotlibC3-mono}{HTML}{5B5B5B}
+\definecolor{matplotlibC4-mono}{HTML}{7E7E7E}
+\definecolor{matplotlibC5-mono}{HTML}{656565}
+\definecolor{matplotlibC6-mono}{HTML}{A0A0A0}
+\definecolor{matplotlibC7-mono}{HTML}{7F7F7F}
+\definecolor{matplotlibC8-mono}{HTML}{ABABAB}
+\definecolor{matplotlibC9-mono}{HTML}{8E8E8E}
+
+\pgfplotscreateplotcyclelist{matplotlib}{
+	{matplotlibC0},
+	{matplotlibC1},
+	{matplotlibC2},
+	{matplotlibC3},
+	{matplotlibC4},
+	{matplotlibC5},
+	{matplotlibC6},
+	{matplotlibC7},
+	{matplotlibC8},
+	{matplotlibC9},				
+}
+
+\pgfplotscreateplotcyclelist{matplotlib-prot}{
+	{matplotlibC0-prot},
+	{matplotlibC1-prot},
+	{matplotlibC2-prot},
+	{matplotlibC3-prot},
+	{matplotlibC4-prot},
+	{matplotlibC5-prot},
+	{matplotlibC6-prot},
+	{matplotlibC7-prot},
+	{matplotlibC8-prot},
+	{matplotlibC9-prot},				
+}
+
+
+\pgfplotscreateplotcyclelist{matplotlib-deut}{
+	{matplotlibC0-deut},
+	{matplotlibC1-deut},
+	{matplotlibC2-deut},
+	{matplotlibC3-deut},
+	{matplotlibC4-deut},
+	{matplotlibC5-deut},
+	{matplotlibC6-deut},
+	{matplotlibC7-deut},
+	{matplotlibC8-deut},
+	{matplotlibC9-deut},				
+}
+
+
+\pgfplotscreateplotcyclelist{matplotlib-trit}{
+	{matplotlibC0-trit},
+	{matplotlibC1-trit},
+	{matplotlibC2-trit},
+	{matplotlibC3-trit},
+	{matplotlibC4-trit},
+	{matplotlibC5-trit},
+	{matplotlibC6-trit},
+	{matplotlibC7-trit},
+	{matplotlibC8-trit},
+	{matplotlibC9-trit},				
+}
