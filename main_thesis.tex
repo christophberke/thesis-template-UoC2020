@@ -1,0 +1,159 @@
+\documentclass[
+	numbers=noenddot, 
+	headinclude = true,
+	BCOR = 12mm, 
+	DIV = 16, 
+	twoside
+	]{scrbook}
+\providecommand*{\Ifstr}{\ifstr}
+ 
+% \usepackage{showframe}
+\usepackage{blindtext}
+\usepackage{fontspec}
+\usepackage{xcolor} 
+\usepackage{graphicx}
+\usepackage{amsmath} 
+\usepackage{bm}
+\usepackage{amssymb}
+\usepackage{tikz}
+\usepackage{tikz-3dplot}
+\usepackage{pgfplots}
+\usepackage{pgfplotstable}
+\usepackage{shellesc}
+\usepackage{booktabs}	% Beautiful tables
+\usepackage{colortbl}	% Colored rows in tables
+\usepackage{enumitem}
+\usepackage{eqparbox}
+\usepackage{mathtools}
+\usepackage{dsfont}
+\usepackage{bbding}
+\usepackage{listings}
+\lstset
+{
+    language=[LaTeX]TeX,
+    breaklines=true,
+    backgroundcolor = \color{lightgray!50!white},
+    basicstyle=\ttfamily\footnotesize,
+    keywordstyle=\color{blue},
+    identifierstyle=\color{magenta},
+    literate={\\\%}{\%}2
+}
+% \usepackage[titles]{tocloft}
+\usepackage{bookmark}
+\usepackage[labelformat=simple]{subcaption}
+\renewcommand\thesubfigure{(\alph{subfigure})}
+
+\newcommand{\subtag}[1]{\tag{\theparentequation#1}}
+
+\usepackage[
+	natbib = true,
+	defernumbers = true,
+	backend = biber,
+	maxnames = 10,
+	style=ieee,
+	doi=false,
+	url=false,
+	citestyle=numeric-comp,
+	sorting=none,
+	sortcites,
+	giveninits = true,
+	dashed = false,
+	% eprint = false
+]{biblatex} 
+
+\addbibresource{auxiliary/examplebib.bib}
+
+% Some header files.
+\input{latex/colors.tex}	% Define some colors
+\input{latex/layout.tex}	% Layout settings: Captions, chapter page, ...
+\input{latex/custom_bibtex.tex}	
+\input{latex/custom_commands.tex} % Some useful tex commands.
+
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	menucolor = black,
+	citecolor = black,
+	% urlcolor=stdred,
+	urlcolor = stdwarmgrey,
+	linkcolor = black
+}
+
+% Overwrite \chapter to turn of tikzexternalization of chapter title
+% \let\oldchapter\chapter		% Store \chapter in \oldchapter
+% \renewcommand{\chapter}{	%
+% 	\tikzexternaldisable
+% 	\oldchapter%
+% }
+
+% Move this to layout.
+\renewcommand{\floatpagefraction}{.9}
+\renewcommand{\topfraction}{.9}
+\renewcommand{\bottomfraction}{.9}
+\renewcommand{\textfraction}{.1}
+
+\begin{document}
+	
+	%%%%%%%%%%%%%%%%%%%% Front part %%%%%%%%%%%%%%%%%%%%
+	% frontmatter part (titlepage, abstract, toc) with roman page numbering.
+	\frontmatter
+	\pagenumbering{roman}
+	% \tikzexternaldisable 
+
+	% Note that all chapters are included with \include{} 
+	% instead of \input{} such that one can use \includeonly
+	% to speed up compilation if desired. \input works as well. 
+	\include{auxiliary/titlepage}
+	\include{auxiliary/abstract}
+
+	\cleardoublepage
+
+	% Add toc to pdfreader content but not to toc.
+	\phantomsection
+	\pdfbookmark{Table of Content}{toc}
+	% Print table of content
+	\tableofcontents
+
+	%%%%%%%%%%%%%%%%%%%% Main part %%%%%%%%%%%%%%%%%%%%
+	% main part with roman page numbering.
+	\mainmatter
+	\pagenumbering{arabic}
+
+	\include{chapters/outline}	% Chapter without number in ToC
+	\include{chapters/1_basicfeatures/1_basicfeatures}	% Regular chapter
+
+	\chapterimage{auxiliary/logos/LogoUoC_circle}
+	\part{Cool Monte Carlo Part}
+
+	%\bookmarksetup{startatroot} % Fix pdf toc hierarchy
+	\chapter{Test chapter}
+
+	\appendix
+	\include{chapters/appendix}	% Appendix chapter
+
+	%%%%%%%%%%%%%%%%%%%% Bibliography %%%%%%%%%%%%%%%%%%%%
+	
+	\cleardoublepage
+	\phantomsection	% For correct hyperlink	
+	\addcontentsline{toc}{chapter}{Bibliography}
+
+	% Print my own papers with prefix P (= paper / published) and my name in bold.
+	\boldname{Berke}{Christoph}{C.}
+	\newrefcontext[labelprefix=P]
+	\printbibliography[category=own]
+
+	% Print unpublished papers with prefix U
+	\newrefcontext[labelprefix=U]
+	\printbibliography[category=prep, heading=none,]
+
+	% Print all other papers
+	\newrefcontext[labelprefix=]
+	\printbibliography[notcategory=own,notcategory=prep,heading=none,resetnumbers=true]
+
+
+	%%%%%%%%%%%%%% Acknowledgements + Erklaerung %%%%%%%%%%%%%%%%%
+	\include{auxiliary/acknowledgements}
+	\include{auxiliary/Erklaerung}
+
+\end{document} 
+
