@@ -38,7 +38,7 @@ Below is an explanation of some of these options.
 
 \subsection{Page layout without the \texttt{geometry} package}
 One of the key strengths of the KOMA-Script classes is their built-in handling of type area and other typographic settings. The package author has extensive expertise in typography and has incorporated many best practices directly into its implementation. The KOMA-Script manual states:
- \say{Various algorithms and heuristic methods for constructing an appropriate type area have been discussed in the literature. These rules are known as the `canons of page construction.' [\ldots] The result is that the aspect ratio of the type area corresponds to the proportions of the page. [\ldots] In a two-sided document (e.g. a book), however, the entire inner margin (the margin at the spine) should be the same size as each of the two outer margins.}
+ \say{Various algorithms and heuristic methods for constructing an appropriate type area have been discussed in the literature. These rules are known as the `canons of page construction.' [\ldots] The result is that the aspect ratio of the type area corresponds to the proportions of the page. [\ldots] In a two-sided document (e.g. a book), however, the entire inner margin (the margin at the spine) should be the same size as each of the two outer margins.} \cite{koma_manual}
 
 The scrbook class automatically generates margins that conform to these typographic principles. The DIV parameter controls the type area width: the larger the value, the smaller the margins. The underlying construction mechanism is explained in Section 2.2 of the KOMA-Script manual, particularly in Figure 2.1.
 
@@ -95,12 +95,10 @@ A summary of the complete thesis structure is given in \tabref{tab:thesisstructu
 	\end{tabular}
 \end{table}
 
-
 \subsection{Frontmatter, mainmatter and page numbering}
 Books are typically divided into front matter and main matter (the back matter, which includes acknowledgments and the final statement, is not relevant for the following discussion since it uses the CHECLe
-). The front matter contains everything preceding the main content. It is common practice to use a different page numbering style for this section, typically Roman numerals or no numbering at all, while the main matter uses Arabic numerals.
+). In the \verb|tex| document, front matter and main matter are initialized via \verb|\frontmatter| and \verb|\mainmatter|. The front matter contains everything preceding the main content. It is common practice to use a different page numbering style for this section, typically Roman numerals or no numbering at all, while the main matter uses Arabic numerals.
 In this thesis, the main matter begins with the Outline chapter. The front matter starts with the title page, but I opted not to display Roman numerals on the title page and abstract. Only the table of contents carries Roman numeral page numbers.
-
 
 \subsection{Table of content}
 The entire front matter should not be included in the table of contents (ToC). The same applies to the acknowledgments (which are often part of the front matter) and I also excluded the closing statement. However, I wanted all these sections to appear in the PDF table of contents (PDF-ToC), i.e., the strcuture that is displayed in the navigation pane of most PDF readers, see \figref{fig:pdf-toc}.
@@ -116,7 +114,8 @@ To customize the appearance of both the internal ToC and the PDF-ToC, the follow
 	\item \verb|\addcontentsline{toc}{chapter}{name}|  manually adds an entry to the ToC.  For example, \verb|\addcontentsline{toc}{chapter}{Bibliography}| ensures that the bibliography appears as a separate chapter in the ToC.
 	\item \verb|\pdfbookmark[level]{Abstract}{abstract}| adds an entry to the PDF-ToC.
 	\item \verb|\phantomsection| is sometimes necessary to ensure that hyperlinks between the PDF-ToC and the main document function correctly.
-\end{itemize}
+	\item \verb|\addchap{Outline}| ensures that the unnumbered Outline chapter appears both in the PDF-ToC and the ToC.
+\end{itemize} 
 
 
 \paragraph{Fixing the level in the pdf-toc}
@@ -158,18 +157,46 @@ I structured my thesis in the following way: The root folder contains the main f
 Each subfolder in \verb|chapters| contains a main tex-file for that chapter as well as a \verb|figures| folder containing all figures for that chapter.
 At the beginning of each chapter, it is useful to set the graphicspath to the respective figure folder, e.g., \verb|\graphicspath{{chapters/1_basicfeatures/figures/}}| for this chapter, such that one can ommit the graphics path when using the \verb|\includegraphics[]{}| command.
 
+\begin{forest}
+  pic dir tree,
+  where level=0{}{% folder icons by default; override using file for file icons
+    directory,
+  },
+  [root
+    [main\_thesis.tex, file]
+    [\fname{auxiliary}{all files for front and back matter}
+      [\fname{abstract.tex}{one file for each front/back matter section: abstract, title page, acknowledgments, final statement.}, file]
+      [\fname{logos}{Logos for title page}]
+    ]
+    [\fname{bib-files}{files with bibtex/biblatex entries}
+    	[\fname{bibliography1.bib}{One or more .bib files}, file]
+    ]
+    [\fname{chapters}{main content}
+    	[1\_introduction
+    		[\fname{1\_introduction.tex}{main .tex file for chapter 1}, file]
+    		[\fname{figures}{figures for chapter 1}]
+    		[\fname{tikz\_figures}{TikZ source code for figures in chapter 1}
+    		[\fname{tikz\_chap1\_fig1.tex}{A tex file for each figure in chapter 1}, file]
+    		]
+    	]
+    	[\fname{...}{one folders for each chapter / appendix with equal substructure}]
+    	[outline.tex, file]
+    ]
+    [\fname{latex}{folder for style definitions}
+    	[\fname{layout.tex}{Layout settings}, file]
+    	[\fname{...}{more files for TikZ styles, color definitions, custom \LaTeX commands, BibLaTeX settings, etc.}, file]
+    ]
+    [.gitignore, file]
+    [\fname{otf/tff files with fonts}{optional font files}, file]
+  ]
+\end{forest}
 
-\dirtree{%
-.1 spam.
-.2 ham.
-.2 eggs.
-.3 more spam.
-.3 dead parrots.
-}
+\subsection{Compiling parts of the thesis}
+All individual tex files after the \verb|\begin{document}| are imported using \verb|\include{filename}|. If you want to compile only parts of the thesis, put an \verb|\includeonly{filename1,filename,...}| in the preamble. Due to the separate \verb|.aux| files that \verb|\include| produces, one then obtains still the correct numbering of pages/chapters/etc. Anyway, this is probably not a big issue during the writing process and using \verb|\import{filename}| instead is of course also fine.
 
 \section{Using TikZ / pgfplots and externalization}
 When you use TikZ / pgfplots to generate your plots, you should use the externalization capabilities of TikZ in order to prevent re-rendering of unchanged figures whenever you compile. That saves a lot (!) of time. 
-Remember that you have to include \verb|| and compile with the \verb|--shell-escape| flag. Besides these general adjustements, there are two template-specific pecularities one has to keep in mind. 
+Remember that you have to include \verb|\usepackage{shellesc}| and compile with the \verb|--shell-escape| flag. Besides these general adjustements, there are two template-specific pecularities one has to keep in mind: 
 
 \paragraph{Chapter headings} The modified chapter heading uses TikZ. Therefore, one should disable the externalization of TikZ before every new chapter. You can automate this by uncommenting this code snippet here in line ... of \verb|main_thesis.tex|:
 \begin{lstlisting}
@@ -182,10 +209,11 @@ Remember that you have to include \verb|| and compile with the \verb|--shell-esc
 \paragraph{Modified folder structure}
 I keep an additional folder \verb|tikz_figures| folder to store a separate .tex file with the tikz source code for every figure. That folder also contains the subfolder \verb|data| that in turn contains the data that is needed in the source code tikzfiles. At the beginning of each section, I set some paths to facilitate the inclusion of figures, for example
 \begin{lstlisting}
-\renewcommand{\here}{chapters/3_colors/tikz_figures}	% Path to tikz source code
+\renewcommand{\here}{chapters/3_colors/tikz_figures}% Path to tikz source code
 \pgfplotsset{table/search path={\here/data}}				% Path to data used in tikz source code
 \tikzsetexternalprefix{chapters/3_colors/figures/}	% Path for storing of externalized tikz pdfs.
 \end{lstlisting}
+The \verb|\here| command is originally defined in the preamble of the document.
 Then, the TikZ source code / the external pdf file is included via
 \begin{lstlisting}
 \begin{figure}
@@ -196,11 +224,8 @@ Then, the TikZ source code / the external pdf file is included via
 	\label{fig:colordemo}
 \end{figure}
 \end{lstlisting}
-To see a working example, checkout Chap.~3 (replace by reference)
-WHERE IS HERE DEFINED FOR THE FIRST TIME?
-Of course, there are many other options on how to organize the folder structure, in particular with regard to the externalization of TikZ-figures.
-
-
+To see an example in action, checkout \chapref{cha:colors}.
+Of course, there are many other options on how to organize the folder structure, in particular with regard to the externalization of TikZ-figures, just do what suits you best.
 
 \section{``Outer theme'' layouting}
 
@@ -269,6 +294,8 @@ Package typearea Warning: Bad type area settings! The detected line width is abo
 \end{lstlisting}
 
 But as I am quite happy with the final result, I just ignore these messages.
+
+HOW T OADD LINEBREAK INS CAPTIONS!
 
 
 

@@ -19,7 +19,7 @@
 \usepackage{tikz-3dplot}
 \usepackage{pgfplots}
 \usepackage{pgfplotstable}
-\usepackage{shellesc}
+\usepackage{shellesc}	% Enables the --shell-escape option for tikz externalization.
 \usepackage{booktabs}	% Beautiful tables
 \usepackage{colortbl}	% Colored rows in tables
 \usepackage{enumitem}
@@ -65,7 +65,7 @@
 	% eprint = false
 ]{biblatex} 
 
-\addbibresource{auxiliary/examplebib.bib}
+\addbibresource{bib-files/examplebib.bib}
 
 % Some header files.
 \input{latex/colors.tex}	% Define some colors
@@ -96,6 +96,9 @@
 \renewcommand{\bottomfraction}{.9}
 \renewcommand{\textfraction}{.1}
 
+% For setting paths for tikz/
+\newcommand{\here}{here}
+
 \begin{document}
 	
 	%%%%%%%%%%%%%%%%%%%% Front part %%%%%%%%%%%%%%%%%%%%
@@ -125,7 +128,9 @@
 
 	\include{chapters/outline}	% Chapter without number in ToC
 	\include{chapters/1_basicfeatures/1_basicfeatures}	% Regular chapter
-	\include{chapters/2_innerlayout/2_innerlayout}	% Regular chapter
+	\include{chapters/2_innerlayout/2_innerlayout}		% Regular chapter
+	\include{chapters/3_colors/3_colors}				% Regular chapter
+	\include{chapters/4_biblatex/3_biblatex}				% Regular chapter
 
 	\chapterimage{auxiliary/logos/LogoUoC_circle}
 	\part{Cool Monte Carlo Part}
