@@ -45,6 +45,83 @@ In both, American English and British English, one uses a comma to separate grou
 displaying huge numbers.
 \section{Tables}
 \subsection{Booktabs}
+
+
+\section{How to make nice tables?}
+Most importantly, do not use vertical rules!
+From `The Chicago Manual of Style' \cite{chicagoMOS}: ``To produce a clear, professional-looking table, rules should be used sparingly. Many tables will require just three rules, all of them horizontal—one at the very top of the table, below the title and above the column heads; one just below the column heads; and one at the bottom of the table, along the bottom of the last row, above any notes to the table. (\ldots) Vertical rules should be used sparingly (\ldots).'' 
+Use the \verb|booktabs| package, see  \href{https://ctan.org/pkg/booktabs}{here} for the documentation and \href{https://nhigham.com/2019/11/19/better-latex-tables-with-booktabs/}{here} or \href{}{} for some examples and a discussion why \verb|booktabs| is the way to go. Remember that table captions usually go above the table. See \tabref{tab:table1} for an example with multiple hierachy levels in $x$ and $y$ direction and \tabref{tab:table2} for an example of a side-by-side table with colored rows.
+
+\begin{table}
+	
+	\centering
+	\caption{\textbf{Example for table with different hierachy levels in $x$ and $y$ direction.} \blindtext}
+	\label{tab:table1}
+	\vspace{5ex}
+	\begin{tabular}{@{}rrrrcrrr@{}}\toprule
+		& \multicolumn{3}{c}{$w = 8$} & \phantom{abc}& \multicolumn{3}{c}{$w = 16$} \\
+		\cmidrule{2-4} \cmidrule{6-8}
+		& $t=0$ & $t=1$ & $t=2$ && $t=0$ & $t=1$ & $t=2$\\ 
+		\midrule
+		$\mathrm{dir}=1$\\
+		$c$ & 0.0790 & 0.1692 & 0.2945 && 0.3670 & 0.7187 & 3.1815 \\
+		$c$ & -0.8651& 50.0476& 5.9384&& -9.0714& 297.0923& 46.2143\\
+		$c$ & 124.2756& -50.9612& -14.2721&& 128.2265& -630.5455& -381.0930\\
+		$\mathrm{dir}=0$\\
+		$c$ & 0.0357& 1.2473& 0.2119&& 0.3593& -0.2755& 2.1764\\
+		$c$ & -17.9048& -37.1111& 8.8591&& -30.7381& -9.5952& -3.0000\\
+		$c$ & 105.5518& 232.1160& -94.7351&& 100.2497& 141.2778& -259.7326\\
+		\bottomrule
+	\end{tabular}
+
+\end{table}
+
+\begin{table}
+	\centering 
+	\caption{\textbf{Example of side-by-side table and colored rows.} \blindtext}
+	\label{tab:table2}
+	\vspace{5ex}
+	\begin{tabular}{ccccrr} 
+		\toprule
+		$l_1$ & $l_2$ & $l_3$ & $l_4$ & $\Delta N_\text{ex}$ & $|\langle \psi | \op{H}_\text{int} | \phi \rangle|$  \\ 
+		\midrule 
+		\rowcolor{pqred} 0 & 1 & 3 & 0 & 0 & ---\\
+		0 & 0 & 0 & 0 & $-4$ & 0.04\\
+		0 & 0 & 2 & 0 & $-2$ & 1.88\\
+		\rowcolor{pqblue} 0 & 0 & 4 & 0 & 0 & 2.06\\
+		0 & 0 & 6 & 0 & 2 & 0.32\\
+		0 & 0 & 8 & 0 & 4 & 0.09\\
+		0 & 1 & 0 & 1 & $-2$ & 0.04\\
+		\rowcolor{pqyellow} 0 & 1 & 0 & 3 & 0 & 0.002\\
+		0 & 1 & 0 & 5 & 2 & 0.0001\\
+		0 & 1 & 0 & 7 & 4 & 0.00002\\
+		\rowcolor{pqblue} 0 & 1 & 2 & 1 & 0 & 1.89\\
+		\bottomrule
+	\end{tabular}
+	\hspace{0.5cm}
+	\begin{tabular}{ccccrr} 
+		\toprule
+		$l_1$ & $l_2$ & $l_3$ & $l_4$ & $\Delta N_\text{ex}$ & $|\langle \psi | \op{H}_\text{int} | \phi \rangle|$  \\ 
+		\midrule 
+		0 & 2 & 0 & 0 & $-2$ & 0.06\\
+		\rowcolor{pqblue} 0 & 2 & 2 & 0 & 0 & 2.57\\
+		0 & 2 & 4 & 0 & 2 & 2.82\\
+		0 & 2 & 6 & 0 & 4 & 0.44\\
+		\rowcolor{pqyellow} 0 & 4 & 0 & 0 & 0 & 0.003\\
+		0 & 4 & 2 & 0 & 2 & 0.15\\
+		0 & 4 & 4 & 0 & 4 & 0.17\\
+		0 & 6 & 0 & 0 & 2 & 0.0005\\
+		0 & 6 & 2 & 0 & 4 & 0.02\\
+		0 & 8 & 0 & 0 & 4 & 0.0001\\
+		\rowcolor{pqblue} 1 & 0 & 3 & 0 & 0 & 1.17\\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+
+
+
+
 \subsection{Colored rows / cells}
 \section{Figures}
 \subsection{Side by side}
@@ -52,6 +129,36 @@ displaying huge numbers.
 \section{Fine-tuning}
 Immer wenn ich einen der folgenden Fehler sehe, dann baut sich bei mir direkt der Gedanke auf, dass der Autor jetzt direkt in der Bringschuld ist, mir zu beweisen, dass er kein Idiot ist. Mit anderen Worten: Wenn ich so etwas sehe kriege ich schlechte Laune und bin dem Inhalte gegenüber nicht mehr neutral (sogar mehr noch, als wenn ich inhaltliche Fehler sehe). Klingt übertrieben? Mag sein, aber wenn man seine Leserschaft nicht kennt, sollte man sich trotzdem Mühe geben, es direkt richtig zu machen. Wer weiß an wen man gerät.
 \subsection{Quotation marks}
-\subsection{Hyphens}
-\subsection{nonlinear vs. non-linear}
-\subsection{Orphans and widows}
+Für wörtliche Zitationen gibt es keine einheitlichen Regeln, ob man diese durch einzelne oder doppelte Anführungszeichen kennzeichnet, also so: `Dies ist ein wörtlich übernommenes Zitat' oder so ``Dies ist ein wörtlich übernommenes Zitat''. Wie immer gilt: Entscheidung treffen und dann konsistent in der ganzen Thesis bei dieser Entscheidung bleiben. Ganz wichtig: Anführungszeichen in LaTeX immer so \verb|`...'| (einzeln) oder so \verb|``...''| typesetten. Wenig sieht schlimmer aus als ''ein falsch gesetztes Anführungszeichen''.
+
+\subsection{Hyphens and dashes}
+
+There a three lengths of hyphens, the regular hyphen \verb|-|, the en dash \verb|--| and the em dash \verb|---|.
+This is what they look like when typeset: - vs. -- vs. ---.
+In my thesis, I used them as recommended in the Chicago manual of style:
+\begin{itemize}
+\item The hyphen (\verb|-|) is used to connect words that function together as a single concept or work together as a joint modifier, i.e., `well-defined concept' or `collision-free device'. Never use the single hyphen similar to brackets, e.g., to separate thoughts or similar.
+\item The en dash (\verb|--|) connects things that are related by some form of distance, e.g. `pages 12--17', the `May--September issue', the `cycling race Milan--San Remo' or `a coupling strength of 10--15 MHz' (although for the latter `10 to 15 MHz' is probably better). A rare use case for typesetting nerds: Use \verb|--| instead of \verb|-| in a compound adjective. Specifically, an en dash is preferred when one element of the compound is itself an open compound. For example, the prefix post- is usually connected to the following word with a hyphen, but to connect it to the compound noun World War II, it's better to use an en dash, i.e., post--World War II vs. post-World War II.
+\item The em dash should be used to separate additional thoughts---like this. Here is an example from my thesis: `The insights gained for the simpler model---in particular, the existence of a quantum chaotic region---retain their validity for more elaborate frequency arrangements.' I use the em dashs without spaces as is usually recommended. Some style guides recommend the use of spaces --- like this --- and one also encounters the combination of en dashes with spaces -- like this. As always, the most important thing is consistency. Decide on a variant and use it consistently everywhere and always.
+\end{itemize}
+
+
+
+\section{Some stylistic advices}
+Below is a collection of stilistic questions I have thought about for too long.
+\subsection{Hyphen vs. en dash vs. em dash}
+
+\subsection{Hurenkinder [sic!]}
+\LaTeX gibt sein bestes um ein stimmiges Erscheinungsbild hinzubekommen. Dazu gehört unter Anderem, dass versucht wird zu vermeiden, dass einzelne Zeilen auf einer neuen Seite stehen. Man stelle sich z.B. die Situation vor, dass ein Kapitel mit einer einzelnen Zeile auf einer ungeraden Seite anfängt. Zum einen steht diese Zeile dann recht verloren da, was ästhetisch sehr unbefriedigend ist. Außerdem verlängert das die ganze Arbeit direkt um zwei Seiten, da jedes neue Kapitel auf einer neuen ungeraden Seite beginnt. So etwas sollte also nach Moglichkeit vermieden werden. Man nennt das im englischen ubrigens Orphan (`the orphan does not know where he is coming from'). Im Deutschen gibt es den sehr viel lustigeren Namen `Hurenkind' (again, the Hurenkind does not know where he is coming from). 
+Ebenfalls unschoen, aber nicht ganz so schlimm ist, wenn ein neuer Absatz oder eine neue Section ganz unten auf einer Seite beginnt, so dass nur noch ein oder zwei Zeilen vor dem Seitenumbruch dort stehen. Diese nennt man im Englischen ... und im Deutschen ... 
+Wie gesagt versucht LaTex so etwas zu vermeiden. Man kann LaTeX dazu bringen, dass noch mehr zu vermeinden, in dem man die penalties fuer das Auftreten von Orphans und Widows nach oben setzt. Diese geschieht ueber
+die Befehle
+xxx
+xxx
+Es ist besser diese Befehle zu benutzen als (im Falle von Orphans) manuell einen Zeilenumbruch zu erzwingen, weil es leicht passieren kann, dass Aenderungen in vorherigen Abschnitten das Problem automatisch loesen und man dann nicht das Risiko einer halb leeren Seite o.ä. eingeht.
+
+
+\subsection{Nonlinear vs. non-linear and related issues}
+The prefix `non' appears very often and with many different following words. My impression was that it is not treated uniformly in the literature (even by the same authors) and that one finds both variants. In fact, in American English (AE), the hyphen is mostly omitted, whereas in British English (BE) it is commonly used. Compare e.g., the two reviews \cite{abaninRecentProgressManybody2017} and \cite{abaninColloquiumManybodyLocalization2019}. Ref.~\cite{abaninRecentProgressManybody2017} was published by Annals of Physics (Berlin) which belongs to the german Wiley-VCH publisher and uses BE. Therefore one finds \emph{non-quilibrium,non-entangled,non-uniform,non-thermal,non-ergodic,non-local,non-trivial,non-interacting,non-Abelian,} etc.
+Ref.~\cite{abaninColloquiumManybodyLocalization2019} was published in Reviews of modern physics, an APS journal. In consequence, they write \emph{nonequilibrium,nonzero,noninteracting,nonuniform,nonthermal,nonvanishing,nonlocal,nonthermalizing}, but however, they write \emph{non-Abelian}. I went for the AE option, because I used AE everywhere else (behavior, neighbor, gray, etc.).
+When browsing papers to find out how issues like this are handled, the best idea is not to take the arXiv versions, as there is often no consistency even within a single paper, but the published versions that have undergone some form of post-editing by the publisher.

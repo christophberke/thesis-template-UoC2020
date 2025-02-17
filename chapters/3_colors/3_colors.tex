@@ -1,2 +1,37 @@
 \chapter{Colors}\label{cha:colors}
 
+
+\chapter{Notes on the use of colors}
+
+Selecting well-suited colors is a surprisingly complex challenge. Besides the requirement to be aesthetically pleasing, the color schemes should at best
+\begin{itemize}
+	\item be distinct for color-blind readers,
+	\item work in monochrome print out,
+	\item work on screen and paper,
+	\item respect `semantic resonances' \cite{linSelectingSemanticallyResonantColors2013} (e.g., `blue=cold',`red=hot' \footnote{Note that such associations can vary depending on cultural conditioning. The association of `blue' with `cold' is nearly universal, but, e.g., the colour of mourning is white in Japan, but black in many western cultures.}),
+	\item be printer-friendly (`RGB vs. CMYK' issue).
+\end{itemize}
+The first point is probably the most important, considering that, for example, 6\% of all males have deutan color vision deficiency (`green-blindness'). Fortunately, there are many very good color picking tools, or predesigned color schemes tailored to colorblind people.
+The references and tools that I have used most often are \href{https://personal.sron.nl/~pault/#sec:greyscale_conversion}{`Paul Tol's Notes'} and \href{https://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3}{ColorBrewer}. 
+The color palettes presented there have made it to a certain reputation. In `Paul Tol's notes', you will also find some details worth reading about the different types of color blindness and greyscale conversion.
+Finally, \href{https://www.vis4.net/palettes/}{vis4.net} is a advanced and powerful tool based on \href{https://github.com/gka/chroma.js}{chroma.js} that helps you designing your own color palette, and it even shows you the perception of the chosen colors with the most frequent forms of color blindness. However, I was usually completely satisfied with the first two references.
+
+In my thesis, I had four different main use cases for colors, some with specific sub-cases:
+\begin{itemize}
+	\item Line plots:
+		\begin{itemize}
+			\item qualitative,
+			\item pairwise,
+			\item sequential. 
+		\end{itemize}
+	\item surface plots:
+		\begin{itemize}
+			\item qualitative,
+			\item divergent,
+			\item sequential. 
+		\end{itemize}
+	\item colored text or text on colored background, e.g. filled cells in tables,
+	\item other design elements or drawings.
+\end{itemize}
+For the last point (e.g. heading colors, link colors, or sketch of, e.g., a physical system like a pendulum, i.e., cases where there is no loss of information to fear if colors are perceived incorrectly) I have taken as the only criterion my personal taste. The other points are explained in more detail below.
+
