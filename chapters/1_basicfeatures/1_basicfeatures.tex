@@ -10,6 +10,8 @@ lualatex main_thesis.tex
 \end{lstlisting}
 Of course, running these four commands manually every time is unnecessary. All \LaTeX editors I ever used (Sublime Text, VS Code, TeXstudio, TeXmaker, TeXShop, and Overleaf), allow you to set \verb|lualatex| as the default compiler and \verb|biber| as the bibliography processor. Additionally, all these editors enable you to define this sequence of commands as the standard build process, so your document is compiled correctly with a single action.
 
+ADD COMPILER OPTIONS.
+
 \paragraph{Why lualatex?} 
 This template uses \verb|lualatex| instead of \verb|pdflatex| for two main reasons:
 (i) Font Management: The template relies on the \verb|fontspec| package to handle different font types (e.g., sans-serif for captions and serif for the main text), which requires lualatex for compilation.
@@ -148,15 +150,10 @@ or load the bookmark package and insert
 
 
 \section{Folder structure of the template}
-I structured my thesis in the following way: The root folder contains the main file (\verb|main_thesis.tex|) and four subfolders, \verb|Latex|, \verb|Auxiliary|, \verb|bib-files|, \verb|chapters|. ADD FONT FILES / GITIGNORE.
-\paragraph{bib-files} (unsurprisingly) contains all \verb|.bib|-files with the bibtex/biblatex entries.
-\paragraph{chapters} contains a subfolder for each main chapter and the appendices, see below.
-\paragraph{auxiliary} contains all the auxiliary parts of the thesis not contained in the \verb|chapters| folder, i.e., a separate tex file for titlepage, abstract, outline, acknowledgments and the final statement, as well as the folder \verb|logos| with the logos of the University of Cologne and the THP.
-\paragraph{Latex} contains additional latex files with useful commands, TikZ style settings, color definitions, biblatex settings, etc.
+The root folder contains the main file (\verb|main_thesis.tex|), font files, a \verb|.gitignore| and four subfolders: \verb|Latex| for all style/setting files, \verb|auxiliary| for the content of the front and back matter, \verb|bib-files| for \verb|.bib| files and \verb|chapters| for the content of the main matter part.
+See \figref{fig:folderstructure} for a concise overview, including the substructure of the \verb|chapters| folder.
 
-Each subfolder in \verb|chapters| contains a main tex-file for that chapter as well as a \verb|figures| folder containing all figures for that chapter.
-At the beginning of each chapter, it is useful to set the graphicspath to the respective figure folder, e.g., \verb|\graphicspath{{chapters/1_basicfeatures/figures/}}| for this chapter, such that one can ommit the graphics path when using the \verb|\includegraphics[]{}| command.
-
+\begin{figure}
 \begin{forest}
   pic dir tree,
   where level=0{}{% folder icons by default; override using file for file icons
@@ -190,9 +187,14 @@ At the beginning of each chapter, it is useful to set the graphicspath to the re
     [\fname{otf/tff files with fonts}{optional font files}, file]
   ]
 \end{forest}
+\caption{\textbf{Structure of the template folder.}}
+\label{fig:folderstructure}
+\end{figure}
 
-\subsection{Compiling parts of the thesis}
 All individual tex files after the \verb|\begin{document}| are imported using \verb|\include{filename}|. If you want to compile only parts of the thesis, put an \verb|\includeonly{filename1,filename,...}| in the preamble. Due to the separate \verb|.aux| files that \verb|\include| produces, one then obtains still the correct numbering of pages/chapters/etc. Anyway, this is probably not a big issue during the writing process and using \verb|\import{filename}| instead is of course also fine.
+
+At the beginning of each chapter, it is useful to set the graphicspath to the respective figure folder, e.g., \verb|\graphicspath{{chapters/1_basicfeatures/figures/}}| for this chapter, such that one can ommit the long graphics path when using the \verb|\includegraphics| command.
+
 
 \section{Using TikZ / pgfplots and externalization}
 When you use TikZ / pgfplots to generate your plots, you should use the externalization capabilities of TikZ in order to prevent re-rendering of unchanged figures whenever you compile. That saves a lot (!) of time. 
@@ -229,215 +231,39 @@ Of course, there are many other options on how to organize the folder structure,
 
 \section{``Outer theme'' layouting}
 
+When dieses Template einen Wiedererkennungswert hat, dann ist es vermutlich das Layout der outer design elements. Darunter verstehe ich Kapitel- und auch Sectionüberschriften sowie header Zeile und auch die (von mir nie verwendete Part Page).
+Wenn du dieses Template verwenden, aber gleichzeitig nicht das Erscheinungsbild komplett übernehmen willst (womit ich auch kein Problem habe, siehe alle Thesis, die nach meiner in unserer Gruppe veröffentlicht worden sind, Stand Januar 25), dann ist es am einfachsten, diese Design-Element anzupassen.
+Die meisten Styles werden in der Datei ... definiert.
+
+
+\subsection{Accent color}
+Diese Arbeit benutzt zwei Accent Colors, accentcolor1 und accentcolor2.
+In meinem Fall ist cardianl rot und warm grey.
+Accent1 wird fuer alle Ueberschriften und zum Highlighten auf der Titleseite benutzt. Accent2 wird ebenfalls in der Kapitelueberschrift benutzt, sowie im header.
+
 \subsection{Chapter headings}
+Das Design Element ... wird dort definiert. Einfach mal ausklammern, dann bekommt man das Standard Koma Skript Layout.
+
+HOW TO ADD LINEBREAK IN CAPTIONS!
+
+\subsection{Mathe in Captions}
 
 \subsection{Part pages}
+Part pages benutze ich nicht. Ich habe darueber nachgedacht, die Einleitungskapitel zu einem Part zusammenzufassen und auch die Resultatkapiteln. Eigentlich finde ich aber, dass das unnatuerliche Brueche in der Arbeit einfuegt. Fuer mich ist ein gutes Anwendungsbeispiel eigentlich nur, wenn man in der Arbeit komplett disjunkte Themen behandelt, also z.B. Transmon-Physik und Kitaev Spin LIquids. Ich verstecke aber alles zu den KSL in einem Anhang. Das einzige was fuer eine Part Page gesprochen haette waere gewesen, dass die irgendwie recht cool aussehen, aber das hat mich dann nicht endgueltig ueberzeugt.
+Anyway, falls du PartPages benutzen willst dann geht das so:
+Das Layout steht hier und kann easy angepasst werden, z.B. ein Farbgradient oder ein Hintergrundbild.
+
+\section{Sections and subsections}
+-table of content layer
+-schmale Schriftart, hier festgelegt.
+
+\subsection{Subsubsections and Paragraphs}
+Ich benutze keine Subsubsections sondern nur Paragraphs.
+
+\subsection{Figure captions}
 
 \subsection{Header}
+Der header benutzt ebenfalls die gleiche Serifenlose Font wie ...
 
-
-
-
-\chapter{Colors}
-\chapter{Bibliography with biblatex}\label{chap:biblatex}
-
-\chapter{General advice}
-use newcommands for ...
-read the promotionsordnung
-whatever you do, do it consistently
-In case of trouble, first step is to delete cached files
-
-
-In this first chapter, I briefly describe some general properties of the template: How to compile, what is the general structure, general remark about the page layouts, etc.
-
-\section{Compilation, documentclass and page layout}
-
-To compile the entire document, including the bibliography, run
-\begin{lstlisting}
-lualatex main_thesis.tex
-biber main_thesis
-lualatex main_thesis.tex
-lualatex main_thesis.tex
-\end{lstlisting}
-
-This should result in a pdf-document where all references are correctly displayed and all cross-links between the bibliography in the main text works flawlessly.
-Of course, it should not be necessary to run these four commands manually in the terminal. Every tex editor I ever used (SublimeText, VS Code, TeXstudio, TeXmaker, TeXlive) allows one to choose 
-this succession of four commands as the standard build command that is executed whenever you compile your document.
-
-
-\subsection{The document class}
-This template uses the KOMA-script class \verb|scrbook|. There are many discussion on the pros and cons of KOMA-script classes over the regular \verb|book| class. I personally find the \verb|scrbook| easier to adjust to my wishes and slighly prefer the standard layout it produces. There is general consensus that the KOMA-script is a great bundle.
-
-\paragraph{Page layout} One often sees people using the \verb|geometry| package to adjust the margins of the page. That is certainly a cool package, but in my opinion, don't use it, unless you really now what you are doing. There are surprisingly many things you can screw up, or stated otherwise, typographers have thought about good guidelines for layouting a page for years, so don't screw it up fahrlaessig.  
-Here is a quotation from the KOMA-script manual:
-``'Various algorithms and heuristic methods for constructing an appropriate type area have been
-discussed in the literature. These rules are known as the ``canons of page construction.'' \ldots The result is that the
-aspect ratio of the type area corresponds to the proportions of the page. In a one-sided document,
-the left and right margins should have equal widths, while the ratio of the top and bottom margins
-should be 1:2. In a two-sided document (e.g. a book), however, the entire inner margin (the margin at the spine) should be the same size as each of the two outer margins \ldots.'
-
-The easiest way to make sure that the text area has the same ratio as the page is as follows:
-
-\href{https://markov.htwsaar.de/tex-archive/macros/latex/contrib/koma-script/doc/scrguide-en.pdf}{How page layout is calculated.}
-
-\begin{lstlisting}
-\documentclass[BCOR = 12mm, DIV = 16, ...]{scrbook}
-\end{lstlisting}
-
-
-but that gives the Warning
-
-I personnaly find that the margins produced with the default settings are too wide, therefore I use the large DIV value of 16 (I am sure that the KOMA-script author would consider this as a sacrileg). This gives me the following warning when I compile.
-
-\begin{lstlisting}
-Package typearea Warning: Bad type area settings! The detected line width is about 17\% larger than the heuristically estimated maximum limit of typographical good line width. You should e.g. decrease DIV, increase fontsize or change papersize.
-\end{lstlisting}
-
-But as I am quite happy with the final result, I just ignore these messages.
-
-HOW T OADD LINEBREAK INS CAPTIONS!
-
-
-
-\blindtext
-\section{Here is a section}
-\blindtext
-\subsection{Here is a subsection}
-\blindtext
-\subsubsection{This is a subsubsection}
-I never use subsubsections.
-\paragraph{Paragraph} but sometimes I use paragraphs.
-\section{How to cite papers.}
-Blablabla, have a look at this cool paper \cite{berke_transmon_2022}. Note the `P' because it is one of \highlight{my} papers. Here is a regular paper \cite{aruteQuantumSupremacyUsing2019a} with a million authors, such that BibLaTeX uses (depending on your settings) \textit{et al.} and here is another paper \cite{magesan_effective_2020} with only two authors. Finally, here is one of my papers that is not yet published, and, therefore, I decided that it deserves its own category \cite{inpreparation}.
-
-\section{How to make nice tables?}
-Most importantly, do not use vertical rules!
-From `The Chicago Manual of Style' \cite{chicagoMOS}: ``To produce a clear, professional-looking table, rules should be used sparingly. Many tables will require just three rules, all of them horizontal—one at the very top of the table, below the title and above the column heads; one just below the column heads; and one at the bottom of the table, along the bottom of the last row, above any notes to the table. (\ldots) Vertical rules should be used sparingly (\ldots).'' 
-Use the \verb|booktabs| package, see  \href{https://ctan.org/pkg/booktabs}{here} for the documentation and \href{https://nhigham.com/2019/11/19/better-latex-tables-with-booktabs/}{here} or \href{}{} for some examples and a discussion why \verb|booktabs| is the way to go. Remember that table captions usually go above the table. See \tabref{tab:table1} for an example with multiple hierachy levels in $x$ and $y$ direction and \tabref{tab:table2} for an example of a side-by-side table with colored rows.
-
-\begin{table}
-	
-	\centering
-	\caption{\textbf{Example for table with different hierachy levels in $x$ and $y$ direction.} \blindtext}
-	\label{tab:table1}
-	\vspace{5ex}
-	\begin{tabular}{@{}rrrrcrrr@{}}\toprule
-		& \multicolumn{3}{c}{$w = 8$} & \phantom{abc}& \multicolumn{3}{c}{$w = 16$} \\
-		\cmidrule{2-4} \cmidrule{6-8}
-		& $t=0$ & $t=1$ & $t=2$ && $t=0$ & $t=1$ & $t=2$\\ 
-		\midrule
-		$\mathrm{dir}=1$\\
-		$c$ & 0.0790 & 0.1692 & 0.2945 && 0.3670 & 0.7187 & 3.1815 \\
-		$c$ & -0.8651& 50.0476& 5.9384&& -9.0714& 297.0923& 46.2143\\
-		$c$ & 124.2756& -50.9612& -14.2721&& 128.2265& -630.5455& -381.0930\\
-		$\mathrm{dir}=0$\\
-		$c$ & 0.0357& 1.2473& 0.2119&& 0.3593& -0.2755& 2.1764\\
-		$c$ & -17.9048& -37.1111& 8.8591&& -30.7381& -9.5952& -3.0000\\
-		$c$ & 105.5518& 232.1160& -94.7351&& 100.2497& 141.2778& -259.7326\\
-		\bottomrule
-	\end{tabular}
-
-\end{table}
-
-\begin{table}
-	\centering 
-	\caption{\textbf{Example of side-by-side table and colored rows.} \blindtext}
-	\label{tab:table2}
-	\vspace{5ex}
-	\begin{tabular}{ccccrr} 
-		\toprule
-		$l_1$ & $l_2$ & $l_3$ & $l_4$ & $\Delta N_\text{ex}$ & $|\langle \psi | \op{H}_\text{int} | \phi \rangle|$  \\ 
-		\midrule 
-		\rowcolor{pqred} 0 & 1 & 3 & 0 & 0 & ---\\
-		0 & 0 & 0 & 0 & $-4$ & 0.04\\
-		0 & 0 & 2 & 0 & $-2$ & 1.88\\
-		\rowcolor{pqblue} 0 & 0 & 4 & 0 & 0 & 2.06\\
-		0 & 0 & 6 & 0 & 2 & 0.32\\
-		0 & 0 & 8 & 0 & 4 & 0.09\\
-		0 & 1 & 0 & 1 & $-2$ & 0.04\\
-		\rowcolor{pqyellow} 0 & 1 & 0 & 3 & 0 & 0.002\\
-		0 & 1 & 0 & 5 & 2 & 0.0001\\
-		0 & 1 & 0 & 7 & 4 & 0.00002\\
-		\rowcolor{pqblue} 0 & 1 & 2 & 1 & 0 & 1.89\\
-		\bottomrule
-	\end{tabular}
-	\hspace{0.5cm}
-	\begin{tabular}{ccccrr} 
-		\toprule
-		$l_1$ & $l_2$ & $l_3$ & $l_4$ & $\Delta N_\text{ex}$ & $|\langle \psi | \op{H}_\text{int} | \phi \rangle|$  \\ 
-		\midrule 
-		0 & 2 & 0 & 0 & $-2$ & 0.06\\
-		\rowcolor{pqblue} 0 & 2 & 2 & 0 & 0 & 2.57\\
-		0 & 2 & 4 & 0 & 2 & 2.82\\
-		0 & 2 & 6 & 0 & 4 & 0.44\\
-		\rowcolor{pqyellow} 0 & 4 & 0 & 0 & 0 & 0.003\\
-		0 & 4 & 2 & 0 & 2 & 0.15\\
-		0 & 4 & 4 & 0 & 4 & 0.17\\
-		0 & 6 & 0 & 0 & 2 & 0.0005\\
-		0 & 6 & 2 & 0 & 4 & 0.02\\
-		0 & 8 & 0 & 0 & 4 & 0.0001\\
-		\rowcolor{pqblue} 1 & 0 & 3 & 0 & 0 & 1.17\\
-		\bottomrule
-	\end{tabular}
-\end{table}
-
-
-\chapter{Notes on the use of colors}
-
-Selecting well-suited colors is a surprisingly complex challenge. Besides the requirement to be aesthetically pleasing, the color schemes should at best
-\begin{itemize}
-	\item be distinct for color-blind readers,
-	\item work in monochrome print out,
-	\item work on screen and paper,
-	\item respect `semantic resonances' \cite{linSelectingSemanticallyResonantColors2013} (e.g., `blue=cold',`red=hot' \footnote{Note that such associations can vary depending on cultural conditioning. The association of `blue' with `cold' is nearly universal, but, e.g., the colour of mourning is white in Japan, but black in many western cultures.}),
-	\item be printer-friendly (`RGB vs. CMYK' issue).
-\end{itemize}
-The first point is probably the most important, considering that, for example, 6\% of all males have deutan color vision deficiency (`green-blindness'). Fortunately, there are many very good color picking tools, or predesigned color schemes tailored to colorblind people.
-The references and tools that I have used most often are \href{https://personal.sron.nl/~pault/#sec:greyscale_conversion}{`Paul Tol's Notes'} and \href{https://colorbrewer2.org/#type=sequential&scheme=BuGn&n=3}{ColorBrewer}. 
-The color palettes presented there have made it to a certain reputation. In `Paul Tol's notes', you will also find some details worth reading about the different types of color blindness and greyscale conversion.
-Finally, \href{https://www.vis4.net/palettes/}{vis4.net} is a advanced and powerful tool based on \href{https://github.com/gka/chroma.js}{chroma.js} that helps you designing your own color palette, and it even shows you the perception of the chosen colors with the most frequent forms of color blindness. However, I was usually completely satisfied with the first two references.
-
-In my thesis, I had four different main use cases for colors, some with specific sub-cases:
-\begin{itemize}
-	\item Line plots:
-		\begin{itemize}
-			\item qualitative,
-			\item pairwise,
-			\item sequential. 
-		\end{itemize}
-	\item surface plots:
-		\begin{itemize}
-			\item qualitative,
-			\item divergent,
-			\item sequential. 
-		\end{itemize}
-	\item colored text or text on colored background, e.g. filled cells in tables,
-	\item other design elements or drawings.
-\end{itemize}
-For the last point (e.g. heading colors, link colors, or sketch of, e.g., a physical system like a pendulum, i.e., cases where there is no loss of information to fear if colors are perceived incorrectly) I have taken as the only criterion my personal taste. The other points are explained in more detail below.
-
-
-\section{Define your own commands}
-\verb|\figref|
-
-\section{Example of figures and side-by-side figures.}
-
-\section{Some stylistic advices}
-Below is a collection of stilistic questions I have thought about for too long.
-\subsection{Hyphen vs. en dash vs. em dash}
-There a three lengths of hyphens, the regular hyphen \verb|-|, the en dash \verb|--| and the em dash \verb|---|.
-This is what they look like: - vs. -- vs. ---.
-In accordance with the Chicago manual of style, I used the hyphen only to connect words that function together as a single concept or work together as a joint modifier, i.e., `well-defined concept' or `collision-free device'. Never use the single hyphen similar to brackets.
-The main application for the en dash is to connect things that are related by some form of distance, e.g. `pages 12--17', the `May--September issue of journal \ldots', the cycling race Milan--San Remo `or `a coupling strength of 10--15 MHz' (although in the last example I would rather write `10 to 15 MHz'. 
-A use case I never encountered: an en dash is used in place of a hyphen in a compound adjective. Specifically, an en dash is preferred when one element of the compound is itself an open compound. For example, the prefix post- is usually connected to the following word with a hyphen, but to connect it to the compound noun World War II, it’s better to use an en dash, i.e., post--World War II vs. post-World War II.
-
-The em dash should be used to separate additional thoughts---like this. Here is an example from my thesis: `Here, we argue that the insights gained for the simpler model---in particular, the existence of a quantum chaotic region for too low disorder---retain their validity for more elaborate frequency arrangements and geometries.' I use the em dashs without spaces as is usually recommended however some style guides --- not sure which one --- recommend the use of spaces (some times -- as here -- one encounters the combination of en dashes with spaces.
-
-As always, the most important thing is consistency. Once you have decided on a variant, you should use it consistently everywhere and always.
-
-\subsection{Nonlinear vs. non-linear and related issues}
-The prefix `non' appears very often and with many different following words. My impression was that it is not treated uniformly in the literature (even by the same authors) and that one finds both variants. In fact, in American English (AE), the hyphen is mostly omitted, whereas in British English (BE) it is commonly used. Compare e.g., the two reviews \cite{abaninRecentProgressManybody2017} and \cite{abaninColloquiumManybodyLocalization2019}. Ref.~\cite{abaninRecentProgressManybody2017} was published by Annals of Physics (Berlin) which belongs to the german Wiley-VCH publisher and uses BE. Therefore one finds \emph{non-quilibrium,non-entangled,non-uniform,non-thermal,non-ergodic,non-local,non-trivial,non-interacting,non-Abelian,} etc.
-Ref.~\cite{abaninColloquiumManybodyLocalization2019} was published in Reviews of modern physics, an APS journal. In consequence, they write \emph{nonequilibrium,nonzero,noninteracting,nonuniform,nonthermal,nonvanishing,nonlocal,nonthermalizing}, but however, they write \emph{non-Abelian}. I went for the AE option, because I used AE everywhere else (behavior, neighbor, gray, etc.).
-When browsing papers to find out how issues like this are handled, the best idea is not to take the arXiv versions, as there is often no consistency even within a single paper, but the published versions that have undergone some form of post-editing by the publisher.
-
+WIE PASST MAN AN WIE VIEL TEXT AUF EINE SEITE DARF?
 
