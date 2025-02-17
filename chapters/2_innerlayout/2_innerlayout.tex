@@ -5,18 +5,19 @@
 Use \verb|align| for equations that extend over several lines. Do \textbf{not} use \verb|eqnarray|.
 
 \subsection{The golden rules: Interplay of equations and text}
-When it comes to embedding equations in continuous text, I can only recommend David Mermin's epoch-making text \href{https://wp.optics.arizona.edu/kupinski/wp-content/uploads/sites/91/2023/05/MerminEquations.pdf}{`What's wrong with these equations?'} to everyone. Let me quote his three golden rules directly from the article (Highlighting in bold by me):
+When it comes to embedding equations in continuous text, I can only recommend David Mermin's epoch-making text \href{https://wp.optics.arizona.edu/kupinski/wp-content/uploads/sites/91/2023/05/MerminEquations.pdf}{`What's wrong with these equations?'}\cite{mermin1989} to everyone. Let me quote his three golden rules directly from the article (highlighting in bold by me):
 \paragraph{Rule 1 (Fisher's rule)} \textbf{Number all displayed equations.} The most common violation of Fisher's rule is the misguided practice of numbering only those displayed equations to which the text subsequently refers back.
 \paragraph{Rule 2 (Good Samaritan rule)} When referring to an equation identify it by a phrase as well as a number. No compassionate and helpful person would herald the arrival of Eq.~(7.38) by saying ``inserting (2.47) and (3.51) into (5.13)'' when it is possible to say ``inserting the form (2.47) of the electric field \textbf{E} and the Lindhard form (3.51)\dots''. [...] Consistent use of the Good Samaritan rule might well increase the lenght of your paper by a few percent. But admit it. Your paper is already to long by at least 30\% because you were in such a rush to get it out.
 \paragraph{Rule 3 (Math is prose rule)} \textbf{End a displayed equation with a punctuation mark.} It is implicit in this statement that the absence of a punctuation mark is itself a degenerate form of punctuation that, like periods, commas or semicolons, can be used \emph{provided it makes sense.}
 
-There is not much to add. Consistently following these rules makes the text much more readable and easier to discuss. As a tiny elaboration on the last point, compare the following two equations:
+There is not much to add to these golden rules. Consistently following them makes the text much more readable and easier to discuss. As a tiny elaboration on the last point, compare the following two equations:
 \begin{align}
 	|\langle \phi (t) | \psi(t) \rangle| = |\langle \phi(0) | \op{U}^{-1}(t) \op{U}(t) | \psi(0)  \rangle| = |\langle \phi (0) | \psi(0) \rangle|. \\ 
 	|\langle \phi (t) | \psi(t) \rangle| = |\langle \phi(0) | \op{U}^{-1}(t) \op{U}(t) | \psi(0)  \rangle| = |\langle \phi (0) | \psi(0) \rangle|\,.
 \end{align}
 The difference is hard to spot, in fact the distance between the end of the equation and the following punctuation mark is slightly larger in the second variant, where I inserted \verb|\,| before the punctuation mark.
-This may seem completely exaggerated, and it probably is, but at least the people in the Trebst group can be told that the use of the lower variant will be noticed favorably\ldots
+This may seem completely exaggerated, and it probably is, but at least the people in the Trebst group can be told that the use of the lower variant will be noticed favorably\ldots.
+
 Concerning the first rule, note that a multi-line equations generally needs only a single number, i.e.,
 \begin{align}
 	O(t) &= \langle \psi(t) | \op{O} | \psi(t) \rangle = \sum_{i,j} c_i^* c_j e^{i \left( E_i - E_j \right)t} \langle i |\op{O}| j\rangle  \nonumber \\ & = \sum_i |c_i|^2 \langle i |\op{O}| i \rangle + \sum_{i,j\neq i} c_i^*c_j e^{i \left( E_i - E_j \right) t} \langle i |\op{O}| j\rangle\,,
@@ -36,27 +37,43 @@ If you have a single equation that extends over multiple lines and you want to n
 \subsection{Indices}
 Any index consisting of more than one letter should not be italicized.
 If an index only consists of a single letter, then it is okay not to type it as, e.g., \verb|$E_k$|, yielding $E_k$. But $E_{kin}$ looks horrible! Instead, write \verb|$E_\text{kin}$|, yielding $E_\text{kin}$.
-Writing $cos(x)$ (\verb|$cos(x)$|) instead of $\cos(x)$ (\verb|\cos(x)|) falls into the same sacrilegious category.
+Writing $cos(x)$ (\verb|$cos(x)$|) instead of $\cos(x)$ (\verb|$\cos(x)$|) falls into the same sacrilegious category.
 
 \subsection{Displaying huge numbers}
 In both, American English and British English, one uses a comma to separate groups of thousands, for example $3{,}125{,}500$. One can enclose the comma in braces, \verb|3{,}125{,}500|, to get an optimal and stable spacing between the numbers. 
 
-
-displaying huge numbers.
-\section{Tables}
-\subsection{Booktabs}
+\subsection{Bold math symbols}
+I use bold letters to represent vectors. The default approach, using \verb|$\textbf$| or \verb|$\mathbf$|) has the drawback that it does not work for all symbols. For example \verb|$\textbf{\sigma}$| is rendered as $\textbf{\sigma}$ and \verb|$\mathbf{\sigma}$| also results in $\mathbf{\sigma}$---no visible effect in either case.
+To properly typeset bold Greek symbols, I use the \verb|\bm| command from the \verb|bm| package: \verb|$\bm \sigma$| correctly produces $\bm \sigma$. While the \verb|\boldsymbol| command from the \verb|amsmath| package achieves a similar result, it isknown to cause spacing issues \href{https://latex.org/forum/viewtopic.php?t=26738}{in some cases}. Hence, \verb|\bm| is often recommended as the preferred approach.
 
 
 \section{How to make nice tables?}
+One aspect that is often overlooked in nearly all the papers from our group (including my own) is how to create beautiful and easy-to-read tables.
 Most importantly, do not use vertical rules!
-From `The Chicago Manual of Style' \cite{chicagoMOS}: ``To produce a clear, professional-looking table, rules should be used sparingly. Many tables will require just three rules, all of them horizontal—one at the very top of the table, below the title and above the column heads; one just below the column heads; and one at the bottom of the table, along the bottom of the last row, above any notes to the table. (\ldots) Vertical rules should be used sparingly (\ldots).'' 
-Use the \verb|booktabs| package, see  \href{https://ctan.org/pkg/booktabs}{here} for the documentation and \href{https://nhigham.com/2019/11/19/better-latex-tables-with-booktabs/}{here} or \href{}{} for some examples and a discussion why \verb|booktabs| is the way to go. Remember that table captions usually go above the table. See \tabref{tab:table1} for an example with multiple hierachy levels in $x$ and $y$ direction and \tabref{tab:table2} for an example of a side-by-side table with colored rows.
+From `The Chicago Manual of Style' \cite{chicagoMOS}: ``To produce a clear, professional-looking table, rules should be used sparingly. Many tables will require just three rules, all of them horizontal---one at the very top of the table, below the title and above the column heads; one just below the column heads; and one at the bottom of the table, along the bottom of the last row. [\ldots] Vertical rules should be used sparingly.''
+
+I recommend the \verb|booktabs|, that provides the commands \verb|\toprule|, \verb|\midrule|, and \verb|\bottomrule| for clear separations. See \href{https://nhigham.com/2019/11/19/better-latex-tables-with-booktabs/}{here} for some examples and a discussion why \verb|booktabs| is the way to go. See \tabref{tab:table1} for a basic example, \tabref{tab:table2} for an example with multiple hierachy levels in $x$ and $y$ direction and \tabref{tab:table3} for an example of a side-by-side table with colored rows (see also \chapref{cha:colors}).
 
 \begin{table}
-	
+\centering 
+\caption{\textbf{Basic example for a booktabs table.}}
+\label{tab:table1}
+\vspace{5ex}
+	\begin{tabular}{lrr} 
+		\toprule
+		A & B & C \\ 
+		\midrule 
+		1 & 2 & 12.75 \\
+		0.23 & 6 & 8.20 \\
+		23 & 14 & 23.4\\ 
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+\begin{table}
 	\centering
-	\caption{\textbf{Example for table with different hierachy levels in $x$ and $y$ direction.} \blindtext}
-	\label{tab:table1}
+	\caption{\textbf{Example for a table with different hierachy levels in $x$ and $y$ direction.}}
+	\label{tab:table2}
 	\vspace{5ex}
 	\begin{tabular}{@{}rrrrcrrr@{}}\toprule
 		& \multicolumn{3}{c}{$w = 8$} & \phantom{abc}& \multicolumn{3}{c}{$w = 16$} \\
@@ -65,11 +82,9 @@ Use the \verb|booktabs| package, see  \href{https://ctan.org/pkg/booktabs}{here}
 		\midrule
 		$\mathrm{dir}=1$\\
 		$c$ & 0.0790 & 0.1692 & 0.2945 && 0.3670 & 0.7187 & 3.1815 \\
-		$c$ & -0.8651& 50.0476& 5.9384&& -9.0714& 297.0923& 46.2143\\
 		$c$ & 124.2756& -50.9612& -14.2721&& 128.2265& -630.5455& -381.0930\\
 		$\mathrm{dir}=0$\\
 		$c$ & 0.0357& 1.2473& 0.2119&& 0.3593& -0.2755& 2.1764\\
-		$c$ & -17.9048& -37.1111& 8.8591&& -30.7381& -9.5952& -3.0000\\
 		$c$ & 105.5518& 232.1160& -94.7351&& 100.2497& 141.2778& -259.7326\\
 		\bottomrule
 	\end{tabular}
@@ -78,24 +93,18 @@ Use the \verb|booktabs| package, see  \href{https://ctan.org/pkg/booktabs}{here}
 
 \begin{table}
 	\centering 
-	\caption{\textbf{Example of side-by-side table and colored rows.} \blindtext}
-	\label{tab:table2}
+	\caption{\textbf{Example of a side-by-side table and colored rows.} See also the discussion of suitable color choices for colored row backgrounds in \chapref{cha:colors}.}
+	\label{tab:table3}
 	\vspace{5ex}
 	\begin{tabular}{ccccrr} 
 		\toprule
 		$l_1$ & $l_2$ & $l_3$ & $l_4$ & $\Delta N_\text{ex}$ & $|\langle \psi | \op{H}_\text{int} | \phi \rangle|$  \\ 
 		\midrule 
 		\rowcolor{pqred} 0 & 1 & 3 & 0 & 0 & ---\\
-		0 & 0 & 0 & 0 & $-4$ & 0.04\\
 		0 & 0 & 2 & 0 & $-2$ & 1.88\\
 		\rowcolor{pqblue} 0 & 0 & 4 & 0 & 0 & 2.06\\
-		0 & 0 & 6 & 0 & 2 & 0.32\\
-		0 & 0 & 8 & 0 & 4 & 0.09\\
 		0 & 1 & 0 & 1 & $-2$ & 0.04\\
 		\rowcolor{pqyellow} 0 & 1 & 0 & 3 & 0 & 0.002\\
-		0 & 1 & 0 & 5 & 2 & 0.0001\\
-		0 & 1 & 0 & 7 & 4 & 0.00002\\
-		\rowcolor{pqblue} 0 & 1 & 2 & 1 & 0 & 1.89\\
 		\bottomrule
 	\end{tabular}
 	\hspace{0.5cm}
@@ -105,15 +114,9 @@ Use the \verb|booktabs| package, see  \href{https://ctan.org/pkg/booktabs}{here}
 		\midrule 
 		0 & 2 & 0 & 0 & $-2$ & 0.06\\
 		\rowcolor{pqblue} 0 & 2 & 2 & 0 & 0 & 2.57\\
-		0 & 2 & 4 & 0 & 2 & 2.82\\
 		0 & 2 & 6 & 0 & 4 & 0.44\\
 		\rowcolor{pqyellow} 0 & 4 & 0 & 0 & 0 & 0.003\\
-		0 & 4 & 2 & 0 & 2 & 0.15\\
-		0 & 4 & 4 & 0 & 4 & 0.17\\
-		0 & 6 & 0 & 0 & 2 & 0.0005\\
 		0 & 6 & 2 & 0 & 4 & 0.02\\
-		0 & 8 & 0 & 0 & 4 & 0.0001\\
-		\rowcolor{pqblue} 1 & 0 & 3 & 0 & 0 & 1.17\\
 		\bottomrule
 	\end{tabular}
 \end{table}

@@ -27,27 +27,26 @@
 \usepackage{mathtools}
 \usepackage{dsfont}
 \usepackage{bbding}
-\usepackage{dirtytalk}
-% For folder tree
-\usepackage{dirtree}
 
+
+% For folder tree
+\usepackage{bookmark}
+\usepackage{dirtytalk}
+\usepackage{dirtree}
 \usepackage{listings}
 \lstset
 {
     language=[LaTeX]TeX,
     breaklines=true,
-    backgroundcolor = \color{lightgray!50!white},
     basicstyle=\ttfamily\footnotesize,
-    keywordstyle=\color{blue},
-    identifierstyle=\color{magenta},
+    keywordstyle=\color{black},
+    identifierstyle=\color{hcqblue},
     literate={\\\%}{\%}2
 }
-% \usepackage[titles]{tocloft}
-\usepackage{bookmark}
+
 \usepackage[labelformat=simple]{subcaption}
 \renewcommand\thesubfigure{(\alph{subfigure})}
 
-\newcommand{\subtag}[1]{\tag{\theparentequation#1}}
 
 \usepackage[
 	natbib = true,
@@ -90,14 +89,11 @@
 % 	\oldchapter%
 % }
 
-% Move this to layout.
-\renewcommand{\floatpagefraction}{.9}
-\renewcommand{\topfraction}{.9}
-\renewcommand{\bottomfraction}{.9}
-\renewcommand{\textfraction}{.1}
-
 % For setting paths for tikz/
 \newcommand{\here}{here}
+
+% To control depth of ToC (0 = chapters, 1 = sections, etc)
+% \setcounter{tocdepth}{2}
 
 \begin{document}
 	
@@ -133,10 +129,10 @@
 	\include{chapters/4_biblatex/4_biblatex}			% Regular chapter
 	\include{chapters/5_remarks/5_remarks}			% Regular chapter
 
-	\chapterimage{auxiliary/logos/LogoUoC_circle}
-	\part{Cool Monte Carlo Part}
+	\chapterimage
+	\part{Example part page}\label{part:examplepartpage}
 
-	%\bookmarksetup{startatroot} % Fix pdf toc hierarchy
+	\bookmarksetup{startatroot} % Fix pdf toc hierarchy
 	\chapter{Test chapter}
 
 	\appendix

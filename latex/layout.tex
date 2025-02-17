@@ -1,74 +1,88 @@
-% !TeX root = ../main_thesis.tex
+%%% layout outer design elements %%% 
 
-% layout settings 
+% choose main accent colors
+\colorlet{accentcolor1}{warmgrey}
+\colorlet{accentcolor2}{cardinalred}
 
 % ------------------------------------------------ %
 % headline & footline
 \usepackage[headsepline=.2pt, ilines]{scrlayer-scrpage}
-%\lohead{Peter Musterheinzel}
-%\rohead{Seitenstile mit \KOMAScript}
 \pagestyle{scrheadings}
-\setkomafont{pagehead}{\small \mainregular \color{maincolor1}}
-
-
+\setkomafont{pagehead}{\small \mainregular \color{accentcolor2}}
+% ------------------------------------------------ %
 
 % ------------------------------------------------ %
 % declare font families
-\newfontfamily{\mainregular}{MYRIADPRO-REGULAR.OTF}		% regular sans serif font for chapter/section/... headings
-\newfontfamily{\mainsemibold}{MYRIADPRO-SEMIBOLD.OTF}	% semibold ss font for chapter/section/... headings
-% default ss font (toc, captions, ...)
-\setsansfont[
-UprightFont = *-REGULAR, 
-BoldFont = *-SEMIBOLD,
-SlantedFont = *-REGULAR,
-SlantedFeatures = {FakeSlant,Colour=FF0000}
-]
-{MYRIADPRO}
+\newfontfamily{\mainregular}{myriadpro-regular.otf}		% regular sansserif font
+\newfontfamily{\mainsemibold}{myriadpro-semibold.otf}	% semibold sansserif font
+\setsansfont[UprightFont = *-regular, BoldFont = *-semibold]{myriadpro}
+% ------------------------------------------------ %
 
-%\usepackage{unicode-math}
-%\setmathfont{MdSymbol-Regular.otf}
-
-
-% choose main colors for page layout (headline, headings, ...)
-\colorlet{maincolor1}{stdwarmgrey}
-\colorlet{maincolor2}{stdred}
-
+% ------------------------------------------------ %
+% Set fonts and colors for ((sub)sub)sections and paragraphs. 
+\addtokomafont{section}{\mainsemibold \Large \color{accentcolor2}}
+\addtokomafont{subsection}{\mainregular \large  \color{accentcolor2}}
+\addtokomafont{subsubsection}{\mainsemibold \color{accentcolor2}}
+\addtokomafont{paragraph}{\mainsemibold  \color{accentcolor2}}
+% ------------------------------------------------ %
 
 % ------------------------------------------------ %
 % load caption package and specify options
 \usepackage[
-format = plain, 
-indention = .5cm, 
-labelsep=endash, 
-textfont = {footnotesize},% , sf}, % remove sf for normal (=serif) font in captions.
-justification = justified, skip = 10pt
-]{caption}
-\addtokomafont{captionlabel}{\mainregular \color{maincolor2}}
-\DeclareCaptionFormat{sidebyside}{#1#2\\#3}
-%\DeclareCaptionFont{blue}{\color{lagunita}}
-%\captionsetup[sub]{labelfont={blue}}
-\setlength{\belowcaptionskip}{-0.5\baselineskip}	% Spacing between caption and main text below.	
-% \setlength{\abovecaptionskip}{-0.25\baselineskip}	% Spacing between caption and figure above.
+	format = plain, 
+	indention = .5cm, 
+	labelsep=endash, 
+	textfont = {footnotesize},% , sf}, % remove sf for normal (=serif) font in captions.
+	justification = justified, 
+	skip = 10pt
+	]{caption}
 
+\addtokomafont{captionlabel}{\mainregular \color{accentcolor2}}
+\DeclareCaptionFormat{sidebyside}{#1#2\\#3}
+\setlength{\belowcaptionskip}{-0.5\baselineskip}	% Spacing between caption and main text below.	
+
+% Some more options to play around with.
+%\captionsetup[sub]{labelfont={blue}}
+%\DeclareCaptionFont{blue}{\color{lagunita}}
+% \setlength{\abovecaptionskip}{-0.25\baselineskip}	% Spacing between caption and figure above.
+% ------------------------------------------------ %
 
 
 % ------------------------------------------------ %
-% part pages 
+% Control minimum amount of text on a page
+\renewcommand{\floatpagefraction}{.9}
+\renewcommand{\topfraction}{.9}
+\renewcommand{\bottomfraction}{.9}
+\renewcommand{\textfraction}{.1}
+% ------------------------------------------------ %
+
+
+% ================================================ %
+% ========Part & Chapter Styles=================== %
+% ================================================ %
+% ------------------------------------------------ %
+% Beginning of part page style 
 % Background
 \usepackage{graphicx,eso-pic,lipsum,etoolbox}
 \providecommand{\chapterhook}{}
 \makeatletter
 \patchcmd{\scr@startpart}{\thispagestyle}{\chapterhook\thispagestyle}{\typeout{Patching chapter worked OK!}}{\typeout{Patching chapter failed! Oh no!!}}
-\newcommand*{\chapterimage}[2][]{% \parthook[<options>]{<image>}
-	\renewcommand{\chapterhook}{% Update \parthook
+\newcommand*{\chapterimage}{
+	\renewcommand{\chapterhook}{
 		\AddToShipoutPictureBG*{% Add picture to background of THIS page only
 			\AtPageLowerLeft{%
+				% Here, you can add whatever you want for your background image, a TikZ picture, ...
 				\begin{tikzpicture}[remember picture,overlay]
-				% \shade [top color=stdskydark,bottom color=white] (current page.south west) rectangle (current page.north east); 
-				\fill[stdsandhill!20] (current page.south west) rectangle (current page.north east);
-				% \draw (0,0) -- (1,1);
+
+				% Uncomment this to get color gradient. 
+				\shade [top color=bqyellow,bottom color=bqcyan, middle color = white] (current page.south west) rectangle (current page.north east); 
+
+				% Uncomment this to get monochrome background.
+				% \fill[stdsandhill!20] (current page.south west) rectangle (current page.north east);
 				\end{tikzpicture}
-				% \includegraphics[width=\paperwidth,height=\paperheight,#1]{#2}%
+				
+				% Uncomment to use image as background.
+				% \includegraphics[width=\paperwidth,height=\paperheight]{example-image-9x16}%
 			}%			
 		}% Insert image
 		\renewcommand{\chapterhook}{}% Restore \parthook
@@ -76,22 +90,24 @@ justification = justified, skip = 10pt
 }
 \makeatother
 
-% Text
-\setkomafont{part}{\mainregular \Huge \color{maincolor1}}
-\setkomafont{partprefix}{\mainsemibold \Huge \color{maincolor2}}
-% text in lower right corner
-\renewcommand*{\partheadstartvskip}{\vspace*{\fill}}% Abstand darüber (maximal)
-\renewcommand*{\partheadendvskip}{}% Kein Abstand unter der Überschrift
-\let\raggedpart\raggedleft% rechtsbündig
+% text
+\setkomafont{part}{\mainregular \Huge \color{accentcolor1}}
+\setkomafont{partprefix}{\mainsemibold \Huge \color{accentcolor2}}
+
+% put text in lower right corner
+\renewcommand*{\partheadstartvskip}{\vspace*{\fill}}% spacing above (maximal)
+\renewcommand*{\partheadendvskip}{}% no spacing below
+\let\raggedpart\raggedleft%
+% End of part page style 
+% ------------------------------------------------ %
 
 
 
 % ------------------------------------------------ %
-% chapter pages 
-\setkomafont{chapter}{\mainsemibold \Huge \color{maincolor2}}
-\setkomafont{chapterprefix}{\mainregular \LARGE \color{maincolor1}}
-\newkomafont{chapternumber}{\mainregular \fontsize{70pt}{90pt} \color{maincolor1}  \selectfont}
-% \newkomafont{chapternumber}{\mainregular \fontsize{50pt}{60pt} \color{maincolor1}  \selectfont}
+% Beginning of chapter style
+\setkomafont{chapter}{\mainsemibold \Huge \color{accentcolor2}}
+\setkomafont{chapterprefix}{\mainregular \LARGE \color{accentcolor1}}
+\newkomafont{chapternumber}{\mainregular \fontsize{70pt}{90pt} \color{accentcolor1}  \selectfont}
 
 \renewcommand\raggedchapter{\raggedleft}
 
@@ -109,7 +125,7 @@ justification = justified, skip = 10pt
 		font = \usekomafont{chapternumber}
 	},
 	headings/chapterline/.style = {
-		maincolor1,
+		accentcolor1,
 		line width = 2pt
 	}
 }
@@ -130,17 +146,5 @@ justification = justified, skip = 10pt
 	}%
 }
 \makeatother
- 
-
-
+% End of chapter style
 % ------------------------------------------------ %
-% section, subsection, paragraph, ... 
-\addtokomafont{section}{\mainsemibold \Large \color{maincolor2}}
-\addtokomafont{subsection}{\mainregular \large  \color{maincolor2}}
-\addtokomafont{subsubsection}{\mainsemibold \color{maincolor2}}
-\addtokomafont{paragraph}{\mainsemibold  \color{maincolor2}}
-
-
-
-
-

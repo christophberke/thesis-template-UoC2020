@@ -3,40 +3,48 @@
 \chapter{Basic features of the template}
 To compile the thesis, generate the bibliography, and ensure flawless cross-references between the table of contents, main text, citations, and bibliography, run
 \begin{lstlisting}
-lualatex main_thesis.tex
+lualatex -synctex=1 -interaction=nonstopmode main_thesis.tex
 biber main_thesis
-lualatex main_thesis.tex
-lualatex main_thesis.tex
+lualatex -synctex=1 -interaction=nonstopmode main_thesis.tex
+lualatex -synctex=1 -interaction=nonstopmode main_thesis.tex
 \end{lstlisting}
 Of course, running these four commands manually every time is unnecessary. All \LaTeX editors I ever used (Sublime Text, VS Code, TeXstudio, TeXmaker, TeXShop, and Overleaf), allow you to set \verb|lualatex| as the default compiler and \verb|biber| as the bibliography processor. Additionally, all these editors enable you to define this sequence of commands as the standard build process, so your document is compiled correctly with a single action.
-
-ADD COMPILER OPTIONS.
+For example, in VS Code, you can add 
+\begin{lstlisting}
+{
+  "name": "lualatex -> biber -> lualatex * 2",
+  "tools": [
+    "lualatex",
+    "biber",
+    "lualatex",
+    "lualatex"
+  ]
+}
+\end{lstlisting}
+to the \verb|"latex-workshop.latex.recipes"| field in your \verb|settings.json| file.
+Furthermore, the (optional) options \verb|-synctex=1 -interaction=nonstopmode| are usually the default choice with which the \verb|\lualatex| command is run (I checked VS Code and TeXStudio).
 
 \paragraph{Why lualatex?} 
 This template uses \verb|lualatex| instead of \verb|pdflatex| for two main reasons:
-(i) Font Management: The template relies on the \verb|fontspec| package to handle different font types (e.g., sans-serif for captions and serif for the main text), which requires lualatex for compilation.
-(ii) Memory Management: lualatex has a superior memory allocation system that dynamically adjusts as needed. This is particularly important when creating figures in \LaTeX with TikZ/pgfplots, where even simple 2D surface plots can lead to out-of-memory errors with \verb|pdflatex|.
+(i) Font Management: The template relies on the \verb|fontspec| package to handle different font types (e.g., sans-serif for captions and serif for the main text), which requires \verb|lualatex| for compilation.
+(ii) Memory Management: \verb|lualatex| has a superior memory allocation system that dynamically adjusts as needed. This is particularly important when creating figures in \LaTeX with TikZ/pgfplots, where even simple 2D surface plots can lead to out-of-memory errors with \verb|pdflatex|.
 
 Beyond these two reasons, \verb|lualatex| offers several other advantages, such as powerful Lua scripting capabilities. If you're interested, you can find numerous discussions on the benefits of \verb|lualatex| on \href{tex.stackexchange.com}{TeX Stack Exchange}.
 
 \paragraph{Why biber and biblatex?}
-
-This template uses \verb|biblatex| with the \verb|biber| backend instead of \verb|bibtex|. \verb|Biblatex| is more modern and versatile, and there’s virtually no reason to prefer \verb|bibtex| over \verb|biblatex|. The continued popularity of \verb|bibtex| is likely due to (bad) habit, both among users and some journals that still mandate its use.
+This template uses \verb|biblatex| with the \verb|biber| backend instead of \verb|bibtex|. \verb|biblatex| is more modern and versatile, and there’s virtually no reason to prefer \verb|bibtex| over \verb|biblatex|. The continued popularity of \verb|bibtex| is likely due to (bad) habit, both among users and some journals that still mandate its use.
 
 For a thesis with a straightforward bibliography, \verb|bibtex| might be sufficient. However, \verb|biblatex| makes customization easier. Moreover, for more complex bibliography structures---such as our CRC183 project, which involves multiple independent bibliographies, cross-references between them, chapter-specific citation highlighting, and automatic correction of incorrect entries---\verb|bibtex| would have been completely inadequate.
 See \chapref{chap:biblatex} for details.
 
-
-
 \section{Documentclass}
-This template is built on the \href{https://ctan.org/pkg/koma-script?lang=de}{KOMA-script} class \verb|scrbook|. Whether to use the standard \verb|book| class or its KOMA-Script counterpart is largely a matter of personal preference. The KOMA-Script bundle is widely recognized as an excellent package, and personally, I find \verb|scrbook| easier to customize while also preferring its default layout.
+This template is built on the \href{https://ctan.org/pkg/koma-script?lang=de}{KOMA-script} class \verb|scrbook| \cite{koma_manual}. Whether to use the standard \verb|book| class or its KOMA-Script counterpart is largely a matter of personal preference. The KOMA-Script bundle is widely recognized as an excellent package, and personally, I find \verb|scrbook| easier to customize while also preferring its default layout.
 
-The document class is loaded with the following options:
+The document class is loaded with the following options, some of which are explained below:
 \begin{lstlisting}
 \documentclass[numbers=noenddot, headinclude = true,
 	BCOR = 12mm, DIV = 16, twoside]{scrbook}
 \end{lstlisting}
-Below is an explanation of some of these options.
 
 \subsection{Page layout without the \texttt{geometry} package}
 One of the key strengths of the KOMA-Script classes is their built-in handling of type area and other typographic settings. The package author has extensive expertise in typography and has incorporated many best practices directly into its implementation. The KOMA-Script manual states:
@@ -48,8 +56,8 @@ Furthermore, \verb|headinclude=true| ensures that the header is included in the 
 
 The KOMA-Script eliminates the need for the \verb|geometry| package that is otherwise often used to adjust margins. Manually setting margins can unintentionally violate typographic rules, potentially leading to poor readability. As the KOMA-Script manual warns:
 
-\say{The practice of doing things oneself has long been widespread, but the results are often dubious because amateur typographers do not see what is wrong and cannot know what is important. This is how you get used to incorrect and poor typography. [...] Now, the objection could be made that typography is a matter of taste. When it comes to decoration, one could perhaps accept that argument, but since typography is primarily about information, not only can mistakes irritate, but they may even cause damage.}
-(I recommend everyone to read Sec.~2.X of the manual, I enjoyed its polemic tone)
+\say{The practice of doing things oneself has long been widespread, but the results are often dubious because amateur typographers do not see what is wrong and cannot know what is important. This is how you get used to incorrect and poor typography. [...] Now, the objection could be made that typography is a matter of taste. When it comes to decoration, one could perhaps accept that argument, but since typography is primarily about information, not only can mistakes irritate, but they may even cause damage.} \cite{koma_manual, willberg2000}
+(I recommend everyone to read Sec.~2.8 of the manual, I enjoyed its polemic tone)
 
 \paragraph{A confession} After emphasizing the importance of adhering to typographic best practices, I must confess: this template violates them.
 
@@ -103,7 +111,7 @@ Books are typically divided into front matter and main matter (the back matter, 
 In this thesis, the main matter begins with the Outline chapter. The front matter starts with the title page, but I opted not to display Roman numerals on the title page and abstract. Only the table of contents carries Roman numeral page numbers.
 
 \subsection{Table of content}
-The entire front matter should not be included in the table of contents (ToC). The same applies to the acknowledgments (which are often part of the front matter) and I also excluded the closing statement. However, I wanted all these sections to appear in the PDF table of contents (PDF-ToC), i.e., the strcuture that is displayed in the navigation pane of most PDF readers, see \figref{fig:pdf-toc}.
+The entire front matter should not be included in the table of contents (ToC). The same applies to the acknowledgments (which are often part of the front matter) and I also excluded the closing statement. However, I wanted all these sections to appear in the PDF table of contents (PDF-ToC), i.e., the structure that is displayed in the navigation pane of most PDF readers, see \figref{fig:pdf-toc}.
 
 \begin{figure}
 	\includegraphics[width = \textwidth]{pdf-toc.png}
@@ -148,10 +156,13 @@ or load the bookmark package and insert
 \chapter{Conclusion}
 \end{lstlisting}
 
+\paragraph{Level of content}
+Note that you can use \verb|\setcounter{tocdepth}{<depth>}| to control the number of levels that are displayed in the ToC.
+
 
 \section{Folder structure of the template}
-The root folder contains the main file (\verb|main_thesis.tex|), font files, a \verb|.gitignore| and four subfolders: \verb|Latex| for all style/setting files, \verb|auxiliary| for the content of the front and back matter, \verb|bib-files| for \verb|.bib| files and \verb|chapters| for the content of the main matter part.
-See \figref{fig:folderstructure} for a concise overview, including the substructure of the \verb|chapters| folder.
+The root folder contains the main file (\verb|main_thesis.tex|), font files, a \verb|.gitignore| and four subfolders: \verb|Latex/| for all style and setting files, \verb|auxiliary/| for front and back matter content, \verb|bib-files/| for \verb|.bib| files and \verb|chapters/| for the main content of the thesis.
+See \figref{fig:folderstructure} for a concise overview, including the substructure of the \verb|chapters/| folder.
 
 \begin{figure}
 \begin{forest}
@@ -191,16 +202,16 @@ See \figref{fig:folderstructure} for a concise overview, including the substruct
 \label{fig:folderstructure}
 \end{figure}
 
-All individual tex files after the \verb|\begin{document}| are imported using \verb|\include{filename}|. If you want to compile only parts of the thesis, put an \verb|\includeonly{filename1,filename,...}| in the preamble. Due to the separate \verb|.aux| files that \verb|\include| produces, one then obtains still the correct numbering of pages/chapters/etc. Anyway, this is probably not a big issue during the writing process and using \verb|\import{filename}| instead is of course also fine.
+All individual tex files after \verb|\begin{document}| are imported using \verb|\include{filename}|. If you want to compile only specific parts of the thesis, add \verb|\includeonly{filename1,filename2,...}| in the preamble. Since \verb|\include| generates separate \verb|.aux| files, this ensures that pages, chapter, and other numbering remain correct. However, this is usually not a major concern during the writing process, so using \verb|\import{filename}| instead is also perfectly fine.
 
-At the beginning of each chapter, it is useful to set the graphicspath to the respective figure folder, e.g., \verb|\graphicspath{{chapters/1_basicfeatures/figures/}}| for this chapter, such that one can ommit the long graphics path when using the \verb|\includegraphics| command.
+At the beginning of each chapter, it is useful to set the graphics path to the corresponding figure folder. For example, for this chapter, use: \verb|\graphicspath{{chapters/1_basicfeatures/figures/}}|. This allows you to omit the full path when using \verb|\includegraphics|.
 
 
 \section{Using TikZ / pgfplots and externalization}
-When you use TikZ / pgfplots to generate your plots, you should use the externalization capabilities of TikZ in order to prevent re-rendering of unchanged figures whenever you compile. That saves a lot (!) of time. 
-Remember that you have to include \verb|\usepackage{shellesc}| and compile with the \verb|--shell-escape| flag. Besides these general adjustements, there are two template-specific pecularities one has to keep in mind: 
+When using TikZ or pgfplots to generate plots,  it’s highly recommended to enable TikZ's externalization feature to avoid re-rendering unchanged figures with every compilation. This can save a significant(!) amount of time.  
+Make sure to include \verb|\usepackage{shellesc}| and compile with the \verb|--shell-escape| flag. Besides these general adjustements, there are two template-specific pecularities to keep in mind: 
 
-\paragraph{Chapter headings} The modified chapter heading uses TikZ. Therefore, one should disable the externalization of TikZ before every new chapter. You can automate this by uncommenting this code snippet here in line ... of \verb|main_thesis.tex|:
+\paragraph{Chapter headings} The modified chapter heading relies on TikZ, so TikZ externalization should be disabled at the beginning of each new chapter. To automate this, simply uncomment the following code snippet in the preamble of \verb|main_thesis.tex|:
 \begin{lstlisting}
 \let\oldchapter\chapter	% Store \chapter in \oldchapter
 \renewcommand{\chapter}{%
@@ -209,14 +220,14 @@ Remember that you have to include \verb|\usepackage{shellesc}| and compile with 
 }
 \end{lstlisting}
 \paragraph{Modified folder structure}
-I keep an additional folder \verb|tikz_figures| folder to store a separate .tex file with the tikz source code for every figure. That folder also contains the subfolder \verb|data| that in turn contains the data that is needed in the source code tikzfiles. At the beginning of each section, I set some paths to facilitate the inclusion of figures, for example
+I keep an additional folder \verb|tikz_figures| folder to store a separate .tex file with the tikz source code for every figure. Inside this folder, there is a \verb|data/| subfolder that holds any data required by the TikZ source files. To simplify figure inclusion, I set up paths at the beginning of each section. For example:
 \begin{lstlisting}
 \renewcommand{\here}{chapters/3_colors/tikz_figures}% Path to tikz source code
 \pgfplotsset{table/search path={\here/data}}				% Path to data used in tikz source code
 \tikzsetexternalprefix{chapters/3_colors/figures/}	% Path for storing of externalized tikz pdfs.
 \end{lstlisting}
-The \verb|\here| command is originally defined in the preamble of the document.
-Then, the TikZ source code / the external pdf file is included via
+The \verb|\here| command is originally defined in the docuemnt preamble
+Then, to include a TikZ figure use
 \begin{lstlisting}
 \begin{figure}
 	\centering
@@ -226,44 +237,76 @@ Then, the TikZ source code / the external pdf file is included via
 	\label{fig:colordemo}
 \end{figure}
 \end{lstlisting}
-To see an example in action, checkout \chapref{cha:colors}.
-Of course, there are many other options on how to organize the folder structure, in particular with regard to the externalization of TikZ-figures, just do what suits you best.
+For an example in action, see \chapref{cha:colors}.
+Of course, there are many ways to organize the folder structure, especially regarding the externalization of TikZ figures—just choose what works best for you.
 
-\section{``Outer theme'' layouting}
+\section[Layouting ``outer'' design elements]{Layouting outer design elements}
 
-When dieses Template einen Wiedererkennungswert hat, dann ist es vermutlich das Layout der outer design elements. Darunter verstehe ich Kapitel- und auch Sectionüberschriften sowie header Zeile und auch die (von mir nie verwendete Part Page).
-Wenn du dieses Template verwenden, aber gleichzeitig nicht das Erscheinungsbild komplett übernehmen willst (womit ich auch kein Problem habe, siehe alle Thesis, die nach meiner in unserer Gruppe veröffentlicht worden sind, Stand Januar 25), dann ist es am einfachsten, diese Design-Element anzupassen.
-Die meisten Styles werden in der Datei ... definiert.
+If this template has a distinctive look, it's probably due to the layout of its outer design elements, i.e., the chapter and section headings, the header line, and the part page (though I’ve never used the latter). If you'd like to use this template but prefer not to fully adopt its visual style (which would also be totally fine---just look at all the \href{https://www.thp.uni-koeln.de/trebst/thesisprojects.shtml}{theses published in our group after mine}, as of January 25), the easiest approach is to customize these design elements in \verb|latex/layout.tex|.
 
 
-\subsection{Accent color}
-Diese Arbeit benutzt zwei Accent Colors, accentcolor1 und accentcolor2.
-In meinem Fall ist cardianl rot und warm grey.
-Accent1 wird fuer alle Ueberschriften und zum Highlighten auf der Titleseite benutzt. Accent2 wird ebenfalls in der Kapitelueberschrift benutzt, sowie im header.
+\subsection{Accent colors}
+Two accent colors are used for color highlighting, a cardinal red for captions and a warm grey for the header and parts of the chapter headings. To change these colors, choose different accent colors in \verb|latex/layout.tex|. The default is
+\begin{lstlisting}
+\colorlet{accentcolor1}{warmgrey}
+\colorlet{accentcolor2}{cardinalred}
+\end{lstlisting}
+\verb|warmgrey| and \verb|cardinalred| are defined in \verb|latex/colors.tex|. 
+
+\subsection{Fonts}
+By default, \verb|scrbook| uses a sans-serif font for captions. While I generally like this approach, I was not satisfied with the defaul font and used the \verb|\fontspec| package to pick Myriad Pro, the OpenType version of the \href{https://en.wikipedia.org/wiki/Myriad_(typeface)}{Myriad font family}.
+Personally, I find the slimmer semi-bold and regular weights more elegant than traditional bold fonts, even for headlines, so I stick to using just these two. I simply googled for ``Myriad Pro otf files'' and downloaded the \verb|myriadpro-semibold.otf| and \verb|myriadpro-regular.otf| files (or whatever they're called) and saved them in the root folder. Then fonts can then, e.g., be set as follows:
+\begin{lstlisting}
+\newfontfamily{\mainsemibold}{myriadpro-semibold.otf}
+\addtokomafont{section}{\mainsemibold\Large\color{accentcolor2}}
+\end{lstlisting}
+For more details, see \verb|latex/layout.tex|.
 
 \subsection{Chapter headings}
-Das Design Element ... wird dort definiert. Einfach mal ausklammern, dann bekommt man das Standard Koma Skript Layout.
+The most striking feature in this template are probably the chapter headings.
+The appearance of the chapter heading is defined between
+\begin{lstlisting}
+% Beginning of chapter style
+...
+% End of chapter style
+\end{lstlisting}
+As an example, you can uncomment everything but the first line in the style definition to obtain the standard \verb|scrbook| chapter headings with modified font and color. 
+People have come up with plenty of great chapter heading styles, mine is also a modified version of one from tex.stackexchange. If you’re looking for inspiration, google for `Customizing Chapter Style in scrbook' or similar and find some inspiration.
 
-HOW TO ADD LINEBREAK IN CAPTIONS!
-
-\subsection{Mathe in Captions}
+\paragraph{Adding linebreaks in chapter headings}
+I wasn’t always happy with how automatic line breaks were handled for long chapter headings. However, manually inserting line breaks can make the title appear awkward in the table of contents (ToC). The solution is to use the following syntax:
+\begin{lstlisting}
+\chapter[Many-body localization and quantum chaos in transmon quantum computers]{Many-body localization \\ and quantum chaos \\ in transmon quantum computers}
+\end{lstlisting}
+The text inside the square brackets appears in the ToC, while the curly brackets define how it is displayed in the chapter itself.
 
 \subsection{Part pages}
-Part pages benutze ich nicht. Ich habe darueber nachgedacht, die Einleitungskapitel zu einem Part zusammenzufassen und auch die Resultatkapiteln. Eigentlich finde ich aber, dass das unnatuerliche Brueche in der Arbeit einfuegt. Fuer mich ist ein gutes Anwendungsbeispiel eigentlich nur, wenn man in der Arbeit komplett disjunkte Themen behandelt, also z.B. Transmon-Physik und Kitaev Spin LIquids. Ich verstecke aber alles zu den KSL in einem Anhang. Das einzige was fuer eine Part Page gesprochen haette waere gewesen, dass die irgendwie recht cool aussehen, aber das hat mich dann nicht endgueltig ueberzeugt.
-Anyway, falls du PartPages benutzen willst dann geht das so:
-Das Layout steht hier und kann easy angepasst werden, z.B. ein Farbgradient oder ein Hintergrundbild.
+I don't use part pages. I considered grouping the introductory chapters into one part and the results chapters into another, but I felt this created unnatural breaks in the work. In my view, part pages make sense only when dealing with completely disjoint topics, such as transmon physics and Kitaev spin liquids (KSL) in my case. However, since I placed everything related to KSL in a single appendix, I ultimately decided against using part pages.
+The only real argument in favor of part pages is that they look kind of cool, but that alone wasn’t enough to convince me.
 
-\section{Sections and subsections}
--table of content layer
--schmale Schriftart, hier festgelegt.
+If you do want to use part pages, here’s how it works: The layout is defined here:
+\begin{lstlisting}
+% ------------------------------------------------ %
+% Beginning of part page style 
+...
+% End of part page style 
+% ------------------------------------------------ %
+\end{lstlisting}
+It can be easily customized, for example, by adding a monchrome background, color gradient or a background image. See \ref{part:examplepartpage} for an example of a part page.
 
-\subsection{Subsubsections and Paragraphs}
-Ich benutze keine Subsubsections sondern nur Paragraphs.
+\subsection{Sections, subsections, subsubsection and paragraphs}
+The appearence of all these lowerlevel headings is defined in \verb|latex/layout.tex| using the \verb|\addtokomafont| command. In my thesis, I never use \verb|subsubsections|, but occasionally, I use paragraphs.
 
 \subsection{Figure captions}
+To control the appearance of the figure captions, I use the |\verb|caption| package that allows very wide-ranging customization. For example, I wanted the font of the figure caption to be slightly smaller than the main text font. Again, see \verb|latex/layout.tex| for details and more options.
 
 \subsection{Header}
-Der header benutzt ebenfalls die gleiche Serifenlose Font wie ...
+For the header, I use the \verb|scrlayer-scrpage| package from the KOMA-script bundle. I was already very satisfied with the standard appearance (chapter on even pages, section on odd pages) and only adapted the color and the font, see \verb|latex/layout.tex|.
 
-WIE PASST MAN AN WIE VIEL TEXT AUF EINE SEITE DARF?
+\subsection{Math in captions}
+Coming soon (maybe).
+%\usepackage{unicode-math}
+%\setmathfont{MdSymbol-Regular.otf}
 
+\section{Balancing figures and text}
+If you have a large image that takes up more than half a page, \LaTeX~may prevent any additional content, including text, from appearing on that page. I wasn’t always satisfied with how \LaTeX~ handled this, so I adjusted the default value of \verb|\textfraction|, which controls the minimum amount of text required on a page. In the end, I had to tweak three more values (\verb|\floatpagefraction|, \verb|\topfraction|, \verb|\bottomfraction|) to adjust the figure placement and the balance between text and figures or tables to my wishes. These adjustments are now set in \verb|latex/layout.tex|.
