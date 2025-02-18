@@ -5,7 +5,7 @@
 Use \verb|align| for equations that extend over several lines. Do \textbf{not} use \verb|eqnarray|.
 
 \subsection{The golden rules: Interplay of equations and text}
-When it comes to embedding equations in continuous text, I can only recommend David Mermin's epoch-making text \href{https://wp.optics.arizona.edu/kupinski/wp-content/uploads/sites/91/2023/05/MerminEquations.pdf}{`What's wrong with these equations?'}\cite{mermin1989} to everyone. Let me quote his three golden rules directly from the article (highlighting in bold by me):
+When it comes to embedding equations in continuous text, I can only recommend David Mermin's article \href{https://wp.optics.arizona.edu/kupinski/wp-content/uploads/sites/91/2023/05/MerminEquations.pdf}{`What's wrong with these equations?'}\cite{mermin1989} to everyone. Let me quote his three golden rules directly (highlighting in bold by me):
 \paragraph{Rule 1 (Fisher's rule)} \textbf{Number all displayed equations.} The most common violation of Fisher's rule is the misguided practice of numbering only those displayed equations to which the text subsequently refers back.
 \paragraph{Rule 2 (Good Samaritan rule)} When referring to an equation identify it by a phrase as well as a number. No compassionate and helpful person would herald the arrival of Eq.~(7.38) by saying ``inserting (2.47) and (3.51) into (5.13)'' when it is possible to say ``inserting the form (2.47) of the electric field \textbf{E} and the Lindhard form (3.51)\dots''. [...] Consistent use of the Good Samaritan rule might well increase the lenght of your paper by a few percent. But admit it. Your paper is already to long by at least 30\% because you were in such a rush to get it out.
 \paragraph{Rule 3 (Math is prose rule)} \textbf{End a displayed equation with a punctuation mark.} It is implicit in this statement that the absence of a punctuation mark is itself a degenerate form of punctuation that, like periods, commas or semicolons, can be used \emph{provided it makes sense.}
@@ -18,7 +18,7 @@ There is not much to add to these golden rules. Consistently following them make
 The difference is hard to spot, in fact the distance between the end of the equation and the following punctuation mark is slightly larger in the second variant, where I inserted \verb|\,| before the punctuation mark.
 This may seem completely exaggerated, and it probably is, but at least the people in the Trebst group can be told that the use of the lower variant will be noticed favorably\ldots.
 
-Concerning the first rule, note that a multi-line equations generally needs only a single number, i.e.,
+Concerning the first rule, a multi-line equations generally needs only a single number, i.e.,
 \begin{align}
 	O(t) &= \langle \psi(t) | \op{O} | \psi(t) \rangle = \sum_{i,j} c_i^* c_j e^{i \left( E_i - E_j \right)t} \langle i |\op{O}| j\rangle  \nonumber \\ & = \sum_i |c_i|^2 \langle i |\op{O}| i \rangle + \sum_{i,j\neq i} c_i^*c_j e^{i \left( E_i - E_j \right) t} \langle i |\op{O}| j\rangle\,,
 \end{align}
@@ -27,7 +27,7 @@ but
 	\mathrm{IPR} &= \sum_\alpha |c_i^\alpha|^4\,,\\
 	S_P &= - \sum_\alpha |c_i^\alpha|^2 \ln |c_i^\alpha|^2 \,.
 \end{align}
-If you have a single equation that extends over multiple lines and you want to number each line individually, like \eqref{eq:tauZZa} and \eqref{eq:tauZZb}, the \verb|subequations| environment might be a good choice, yielding
+If a single equation that extends over multiple lines and you want to number each line individually, like \eqref{eq:tauZZa} and \eqref{eq:tauZZb}, the \verb|subequations| environment might be a good choice, yielding
 \begin{subequations}
 \begin{align}
 	\op{H}_\text{MBL} &= E_0 + \sum \limits_i h_i \op{\tau}_i^z + \sum \limits_{i>j} J_{ij} \op{\tau}_i^z \op{\tau}_j^z + \sum \limits_{i>j>k} J_{ijk} \op{\tau}_i^z \op{\tau}_j^z \op{\tau}_k^z + \dots \label{eq:tauZZa} \\&= \sum_\vect{b} c_\vect{b} \op{Z}_1^{b_1} \op{Z}_2^{b_2} \dots \op{Z}_L^{b_L}\,. \label{eq:tauZZb}
@@ -44,11 +44,12 @@ In both, American English and British English, one uses a comma to separate grou
 
 \subsection{Bold math symbols}
 I use bold letters to represent vectors. The default approach, using \verb|$\textbf$| or \verb|$\mathbf$|) has the drawback that it does not work for all symbols. For example \verb|$\textbf{\sigma}$| is rendered as $\textbf{\sigma}$ and \verb|$\mathbf{\sigma}$| also results in $\mathbf{\sigma}$---no visible effect in either case.
-To properly typeset bold Greek symbols, I use the \verb|\bm| command from the \verb|bm| package: \verb|$\bm \sigma$| correctly produces $\bm \sigma$. While the \verb|\boldsymbol| command from the \verb|amsmath| package achieves a similar result, it isknown to cause spacing issues \href{https://latex.org/forum/viewtopic.php?t=26738}{in some cases}. Hence, \verb|\bm| is often recommended as the preferred approach.
+To properly typeset bold Greek symbols, I use the \verb|\bm| command from the \verb|bm| package: \verb|$\bm \sigma$| correctly produces $\bm \sigma$. While the \verb|\boldsymbol| command from the \verb|amsmath| package achieves a similar result, it is known to cause spacing issues \href{https://latex.org/forum/viewtopic.php?t=26738}{in some cases}. Hence, \verb|\bm| is often recommended as the preferred approach.
 
 
 \section{How to make nice tables?}
-One aspect that is often overlooked in nearly all the papers from our group (including my own) is how to create beautiful and easy-to-read tables.
+One aspect that is often overlooked in nearly all papers (including my own and probably also yours) is how to create beautiful and easy-to-read tables.
+
 Most importantly, do not use vertical rules!
 From `The Chicago Manual of Style' \cite{chicagoMOS}: ``To produce a clear, professional-looking table, rules should be used sparingly. Many tables will require just three rules, all of them horizontal---one at the very top of the table, below the title and above the column heads; one just below the column heads; and one at the bottom of the table, along the bottom of the last row. [\ldots] Vertical rules should be used sparingly.''
 
@@ -65,7 +66,6 @@ I recommend the \verb|booktabs|, that provides the commands \verb|\toprule|, \ve
 		\midrule 
 		1 & 2 & 12.75 \\
 		0.23 & 6 & 8.20 \\
-		23 & 14 & 23.4\\ 
 		\bottomrule
 	\end{tabular}
 \end{table}
@@ -85,7 +85,6 @@ I recommend the \verb|booktabs|, that provides the commands \verb|\toprule|, \ve
 		$c$ & 124.2756& -50.9612& -14.2721&& 128.2265& -630.5455& -381.0930\\
 		$\mathrm{dir}=0$\\
 		$c$ & 0.0357& 1.2473& 0.2119&& 0.3593& -0.2755& 2.1764\\
-		$c$ & 105.5518& 232.1160& -94.7351&& 100.2497& 141.2778& -259.7326\\
 		\bottomrule
 	\end{tabular}
 
@@ -121,47 +120,52 @@ I recommend the \verb|booktabs|, that provides the commands \verb|\toprule|, \ve
 	\end{tabular}
 \end{table}
 
-
-
-
-
-\subsection{Colored rows / cells}
 \section{Figures}
-\subsection{Side by side}
+\subsection{Caption and figures side by side}
 \subsection{Hyperlinks to subpanels}
+
 \section{Fine-tuning}
-Immer wenn ich einen der folgenden Fehler sehe, dann baut sich bei mir direkt der Gedanke auf, dass der Autor jetzt direkt in der Bringschuld ist, mir zu beweisen, dass er kein Idiot ist. Mit anderen Worten: Wenn ich so etwas sehe kriege ich schlechte Laune und bin dem Inhalte gegenüber nicht mehr neutral (sogar mehr noch, als wenn ich inhaltliche Fehler sehe). Klingt übertrieben? Mag sein, aber wenn man seine Leserschaft nicht kennt, sollte man sich trotzdem Mühe geben, es direkt richtig zu machen. Wer weiß an wen man gerät.
+Encountering one of the following (admittedly minor) errors or inconsistencies immediately puts me in a bad mood and makes me less neutral toward the content---sometimes even more than actual content---related mistakes. Sounds exaggerated? Definitely. But if you don’t know your readership, it’s worth making the effort to get it right. After all, you never know who will be reading your work---maybe it’s someone like me."
 \subsection{Quotation marks}
-Für wörtliche Zitationen gibt es keine einheitlichen Regeln, ob man diese durch einzelne oder doppelte Anführungszeichen kennzeichnet, also so: `Dies ist ein wörtlich übernommenes Zitat' oder so ``Dies ist ein wörtlich übernommenes Zitat''. Wie immer gilt: Entscheidung treffen und dann konsistent in der ganzen Thesis bei dieser Entscheidung bleiben. Ganz wichtig: Anführungszeichen in LaTeX immer so \verb|`...'| (einzeln) oder so \verb|``...''| typesetten. Wenig sieht schlimmer aus als ''ein falsch gesetztes Anführungszeichen''.
+For verbatim citations, there are no strict rules on whether to use single or double quotation marks—for example, `This is a verbatim quotation' or ``This is a verbatim quotation.'' Make a choice and stick to it consistently throughout your thesis.
+
+Most importantly: always use LaTeX's proper quotation mark syntax, i.e., \verb|`...'| for single quotes and \verb|``...''| for double quotes. Few things look worse than "an incorrectly placed quotation mark", like this one.
 
 \subsection{Hyphens and dashes}
-
 There a three lengths of hyphens, the regular hyphen \verb|-|, the en dash \verb|--| and the em dash \verb|---|.
 This is what they look like when typeset: - vs. -- vs. ---.
 In my thesis, I used them as recommended in the Chicago manual of style:
 \begin{itemize}
-\item The hyphen (\verb|-|) is used to connect words that function together as a single concept or work together as a joint modifier, i.e., `well-defined concept' or `collision-free device'. Never use the single hyphen similar to brackets, e.g., to separate thoughts or similar.
+\item The hyphen (\verb|-|) is used to connect words that function together as a single concept or work together as a joint modifier, i.e., `well-defined concept' or `collision-free device'. Never use the single hyphen similar to brackets, e.g., to separate thoughts.
 \item The en dash (\verb|--|) connects things that are related by some form of distance, e.g. `pages 12--17', the `May--September issue', the `cycling race Milan--San Remo' or `a coupling strength of 10--15 MHz' (although for the latter `10 to 15 MHz' is probably better). A rare use case for typesetting nerds: Use \verb|--| instead of \verb|-| in a compound adjective. Specifically, an en dash is preferred when one element of the compound is itself an open compound. For example, the prefix post- is usually connected to the following word with a hyphen, but to connect it to the compound noun World War II, it's better to use an en dash, i.e., post--World War II vs. post-World War II.
 \item The em dash should be used to separate additional thoughts---like this. Here is an example from my thesis: `The insights gained for the simpler model---in particular, the existence of a quantum chaotic region---retain their validity for more elaborate frequency arrangements.' I use the em dashs without spaces as is usually recommended. Some style guides recommend the use of spaces --- like this --- and one also encounters the combination of en dashes with spaces -- like this. As always, the most important thing is consistency. Decide on a variant and use it consistently everywhere and always.
 \end{itemize}
 
-
-
-\section{Some stylistic advices}
-Below is a collection of stilistic questions I have thought about for too long.
-\subsection{Hyphen vs. en dash vs. em dash}
-
 \subsection{Hurenkinder [sic!]}
-\LaTeX gibt sein bestes um ein stimmiges Erscheinungsbild hinzubekommen. Dazu gehört unter Anderem, dass versucht wird zu vermeiden, dass einzelne Zeilen auf einer neuen Seite stehen. Man stelle sich z.B. die Situation vor, dass ein Kapitel mit einer einzelnen Zeile auf einer ungeraden Seite anfängt. Zum einen steht diese Zeile dann recht verloren da, was ästhetisch sehr unbefriedigend ist. Außerdem verlängert das die ganze Arbeit direkt um zwei Seiten, da jedes neue Kapitel auf einer neuen ungeraden Seite beginnt. So etwas sollte also nach Moglichkeit vermieden werden. Man nennt das im englischen ubrigens Orphan (`the orphan does not know where he is coming from'). Im Deutschen gibt es den sehr viel lustigeren Namen `Hurenkind' (again, the Hurenkind does not know where he is coming from). 
-Ebenfalls unschoen, aber nicht ganz so schlimm ist, wenn ein neuer Absatz oder eine neue Section ganz unten auf einer Seite beginnt, so dass nur noch ein oder zwei Zeilen vor dem Seitenumbruch dort stehen. Diese nennt man im Englischen ... und im Deutschen ... 
-Wie gesagt versucht LaTex so etwas zu vermeiden. Man kann LaTeX dazu bringen, dass noch mehr zu vermeinden, in dem man die penalties fuer das Auftreten von Orphans und Widows nach oben setzt. Diese geschieht ueber
-die Befehle
-xxx
-xxx
-Es ist besser diese Befehle zu benutzen als (im Falle von Orphans) manuell einen Zeilenumbruch zu erzwingen, weil es leicht passieren kann, dass Aenderungen in vorherigen Abschnitten das Problem automatisch loesen und man dann nicht das Risiko einer halb leeren Seite o.ä. eingeht.
 
+\LaTeX strives to create a visually harmonious layout, which includes preventing isolated lines from appearing on a new page. For example, consider a scenario where a chapter ends with a single line on an otherwise empty, odd-numbered page. Not only does this look aesthetically unpleasing, but it also unnecessarily extends the document by two pages, as the new chapter begins on the next odd-numbered page. 
+Such a stray line at the beginning of a page is called a widow
+and is widely regarded as a very serious typographical error.
+Fun fact: The German term for widow is `Hurenkind' (literally `whore's child'). The appropriate mnemonic: `A whore's child does not know where he is coming from.'
+A similar but slightly less severe issue occurs when a new paragraph or section starts at the very bottom of a page, leaving just one or two lines before the page break. This is known as an orphan in English and `Schusterjunge' in German.
+
+Fortunately, \LaTeX is designed to prevent these issues automatically.
+If you still find that you have many orphans and widows in your thesis, you can try to increase the respective penalties using the commands
+\begin{lstlisting}
+\widowpenalty10000
+\clubpenalty10000
+\end{lstlisting}
+However, even raising the penalties cannot guarantee 100\% prevention. In one case, I rewrote a paragraph to get rid of a stubborn ``orphan''.
+Note that one can also add \verb|\usepackage[all]{nowidow}| to the preamble, but I have never used that package.
 
 \subsection{Nonlinear vs. non-linear and related issues}
-The prefix `non' appears very often and with many different following words. My impression was that it is not treated uniformly in the literature (even by the same authors) and that one finds both variants. In fact, in American English (AE), the hyphen is mostly omitted, whereas in British English (BE) it is commonly used. Compare e.g., the two reviews \cite{abaninRecentProgressManybody2017} and \cite{abaninColloquiumManybodyLocalization2019}. Ref.~\cite{abaninRecentProgressManybody2017} was published by Annals of Physics (Berlin) which belongs to the german Wiley-VCH publisher and uses BE. Therefore one finds \emph{non-quilibrium,non-entangled,non-uniform,non-thermal,non-ergodic,non-local,non-trivial,non-interacting,non-Abelian,} etc.
-Ref.~\cite{abaninColloquiumManybodyLocalization2019} was published in Reviews of modern physics, an APS journal. In consequence, they write \emph{nonequilibrium,nonzero,noninteracting,nonuniform,nonthermal,nonvanishing,nonlocal,nonthermalizing}, but however, they write \emph{non-Abelian}. I went for the AE option, because I used AE everywhere else (behavior, neighbor, gray, etc.).
-When browsing papers to find out how issues like this are handled, the best idea is not to take the arXiv versions, as there is often no consistency even within a single paper, but the published versions that have undergone some form of post-editing by the publisher.
+Here’s something I've spent way too much time thinking about: Should it be `non-linear' or `nonlinear'?
+The prefix non- appears frequently in scientific writing, attached to various words. I noticed that its treatment is not consistent in the literature, even by the same authors. There are often inconsistencies within individual papers (especially in arXiv versions) and between the arXiv preprint and the published version, which has undergone editorial post-processing.
+Both variants are commonly used. In fact, American English (AE) typically omits the hyphen, whereas British English (BE) tends to include it.
+
+For example, compare the two reviews \cite{abaninRecentProgressManybody2017} and \cite{abaninColloquiumManybodyLocalization2019}. Ref.~\cite{abaninRecentProgressManybody2017} was published in Annals of Physics (Berlin), a journal from the German publisher Wiley-VCH, which follows BE conventions. As a result, it uses non-equilibrium, non-entangled, non-uniform, non-thermal, non-ergodic, non-local, non-trivial, non-interacting, non-Abelian, etc. In contrast, Ref.~\cite{abaninColloquiumManybodyLocalization2019}, published in Reviews of Modern Physics, an APS journal, follows AE conventions. Accordingly, it uses nonequilibrium, nonzero, noninteracting, nonuniform, nonthermal, nonvanishing, nonlocal, nonthermalizing (but for inknown reasons it still writes non-Abelian).
+
+Since I used AE spelling throughout my thesis (behavior, neighbor, gray, etc.), I decided to follow the AE convention for non compounds as well.
+
+There are several other expressions where no clear consensus on spelling exists, and both variants can be found in the literature. Examples include wavefunction vs. wave function, $x$-axis vs. $x$ axis (I used the latter version for both examples), and others.
+As always, whatever you decide, apply it consistently throughout the thesis.
