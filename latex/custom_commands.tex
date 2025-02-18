@@ -25,7 +25,7 @@
 
 
 
-% Move somewhere else.
+% Folder tree structure
 \usepackage[edges]{forest}
 \definecolor{folderbg}{RGB}{124,166,198}
 \definecolor{folderborder}{RGB}{110,144,169}
@@ -45,7 +45,7 @@
   pic dir tree/.style={%
     for tree={%
       folder,
-      font=\ttfamily,
+      font=\scriptsize\ttfamily,
       grow'=0,
     },
     before typesetting nodes={%
@@ -65,4 +65,4 @@
   pic me set={directory}{folder},
   pic me set={file}{file},
 }
-\newcommand{\fname}[2]{\begin{tabular}{m{5cm}@{\quad}m{7.5cm}}#1 & \normalfont\small#2\end{tabular}}
+\newcommand{\fname}[2]{\begin{tabular}{m{5cm}@{\quad}m{7.5cm}}#1 & \normalfont\footnotesize#2\end{tabular}}

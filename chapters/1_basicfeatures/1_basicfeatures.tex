@@ -156,39 +156,41 @@ See \figref{fig:folderstructure} for a concise overview, including the substruct
 
 \begin{figure}
 \begin{forest}
+	for tree = {inner sep=0pt,l=40pt},
   pic dir tree,
   where level=0{}{% folder icons by default; override using file for file icons
     directory,
   },
   [root
     [main\_thesis.tex, file]
-    [\fname{auxiliary}{all files for front and back matter}
-      [\fname{abstract.tex}{one file for each front/back matter section: abstract, title page, acknowledgments, final statement.}, file]
-      [\fname{logos}{Logos for title page}]
+    [\fname{auxiliary}{files for front and back matter}
+      [\fname{abstract.tex}{one file for each part of the front/back matter: title page, abstract, \ldots.}, file]
+      [\fname{logos}{Logos for title page, not included due to license issues.}]
     ]
-    [\fname{bib-files}{files with bibtex/biblatex entries}
-    	[\fname{bibliography1.bib}{One or more .bib files}, file]
+    [\fname{bib-files}{files with \texttt{bibtex}/\texttt{biblatex} entries}
+    	[\fname{bibliography1.bib}{.bib files}, file]
     ]
     [\fname{chapters}{main content}
     	[1\_introduction
-    		[\fname{1\_introduction.tex}{main .tex file for chapter 1}, file]
+    		[\fname{1\_introduction.tex}{main tex file for chapter 1}, file]
     		[\fname{figures}{figures for chapter 1}]
     		[\fname{tikz\_figures}{TikZ source code for figures in chapter 1}
-    		[\fname{tikz\_chap1\_fig1.tex}{A tex file for each figure in chapter 1}, file]
+    		[\fname{tikz\_chap1\_fig1.tex}{A \texttt{tex} file for each figure in chapter 1}, file]
+    		[\fname{data}{Data used by \texttt{tikz\_chap1\_fig1.tex}}]
     		]
     	]
-    	[\fname{...}{one folders for each chapter / appendix with equal substructure}]
+    	[\fname{...}{one folder for each chapter with equal substructure}]
     	[outline.tex, file]
     ]
-    [\fname{latex}{folder for style definitions}
-    	[\fname{layout.tex}{Layout settings}, file]
-    	[\fname{...}{more files for TikZ styles, color definitions, custom \LaTeX commands, BibLaTeX settings, etc.}, file]
+    [\fname{latex}{layout/style definitions}
+    	[\fname{layout.tex}{layout settings}, file]
+    	[\fname{...}{more files for TikZ styles, color definitions, custom \LaTeX commands, \texttt{biblatex} settings, etc.}, file]
     ]
     [.gitignore, file]
-    [\fname{otf/tff files with fonts}{optional font files}, file]
+    [\fname{otf/ttf files}{font files, not included in template}, file]
   ]
 \end{forest}
-\caption{\textbf{Structure of the template folder.}}
+\caption{\textbf{Structure of the root folder of the template.} The root folder contains the main file, font files, Git files, and four subfolders, two of which hold the actual content: \texttt{auxiliary} (for front and back matter) and \texttt{chapters} (for the main matter). The \texttt{chapters} folder includes a separate subfolder for each individual chapter, including the appendices. Each of these subfolders follows the same structure, containing a main \texttt{tex} file for the chapter, a \texttt{figures} folder, and, if TikZ/pgfplots is used, an optional \texttt{tikz\_figures} folder for the TikZ source code (with one file per figure) and associated data.}
 \label{fig:folderstructure}
 \end{figure}
 
@@ -249,7 +251,7 @@ Personally, I prefer the slimmer and more elegant semi-bold and regular weights 
 \newfontfamily{\mainsemibold}{myriadpro-semibold.otf}
 \addtokomafont{section}{\mainsemibold\Large\color{accentcolor2}}
 \end{lstlisting}
-Further details can be found in latex/layout.tex. This template does not contain any \verb|otf| files. Just google for them (or for the \verb|otf| or \verb|tff| files of your favorite font).
+Further details can be found in latex/layout.tex. This template does not contain any \verb|otf| files. Just google for them (or for the \verb|otf| or \verb|ttf| files of your favorite font).
 To compile this thesis without the \verb|otf| files at hand, simply comment lines 16--18 in \verb|layout.tex| and uncomment lines 20--21. In that case, you can even omit the \verb|fontspec| package.
 
 
