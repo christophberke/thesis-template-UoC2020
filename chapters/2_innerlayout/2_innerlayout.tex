@@ -1,4 +1,4 @@
-\chapter{Inner layouting, formatting and style}
+\chapter[Inner layouting, formatting and style]{Inner layouting,\\ formatting and style}
 \section{Formatting math environments and equations}
 
 \subsection{Multi-line equations}
@@ -35,25 +35,28 @@ If a single equation that extends over multiple lines and you want to number eac
 \end{subequations}
 
 \subsection{Indices}
-Any index consisting of more than one letter should not be italicized.
-If an index only consists of a single letter, then it is okay not to type it as, e.g., \verb|$E_k$|, yielding $E_k$. But $E_{kin}$ looks horrible! Instead, write \verb|$E_\text{kin}$|, yielding $E_\text{kin}$.
-Writing $cos(x)$ (\verb|$cos(x)$|) instead of $\cos(x)$ (\verb|$\cos(x)$|) falls into the same sacrilegious category.
+Any index consisting of more than one letter should not be italicized. \verb|$E_k$|/$E_k$ is fine but $E_{kin}$ looks horrible! Instead, write \verb|$E_\text{kin}$|, yielding $E_\text{kin}$.
+Writing $cos(x)$ (\verb|$cos(x)$|) instead of $\cos(x)$ (\verb|$\cos(x)$|) falls into the same sacrilegious category (and similar for $\sin,~\tan,~\log,\ldots$).
 
 \subsection{Displaying huge numbers}
 In both, American English and British English, one uses a comma to separate groups of thousands, for example $3{,}125{,}500$. One can enclose the comma in braces, \verb|3{,}125{,}500|, to get an optimal and stable spacing between the numbers. 
 
 \subsection{Bold math symbols}
-I use bold letters to represent vectors. The default approach, using \verb|$\textbf$| or \verb|$\mathbf$|) has the drawback that it does not work for all symbols. For example \verb|$\textbf{\sigma}$| is rendered as $\textbf{\sigma}$ and \verb|$\mathbf{\sigma}$| also results in $\mathbf{\sigma}$---no visible effect in either case.
-To properly typeset bold Greek symbols, I use the \verb|\bm| command from the \verb|bm| package: \verb|$\bm \sigma$| correctly produces $\bm \sigma$. While the \verb|\boldsymbol| command from the \verb|amsmath| package achieves a similar result, it is known to cause spacing issues \href{https://latex.org/forum/viewtopic.php?t=26738}{in some cases}. Hence, \verb|\bm| is often recommended as the preferred approach.
+I use bold letters to represent vectors. The default approach, using \verb|$\textbf$| or \verb|$\mathbf$|) does not work for all symbols. For example, both \verb|$\textbf{\sigma}$| and \verb|$\mathbf{\sigma}$| result in $\mathbf{\sigma}$. To properly typeset bold Greek symbols, use the \verb|\bm| command from the \verb|bm| package: \verb|$\bm \sigma$| correctly produces $\bm \sigma$. While the \verb|\boldsymbol| command from the \verb|amsmath| package achieves a similar result, it can cause spacing issues \href{https://latex.org/forum/viewtopic.php?t=26738}{in some cases}. Hence, \verb|\bm| is often recommended as the preferred approach.
 
+
+\subsection{Math in captions}
+Coming soon (maybe).
+%\usepackage{unicode-math}
+%\setmathfont{MdSymbol-Regular.otf}
 
 \section{How to make nice tables?}
 One aspect that is often overlooked in nearly all papers (including my own and probably also yours) is how to create beautiful and easy-to-read tables.
 
 Most importantly, do not use vertical rules!
-From `The Chicago Manual of Style' \cite{chicagoMOS}: ``To produce a clear, professional-looking table, rules should be used sparingly. Many tables will require just three rules, all of them horizontal---one at the very top of the table, below the title and above the column heads; one just below the column heads; and one at the bottom of the table, along the bottom of the last row. [\ldots] Vertical rules should be used sparingly.''
+From `The Chicago Manual of Style' \cite{chicagoMOS}: `To produce a clear, professional-looking table, rules should be used sparingly. Many tables will require just three rules, all of them horizontal---one at the very top of the table, [\ldots] one just below the column heads; and one at the bottom of the table. [\ldots] Vertical rules should be used sparingly.'
 
-I recommend the \verb|booktabs|, that provides the commands \verb|\toprule|, \verb|\midrule|, and \verb|\bottomrule| for clear separations. See \href{https://nhigham.com/2019/11/19/better-latex-tables-with-booktabs/}{here} for some examples and a discussion why \verb|booktabs| is the way to go. See \tabref{tab:table1} for a basic example, \tabref{tab:table2} for an example with multiple hierachy levels in $x$ and $y$ direction and \tabref{tab:table3} for an example of a side-by-side table with colored rows (see also \chapref{cha:colors}).
+I highly recommend the \verb|booktabs| package that provides the commands \verb|\toprule|, \verb|\midrule|, and \verb|\bottomrule| for clear horizontal separations. See \href{https://nhigham.com/2019/11/19/better-latex-tables-with-booktabs/}{here} for some examples and a discussion why \verb|booktabs| is the way to go. See \tabref{tab:table1} for a basic example, \tabref{tab:table2} for an example with multiple hierachy levels in $x$ and $y$ direction and \tabref{tab:table3} for an example of a side-by-side table with colored rows (see also \chapref{cha:colors}).
 
 \begin{table}
 \centering 
@@ -125,7 +128,7 @@ I recommend the \verb|booktabs|, that provides the commands \verb|\toprule|, \ve
 \subsection{Hyperlinks to subpanels}
 
 \section{Fine-tuning}
-Encountering one of the following (admittedly minor) errors or inconsistencies immediately puts me in a bad mood and makes me less neutral toward the content---sometimes even more than actual content---related mistakes. Sounds exaggerated? Definitely. But if you don’t know your readership, it’s worth making the effort to get it right. After all, you never know who will be reading your work---maybe it’s someone like me."
+Encountering one of the following (admittedly minor) errors or inconsistencies immediately puts me in a bad mood and makes me less neutral toward the content---sometimes even more than actual content-related mistakes. Sounds exaggerated? Definitely. However, it's definitely worth making the effort to get it right. After all, you never know who will be reading your work---maybe it’s someone like me.
 \subsection{Quotation marks}
 For verbatim citations, there are no strict rules on whether to use single or double quotation marks—for example, `This is a verbatim quotation' or ``This is a verbatim quotation.'' Make a choice and stick to it consistently throughout your thesis.
 
@@ -134,38 +137,33 @@ Most importantly: always use LaTeX's proper quotation mark syntax, i.e., \verb|`
 \subsection{Hyphens and dashes}
 There a three lengths of hyphens, the regular hyphen \verb|-|, the en dash \verb|--| and the em dash \verb|---|.
 This is what they look like when typeset: - vs. -- vs. ---.
-In my thesis, I used them as recommended in the Chicago manual of style:
+In my thesis, I used them as recommended in `The Chicago Manual of Style' \cite{chicagoMOS}::
 \begin{itemize}
 \item The hyphen (\verb|-|) is used to connect words that function together as a single concept or work together as a joint modifier, i.e., `well-defined concept' or `collision-free device'. Never use the single hyphen similar to brackets, e.g., to separate thoughts.
 \item The en dash (\verb|--|) connects things that are related by some form of distance, e.g. `pages 12--17', the `May--September issue', the `cycling race Milan--San Remo' or `a coupling strength of 10--15 MHz' (although for the latter `10 to 15 MHz' is probably better). A rare use case for typesetting nerds: Use \verb|--| instead of \verb|-| in a compound adjective. Specifically, an en dash is preferred when one element of the compound is itself an open compound. For example, the prefix post- is usually connected to the following word with a hyphen, but to connect it to the compound noun World War II, it's better to use an en dash, i.e., post--World War II vs. post-World War II.
-\item The em dash should be used to separate additional thoughts---like this. Here is an example from my thesis: `The insights gained for the simpler model---in particular, the existence of a quantum chaotic region---retain their validity for more elaborate frequency arrangements.' I use the em dashs without spaces as is usually recommended. Some style guides recommend the use of spaces --- like this --- and one also encounters the combination of en dashes with spaces -- like this. As always, the most important thing is consistency. Decide on a variant and use it consistently everywhere and always.
+\item The em dash should be used to separate additional thoughts---like this. Here is an example from my thesis: `The insights gained for the simpler model---in particular, the existence of a quantum chaotic region---retain their validity for more elaborate frequency arrangements.' I use the em dash without spaces as is usually recommended. Some style guides recommend the use of spaces --- like this --- and one also encounters the combination of en dashes with spaces -- like this. As always, the most important thing is consistency. Decide on a variant and use it consistently everywhere and always.
 \end{itemize}
 
 \subsection{Hurenkinder [sic!]}
 
-\LaTeX strives to create a visually harmonious layout, which includes preventing isolated lines from appearing on a new page. For example, consider a scenario where a chapter ends with a single line on an otherwise empty, odd-numbered page. Not only does this look aesthetically unpleasing, but it also unnecessarily extends the document by two pages, as the new chapter begins on the next odd-numbered page. 
-Such a stray line at the beginning of a page is called a widow
-and is widely regarded as a very serious typographical error.
-Fun fact: The German term for widow is `Hurenkind' (literally `whore's child'). The appropriate mnemonic: `A whore's child does not know where he is coming from.'
-A similar but slightly less severe issue occurs when a new paragraph or section starts at the very bottom of a page, leaving just one or two lines before the page break. This is known as an orphan in English and `Schusterjunge' in German.
+\LaTeX~strives to create a visually harmonious layout, which includes preventing isolated lines from appearing on a new page. Consider a scenario where a chapter ends with a single line on an otherwise empty, odd-numbered page. Not only does this look aesthetically unpleasing, but it also unnecessarily extends the document by two pages, as the new chapter begins on the next odd-numbered page. 
+Such a stray line at the beginning of a page is called a widow and is widely regarded as a very serious typographical error. Fun fact: The German term for widow is `Hurenkind' (literally `whore's child'). The appropriate mnemonic: `A whore's child does not know where it is coming from.'
+A less severe issue occurs when a new paragraph or section starts at the very bottom of a page, leaving just one or two lines before the page break. This is known as an orphan in English and `Schusterjunge' in German.
 
-Fortunately, \LaTeX is designed to prevent these issues automatically.
+Fortunately, \LaTeX usually prevent these issues automatically.
 If you still find that you have many orphans and widows in your thesis, you can try to increase the respective penalties using the commands
 \begin{lstlisting}
 \widowpenalty10000
 \clubpenalty10000
 \end{lstlisting}
-However, even raising the penalties cannot guarantee 100\% prevention. In one case, I rewrote a paragraph to get rid of a stubborn ``orphan''.
-Note that one can also add \verb|\usepackage[all]{nowidow}| to the preamble, but I have never used that package.
+Even raising the penalties cannot guarantee 100\% safety. In one case, I rephrased a paragraph to get rid of a stubborn ``orphan''.
+One can also add \verb|\usepackage[all]{nowidow}| to the preamble, but I have no experience with that package.
 
 \subsection{Nonlinear vs. non-linear and related issues}
 Here’s something I've spent way too much time thinking about: Should it be `non-linear' or `nonlinear'?
-The prefix non- appears frequently in scientific writing, attached to various words. I noticed that its treatment is not consistent in the literature, even by the same authors. There are often inconsistencies within individual papers (especially in arXiv versions) and between the arXiv preprint and the published version, which has undergone editorial post-processing.
-Both variants are commonly used. In fact, American English (AE) typically omits the hyphen, whereas British English (BE) tends to include it.
+The prefix `non' appears frequently in scientific writing, attached to various words. Its treatment is not consistent in the literature, even by the same authors. There are often inconsistencies within individual papers (especially in arXiv versions) or between the arXiv preprint and the published version, which has undergone editorial post-processing.
+Both variants are commonly used. In fact, American English (AE) typically omits the hyphen, whereas British English (BE) tends to include it. Since I used AE spelling throughout my thesis (behavior, neighbor, gray, etc.), I decided to follow the AE convention for `non' compounds as well.
 
-For example, compare the two reviews \cite{abaninRecentProgressManybody2017} and \cite{abaninColloquiumManybodyLocalization2019}. Ref.~\cite{abaninRecentProgressManybody2017} was published in Annals of Physics (Berlin), a journal from the German publisher Wiley-VCH, which follows BE conventions. As a result, it uses non-equilibrium, non-entangled, non-uniform, non-thermal, non-ergodic, non-local, non-trivial, non-interacting, non-Abelian, etc. In contrast, Ref.~\cite{abaninColloquiumManybodyLocalization2019}, published in Reviews of Modern Physics, an APS journal, follows AE conventions. Accordingly, it uses nonequilibrium, nonzero, noninteracting, nonuniform, nonthermal, nonvanishing, nonlocal, nonthermalizing (but for inknown reasons it still writes non-Abelian).
+As an example, compare the two reviews \cite{abaninRecentProgressManybody2017} and \cite{abaninColloquiumManybodyLocalization2019}. Ref.~\cite{abaninRecentProgressManybody2017} was published in Annals of Physics (Berlin), a journal from the German publisher Wiley-VCH, which follows BE conventions. As a result, it uses non-equilibrium, non-entangled, non-uniform, non-thermal, non-interacting, non-Abelian, etc. In contrast, Ref.~\cite{abaninColloquiumManybodyLocalization2019}, published in Reviews of Modern Physics, an APS journal, follows AE conventions. Accordingly, it uses nonequilibrium, nonzero, noninteracting, nonuniform, nonvanishing, nonlocal (but for unknown reasons it still uses non-Abelian).
 
-Since I used AE spelling throughout my thesis (behavior, neighbor, gray, etc.), I decided to follow the AE convention for non compounds as well.
-
-There are several other expressions where no clear consensus on spelling exists, and both variants can be found in the literature. Examples include wavefunction vs. wave function, $x$-axis vs. $x$ axis (I used the latter version for both examples), and others.
-As always, whatever you decide, apply it consistently throughout the thesis.
+There are several other expressions where no clear consensus on spelling exists, and both variants can be found in the literature. Examples include wavefunction vs. wave function or $x$-axis vs. $x$ axis (I used the latter version for both examples). As always, whatever you decide, apply it consistently throughout the thesis.
