@@ -226,7 +226,7 @@ I keep an additional folder \verb|tikz_figures| folder to store a separate .tex 
 \pgfplotsset{table/search path={\here/data}}				% Path to data used in tikz source code
 \tikzsetexternalprefix{chapters/3_colors/figures/}	% Path for storing of externalized tikz pdfs.
 \end{lstlisting}
-The \verb|\here| command is originally defined in the docuemnt preamble
+The \verb|\here| command is originally defined in the document preamble
 Then, to include a TikZ figure use
 \begin{lstlisting}
 \begin{figure}
@@ -242,7 +242,7 @@ Of course, there are many ways to organize the folder structure, especially rega
 
 \section[Layouting ``outer'' design elements]{Layouting outer design elements}
 
-If this template has a distinctive look, it's probably due to the layout of its outer design elements, i.e., the chapter and section headings, the header line, and the part page (though I’ve never used the latter). If you'd like to use this template but prefer not to fully adopt its visual style (which would also be totally fine---just look at all the \href{https://www.thp.uni-koeln.de/trebst/thesisprojects.shtml}{theses published in our group after mine}, as of January 25), the easiest approach is to customize these design elements in \verb|latex/layout.tex|.
+If this template has a distinctive look, it's probably due to the layout of its outer design elements, i.e., the chapter and section headings, the header line, and the part page the easiest approach is to customize these design elements in \verb|latex/layout.tex|. (But I am totally fine if you use the template as it is, see all the \href{https://www.thp.uni-koeln.de/trebst/thesisprojects.shtml}{theses published in our group after mine}, as of January 25.)
 
 
 \subsection{Accent colors}
@@ -255,12 +255,14 @@ Two accent colors are used for color highlighting, a cardinal red for captions a
 
 \subsection{Fonts}
 By default, \verb|scrbook| uses a sans-serif font for captions. While I generally like this approach, I was not satisfied with the defaul font and used the \verb|\fontspec| package to pick Myriad Pro, the OpenType version of the \href{https://en.wikipedia.org/wiki/Myriad_(typeface)}{Myriad font family}.
-Personally, I find the slimmer semi-bold and regular weights more elegant than traditional bold fonts, even for headlines, so I stick to using just these two. I simply googled for ``Myriad Pro otf files'' and downloaded the \verb|myriadpro-semibold.otf| and \verb|myriadpro-regular.otf| files (or whatever they're called) and saved them in the root folder. Then fonts can then, e.g., be set as follows:
+Personally, I find the slimmer semi-bold and regular weights more elegant than traditional bold fonts, even for headlines, so I stick to using just these two. I simply googled for ``Myriad Pro otf files'' and downloaded the \verb|myriadpro-semibold.otf| and \verb|myriadpro-regular.otf| files (or whatever they're called) and saved them in the root folder. New fonts can then, e.g., be set as follows:
 \begin{lstlisting}
 \newfontfamily{\mainsemibold}{myriadpro-semibold.otf}
 \addtokomafont{section}{\mainsemibold\Large\color{accentcolor2}}
 \end{lstlisting}
 For more details, see \verb|latex/layout.tex|.
+Note that this template does not ship with the otf/ttf files. You have to search for your preferred font for yourself.
+
 
 \subsection{Chapter headings}
 The most striking feature in this template are probably the chapter headings.
@@ -276,29 +278,27 @@ People have come up with plenty of great chapter heading styles, mine is also a 
 \paragraph{Adding linebreaks in chapter headings}
 I wasn’t always happy with how automatic line breaks were handled for long chapter headings. However, manually inserting line breaks can make the title appear awkward in the table of contents (ToC). The solution is to use the following syntax:
 \begin{lstlisting}
-\chapter[Many-body localization and quantum chaos in transmon quantum computers]{Many-body localization \\ and quantum chaos \\ in transmon quantum computers}
+\chapter[Many-body localization and quantum chaos in transmon quantum computers] {Many-body localization \\ and quantum chaos \\ in transmon quantum computers}
 \end{lstlisting}
 The text inside the square brackets appears in the ToC, while the curly brackets define how it is displayed in the chapter itself.
 
 \subsection{Part pages}
-I don't use part pages. I considered grouping the introductory chapters into one part and the results chapters into another, but I felt this created unnatural breaks in the work. In my view, part pages make sense only when dealing with completely disjoint topics, such as transmon physics and Kitaev spin liquids (KSL) in my case. However, since I placed everything related to KSL in a single appendix, I ultimately decided against using part pages.
-The only real argument in favor of part pages is that they look kind of cool, but that alone wasn’t enough to convince me.
+I don't use part pages. I considered grouping the introductory chapters into one part and the results chapters into another, but I felt this created unnatural breaks in the work. In my view, part pages make sense only when dealing with completely disjoint topics, such as transmon physics and Kitaev spin liquids (KSL) in my case. However, since I placed everything related to KSL in the appendix, I decided against using part pages.
+The only real argument in favor of part pages was that they look kind of cool, but that alone wasn’t enough to convince me.
 
-If you do want to use part pages, here’s how it works: The layout is defined here:
+If you do want to use part pages, here’s how it works: The layout is defined here in \verb|latex/layout.tex|,
 \begin{lstlisting}
-% ------------------------------------------------ %
 % Beginning of part page style 
-...
+...Modify this code to your needs...
 % End of part page style 
-% ------------------------------------------------ %
 \end{lstlisting}
-It can be easily customized, for example, by adding a monchrome background, color gradient or a background image. See \ref{part:examplepartpage} for an example of a part page.
+It can be easily customized, for example, by adding a monchrome background, color gradient or a background image, see the comments in \verb|latex/layout.tex|. See \ref{part:examplepartpage} for an example of a part page.
 
 \subsection{Sections, subsections, subsubsection and paragraphs}
 The appearence of all these lowerlevel headings is defined in \verb|latex/layout.tex| using the \verb|\addtokomafont| command. In my thesis, I never use \verb|subsubsections|, but occasionally, I use paragraphs.
 
 \subsection{Figure captions}
-To control the appearance of the figure captions, I use the |\verb|caption| package that allows very wide-ranging customization. For example, I wanted the font of the figure caption to be slightly smaller than the main text font. Again, see \verb|latex/layout.tex| for details and more options.
+To control the appearance of the figure captions, I use the \verb|caption| package that allows very wide-ranging customization. For example, I wanted the font of the figure caption to be slightly smaller than the main text font. Again, see \verb|latex/layout.tex| for details and more options.
 
 \subsection{Header}
 For the header, I use the \verb|scrlayer-scrpage| package from the KOMA-script bundle. I was already very satisfied with the standard appearance (chapter on even pages, section on odd pages) and only adapted the color and the font, see \verb|latex/layout.tex|.
