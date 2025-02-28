@@ -1,7 +1,7 @@
-# Create `colorblind' versions of some color schemes.
+% Create `colorblind' versions of some color schemes.
 
-# I. Matplotlib colors 
-# I.1 Normal Vision
+% I. Matplotlib colors 
+% I.1 Normal Vision
 \definecolor{matplotlibC0}{HTML}{1f77b4}
 \definecolor{matplotlibC1}{HTML}{ff7f0e}
 \definecolor{matplotlibC2}{HTML}{2ca02c}
@@ -13,7 +13,7 @@
 \definecolor{matplotlibC8}{HTML}{bcbd22}
 \definecolor{matplotlibC9}{HTML}{17becf}
 
-# I.2 Protanomaly
+% I.2 Protanomaly
 \definecolor{matplotlibC0-prot}{HTML}{4576B4}
 \definecolor{matplotlibC1-prot}{HTML}{C4881B}
 \definecolor{matplotlibC2-prot}{HTML}{999B28}
@@ -25,7 +25,7 @@
 \definecolor{matplotlibC8-prot}{HTML}{D1BB20}
 \definecolor{matplotlibC9-prot}{HTML}{97BACE}
 
-# I.3 Deuteranomaly
+% I.3 Deuteranomaly
 \definecolor{matplotlibC0-deut}{HTML}{3871B4}
 \definecolor{matplotlibC1-deut}{HTML}{E2A700}
 \definecolor{matplotlibC2-deut}{HTML}{778636}
@@ -37,7 +37,7 @@
 \definecolor{matplotlibC8-deut}{HTML}{C7B428}
 \definecolor{matplotlibC9-deut}{HTML}{73A9D1}
 
-# I.4 Tritanomaly
+% I.4 Tritanomaly
 \definecolor{matplotlibC0-trit}{HTML}{23779A}
 \definecolor{matplotlibC1-trit}{HTML}{FE7F7B}
 \definecolor{matplotlibC2-trit}{HTML}{23A0A4}
@@ -49,7 +49,7 @@
 \definecolor{matplotlibC8-trit}{HTML}{BBBDA3}
 \definecolor{matplotlibC9-trit}{HTML}{12BEDD}
 
-# 
+% 
 \definecolor{matplotlibC0-mono}{HTML}{646464}
 \definecolor{matplotlibC1-mono}{HTML}{989898}
 \definecolor{matplotlibC2-mono}{HTML}{707070}
@@ -60,6 +60,19 @@
 \definecolor{matplotlibC7-mono}{HTML}{7F7F7F}
 \definecolor{matplotlibC8-mono}{HTML}{ABABAB}
 \definecolor{matplotlibC9-mono}{HTML}{8E8E8E}
+
+\pgfplotscreateplotcyclelist{matplotlibmono}{
+	{matplotlibC0-mono},
+	{matplotlibC1-mono},
+	{matplotlibC2-mono},
+	{matplotlibC3-mono},
+	{matplotlibC4-mono},
+	{matplotlibC5-mono},
+	{matplotlibC6-mono},
+	{matplotlibC7-mono},
+	{matplotlibC8-mono},
+	{matplotlibC9-mono},				
+}
 
 \pgfplotscreateplotcyclelist{matplotlib}{
 	{matplotlibC0},
@@ -74,7 +87,7 @@
 	{matplotlibC9},				
 }
 
-\pgfplotscreateplotcyclelist{matplotlib-prot}{
+\pgfplotscreateplotcyclelist{matplotlibprot}{
 	{matplotlibC0-prot},
 	{matplotlibC1-prot},
 	{matplotlibC2-prot},
@@ -88,7 +101,7 @@
 }
 
 
-\pgfplotscreateplotcyclelist{matplotlib-deut}{
+\pgfplotscreateplotcyclelist{matplotlibdeut}{
 	{matplotlibC0-deut},
 	{matplotlibC1-deut},
 	{matplotlibC2-deut},
@@ -102,7 +115,7 @@
 }
 
 
-\pgfplotscreateplotcyclelist{matplotlib-trit}{
+\pgfplotscreateplotcyclelist{matplotlibtrit}{
 	{matplotlibC0-trit},
 	{matplotlibC1-trit},
 	{matplotlibC2-trit},
@@ -113,4 +126,86 @@
 	{matplotlibC7-trit},
 	{matplotlibC8-trit},
 	{matplotlibC9-trit},				
+}
+
+
+\definecolor{hcq-prot0}{HTML}{004488}
+\definecolor{hcq-prot1}{HTML}{CDAC34}
+\definecolor{hcq-prot2}{HTML}{835D67}
+\definecolor{hcq-prot3}{HTML}{000000}
+\definecolor{hcq-deut0}{HTML}{004588}
+\definecolor{hcq-deut1}{HTML}{D5B22F}
+\definecolor{hcq-deut2}{HTML}{A07A62}
+\definecolor{hcq-deut3}{HTML}{000000}
+\definecolor{hcq-trit0}{HTML}{094466}
+\definecolor{hcq-trit1}{HTML}{DCAA97}
+\definecolor{hcq-trit2}{HTML}{BB5564}
+\definecolor{hcq-trit3}{HTML}{000000}
+\definecolor{hcq-mono0}{HTML}{373737}
+\definecolor{hcq-mono1}{HTML}{ACACAC}
+\definecolor{hcq-mono2}{HTML}{757575}
+\definecolor{hcq-mono3}{HTML}{000000}
+
+\pgfplotscreateplotcyclelist{hcqdeut}{
+	{hcq-deut0},
+	{hcq-deut1},
+	{hcq-deut2},
+	{hcq-deut3},		
+}
+
+\pgfplotscreateplotcyclelist{hcqmono}{
+	{hcq-mono0},
+	{hcq-mono1},
+	{hcq-mono2},
+	{hcq-mono3},		
+}
+
+
+
+% Standard Latex colors: blue, red, green, orange
+
+\definecolor{latexblue}{HTML}{0000FF}
+\definecolor{latexred}{HTML}{FF0000}
+\definecolor{latexgreen}{HTML}{00FF00}
+\definecolor{latexorange}{HTML}{FF7F00}
+
+\definecolor{latexblue-prot}{HTML}{0023FF}
+\definecolor{latexred-prot}{HTML}{A23D18}
+\definecolor{latexgreen-prot}{HTML}{F3F700}
+\definecolor{latexorange-prot}{HTML}{C48813}
+
+\definecolor{latexblue-deut}{HTML}{0055FE}
+\definecolor{latexred-deut}{HTML}{D48800}
+\definecolor{latexgreen-deut}{HTML}{B9D435}
+\definecolor{latexorange-deut}{HTML}{E2A700}
+
+\definecolor{latexblue-trit}{HTML}{220095}
+\definecolor{latexred-trit}{HTML}{FF0046}
+\definecolor{latexgreen-trit}{HTML}{00FFFF}
+\definecolor{latexorange-trit}{HTML}{FE7F7A}
+
+\definecolor{latexblue-mono}{HTML}{1D1D1D}
+\definecolor{latexred-mono}{HTML}{4C4C4C}
+\definecolor{latexgreen-mono}{HTML}{969696}
+\definecolor{latexorange-mono}{HTML}{979797}
+
+\pgfplotscreateplotcyclelist{latexdefault}{
+	{latexblue},
+	{latexorange},		
+	{latexgreen},
+	{latexred},
+}
+
+\pgfplotscreateplotcyclelist{latexdeut}{
+	{latexblue-deut},
+	{latexorange-deut},		
+	{latexgreen-deut},
+	{latexred-deut},
+}
+
+\pgfplotscreateplotcyclelist{latexmono}{
+	{latexblue-mono},
+	{latexorange-mono},		
+	{latexgreen-mono},
+	{latexred-mono},
 }

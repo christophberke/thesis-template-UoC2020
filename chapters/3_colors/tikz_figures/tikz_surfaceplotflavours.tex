@@ -1,0 +1,67 @@
+% surface plots flavours.
+\pgfplotsset{colormap/Dark2}
+\begin{tikzpicture} 
+	\begin{groupplot}[
+		group style = {
+			group name = name1,
+			group size = 3 by 1,
+			vertical sep = .25cm,
+			horizontal sep = .5cm, 
+			},
+			view={0}{90},
+			simpleax1,
+			width = .68*\axisdefaultwidth,
+			height = .68*\axisdefaultwidth,
+			simpleax1,
+			xtick = {-6.28,0,6.28},
+			xticklabels = {$-2\pi$, $0$, $2\pi$},
+			ytick = {-6.28,0,6.28},
+			yticklabels = {$-2\pi$, $0$, $2\pi$},
+			xlabel = $x$,
+			ylabel style = {yshift = -0.4cm},
+			colorbar horizontal,
+			colorbar style={
+					axis line style = {line cap=rect},
+					ticklabel style = {font=\footnotesize},
+					thick,
+					at={(0,1.02)},   
+					xtick = {-1.5,0,1.5},       
+					anchor=below south west, 
+					width=1*\pgfkeysvalueof{/pgfplots/parent axis width},
+					xticklabel pos=upper,
+					xlabel = {$f(x)$},
+					axis on top,
+					xtick pos=right,
+					xlabel near ticks
+				}, 
+		]
+	
+		\nextgroupplot[colormap name = viridis, colorbar, ylabel = $y$, colorbar style={xlabel = {$f(x)$}}] 
+		\addplot3[samples = 30, surfstyle, domain=-6.29:6.29]{cos(deg(y)) + cos(deg(x))}; 
+
+		\nextgroupplot[colormap name = RdBu, yticklabel = \empty, colorbar style={xlabel = {$f(x)$}}]
+		\addplot3[surfstyle, domain=-6.29:6.29]{cos(deg(y)) + cos(deg(x))}; 
+
+		\nextgroupplot[ytick pos = right, yticklabel pos = right, ylabel = {$y$}, ylabel style = {yshift = 0.4cm}, colorbar = false, title = {A phase diagram}, title style = {font = \footnotesize}, ]
+		\addplot3[opacity = 0]{x}; 
+
+		\fill[SetA] (rel axis cs:0,0) rectangle (rel axis cs:0.33,0.33);
+		\fill[SetB] (rel axis cs:0.33,0) rectangle (rel axis cs:0.66,0.33);
+		\fill[SetC] (rel axis cs:0.66,0) rectangle (rel axis cs:1,0.33);
+
+		\fill[SetD] (rel axis cs:0,0.33) rectangle (rel axis cs:0.33,0.66);
+		\fill[SetE] (rel axis cs:0.33,0.33) rectangle (rel axis cs:0.66,0.66);
+		\fill[SetF] (rel axis cs:0.66,0.33) rectangle (rel axis cs:1,0.66);
+
+		\fill[SetG] (rel axis cs:0,0.66) rectangle (rel axis cs:0.33,1);
+		\fill[SetH] (rel axis cs:0.33,0.66) rectangle (rel axis cs:0.66,1);
+		\fill[SetI] (rel axis cs:0.66,0.66) rectangle (rel axis cs:1,1);
+
+
+
+	\end{groupplot} 
+
+	\node[text width=1em, anchor = south east]at (name1 c1r1.south east) {\subcaptionbox{\label{spfA}}{}};
+	\node[text width=1em, anchor = south east]at (name1 c2r1.north west) {\subcaptionbox{\label{spfB}}{}};	
+	\node[text width=1em, anchor = south east]at (name1 c3r1.north west) {\subcaptionbox{\label{spfC}}{}};
+\end{tikzpicture}

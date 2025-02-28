@@ -1,2 +1,328 @@
+% Externalization settings:
+\renewcommand{\here}{chapters/3_colors/tikz_figures}	% Set path to tikz source code
+\pgfplotsset{table/search path={\here/data}}			% Set path to data used in tikz source code
+\tikzsetexternalprefix{chapters/3_colors/figures/}		% Set path for externalized tikz pdfs.
+
+
+\input{latex/colorblindness.tex}
+\pgfplotsset{
+	simpleax1/.style = {
+		every x tick/.style={black},
+		every y tick/.style={black},
+		xtick pos=left,
+		ytick pos=left,
+		axis on top,
+		axis line style={thick, line cap = rect},
+		ticklabel style = {font=\footnotesize}
+	},
+	surfstyle/.style = {
+		surf, 
+		shader=interp,
+        samples=100,
+	},
+	colormap/RdBu,
+}
+
+\newcommand\lineplot{
+	\addplot+[ultra thick]table[]{lineplots.tex};
+	\addplot+[ultra thick]table[y index = 2]{lineplots.tex};
+	\addplot+[ultra thick]table[y index = 3]{lineplots.tex};
+	\addplot+[ultra thick]table[y index = 4]{lineplots.tex};
+}
+
+
 \chapter{Colors}\label{cha:colors}
-Coming soon.
+\tikzexternalenable % Enable tikzexternalization.
+
+This chapter explores key aspects of color selection, outlining fundamental requirements for an effective color scheme. Since line plots and surface plots are by far the most common types of visualizations, the chapter provides a detailed discussion of each. It examines common pitfalls and offers examples of both good and poor color choices for various use cases.
+
+\section{Introduction: What is a good color scheme?}
+Selecting well-suited colors is a surprisingly complex challenge, yet a well-designed colormap is crucial for effectively conveying information. An effective color scheme should ideally:
+\begin{itemize}
+	\item maximize perceptual resolution,
+    \item be distinguishable for color-blind readers, see Secs.~\ref{sec:lineplots} and \ref{sec:rainbow},
+    \item work in monochrome print,
+    \item be aesthetically pleasing,
+    \item perform well on both screens and paper (addressing the `RGB vs. CMYK' issue---colors that appear vibrant on screens, where they are created by mixing red (R), green (G), and blue (B) light, often look duller when converted to the CMYK color space used in printing),
+    \item respect semantic resonances\cite{linSelectingSemanticallyResonantColors2013} (e.g., `blue = cold' and `red = hot')\footnote{Note that such associations can vary depending on cultural conditioning. The association of `blue' with `cold' is nearly universal, but, e.g., the colour of mourning is white in Japan, but black in many western cultures.}. In my thesis, for example, surface plots often use red to indicate regions of quantum chaos and blue for localized regimes, as quantum chaos poses a threat to quantum computing, and red is instinctively associated with danger,
+    \item be perceptually uniform for surface plots (explained below),
+    \item maintain a consistent order for all viewers.
+\end{itemize}
+
+Depending on the specific use case, additional points may apply (see Moreland). The importance of color-blind accessibility should not be underestimated, given that approximately 6\% of all males have deutan color vision deficiency (green-blindness).
+Creating a colormap that meets all these criteria is difficult—if not impossible. Every good colormap is ultimately a compromise.
+
+\subsection{Useful resources}
+The good news is that most modern plotting tools come with well-designed default color cycles for line plots (e.g., Matplotlib or Makie) and colormaps for surface plots (e.g., the widely used \verb|viridis|). This means that if you're satisfied with the default appearance of your plot, you may not need to change anything. However, if you're not entirely happy with the look, there are plenty of excellent resources available online.
+
+In my thesis, I frequently used Paul Tol’s color schemes \cite{paultol}, which are specifically designed for color-blind accessibility, as well as the ColorBrewer colormaps \cite{colorbrewer}. Both resources are highly regarded and are integrated into various plotting libraries. In particular, the entire ColorBrewer palette is available in Julia’s ColorSchemes.jl package, as well as in Makie and pgfplots. A selection of Paul Tol's color schemes is also available via ColorSchemes.jl.
+Lastly, while I didn’t end up using any of the colormaps designed there, I found \href{https://www.vis4.net/palettes/}{vis4.net} \cite{chromajs} to be a handy tool. Built on \href{https://github.com/gka/chroma.js}{chroma.js}, it helps users create custom color palettes and provides a simulation of how the chosen colors appear to individuals with different types of color blindness.
+
+\subsection{The most important use cases}
+In my thesis, I had four different main use cases for colors, some with specific sub-cases:
+\begin{itemize}
+	\item Line plots:
+		\begin{itemize}
+			\item qualitative,
+			\item pairwise,
+			\item sequential. 
+		\end{itemize}
+	\item Surface plots:
+		\begin{itemize}
+			\item qualitative,
+			\item divergent,
+			\item sequential. 
+		\end{itemize}
+	\item Colored text or text on colored background, e.g. filled cells in tables, see e.g. \tabref{tab:table3}.
+	\item Other design elements, drawings, or accent colors (e.g., in captions).
+\end{itemize}
+The last category is straightforward: In cases where color perception does not affect the conveyed information---such as sketches of physical systems (e.g., a pendulum) or accent colors for headings---I based my choices purely on personal preference. The remaining use cases are discussed in more detail in the following sections.
+
+\section{Colors for text and background}
+{\color{dqblue} If you want to highlight text or table cells, it's essential to ensure high contrast between the background and the text.} 
+{\color{dqcyan} This means using dark colors for text on a white background (or as a background for white text) and bright backgrounds for dark text.}
+{\color{dqgreen} In my thesis, I rarely needed to apply colored text or backgrounds, but when I did, I was satisfied with the bright colors from the pale color palette and the dark colors from the dark color palette from Ref.~\cite{paultol}.} 
+{\color{dqyellow}(Incidentally, the dark palettes are used to color this paragraph.)}
+{\color{dqred} See Table CITE for an example of how the pale color palette can be used to fill table cells.}
+\colorbox{dqblue}{\color{white}Finally, this} \colorbox{dqcyan}{\color{white}is an example} \colorbox{dqgreen}{\color{white}of a bright text} \colorbox{dqyellow}{\color{white}snippet on a} \colorbox{dqred}{\color{white}dark background.}
+
+\section{Line plots}\label{sec:line_plots}
+
+The most common use cases for line plots are shown in \figref{fig:lineplotflavour}. 
+Panel~(a), the most frequent case, uses a qualitative (or categorical) color palette, here, Paul Tol's colorblind-safe bright palette. This approach is ideal when plotting different quantities in a single figure, which is by far the most common plot type in my thesis. Many excellent qualitative color palettes exist, including the default palettes of most plotting tools, such as Makies default Wong color theme \cite{wong2011}.
+
+Panel~(b) also employs a qualitative colormap, but with colors grouped into pairs that share a common base tone. A pairwise palette is useful when displaying a parameter-dependent quantity for two different parameter values, as it visually reinforces that the plotted curves represent the same physical quantity under different conditions. Here, Paul Tols' medium-contrast color scheme is used.
+
+Alternatively, instead of using color pairs, one could opt for a single color with different markers or line styles, which also greatly enhances readability for colorblind users or in monochrome print. 
+
+Panel~(c) demonstrates a sequential colormap, which is particularly useful when plotting a quantity that evolves as a function of an additional parameter (e.g., if you plot the magnetization as a function of the magnetic field, but for many different temperatures. This approach helps convey how the quantity changes---such as the sharpening of a transition as the temperature decreases or the system size increases.
+Unlike qualitative color schemes, there appears to be no studies on how to design an optimal sequential colormap for \emph{line} plots while ensuring sufficient contrast. My approach of sampling colors from maps originally designed for surface plots (e.g., those from ColorBrewer) is not always entirely satisfactory. Such colormaps often include bright hues that may lack sufficient contrast against a white background. For instance, I used Paul Tol's iridescent sequential color scheme (see, e.g. Fig.~4.19 in my thesis), but I think that one end of the colormap is slightly too bright. However, I believe one doesn't need to be overly rigid in these cases. The primary goal of this type of visualization is not to enable precise numerical readings of individual data points but rather to illustrate a broader trend---such as the steepening of a transition---with clarity, and a non-perfect color scheme can do that, see again Fig.~4.19 in my thesis. You should only take care to use a colormap whose colors are instinctively put in the same order by all people, see the discussion of the rainbow palette in \secref{sec:rainbow}.
+
+\begin{figure}
+	\centering
+	\tikzsetnextfilename{fig_lineplots_flavours}
+	\input{\here/tikz_lineplotflavours.tex}
+	\caption{\textbf{Different flavours of line plots.} (a) A qualitative color scheme (the bright color scheme from Ref.~\cite{paultol}. (b) A qualitative color scheme but with colors grouped into pairs (Ref.~\cite{paultol}'s medium-contrast color scheme. (c) A sequential color scheme, designed using Ref.~\cite{chromajs}. For a detailed discussion, see the main text.}
+	\label{fig:lineplotflavour}
+\end{figure}
+
+
+\subsection{Lineplots and color deficiency}
+
+Figure 1 compares three color palettes for line plots: 
+The top row uses the high-contrast palette from Ref.~\cite{paultol}, the middle row the first four colors of the standard Matplotlib palette and the bottom row the \LaTeX versions of the same color tones (blue, orange, green, red). The first column shows the original colors. The second column simulates deuteranomaly (partial loss of middle-wavelength photopigments, commonly known as green blindness), with a 70\% pigment loss (not  `deuteranopia', total color blindness). This simulation was generated using the \verb|deuteranopic| function from Julia’s \verb|Colors.jl| package. The last column presents the same plots after grayscale conversion, serving as an approximation for monochrome printouts.
+
+What are the key observations?
+First, the high-contrast palette performs exceptionally well for colorblind readers.
+All colors retain their basic hue and remain clearly distinguishable. Additionally, they exhibit distinct lightness levels, ensuring visibility after grayscale conversion (you may need to increase your screen brightness to differentiate between the grayscale versions of the blue and black lines).
+Second, the Matplotlib palette is moderately effective. It remains usable for individuals with deuteranomaly, though red and green appear muddier and more brownish, reducing distinguishability. This issue worsens as the percentage of pigment loss increases. Grayscale conversion significantly reduces contrast, with all colors except orange appearing nearly identical in brightness.
+
+Third, the LaTeX colors perform poorly. In my opinion, there is an aesthetic issue as the colors are visually unappealing. Red and green both shift towards a yellowish/orangish tone in the second column, making them harder to distinguish. This is a poor choice for readers with color vision deficiency. After grayscale conversion, green and orange become difficult to differentiate in the monochrome version.
+
+These examples illustrate the importance of carefully selecting colors to ensure accessibility for all readers. Disclaimer: The last column presents colors after grayscale conversion, which may not be identical to an actual monochrome printout, see \href{https://1800officesolutions.com/monochrome-vs-grayscale-printing/}{this discussion}. However, based on available discussions on the topic, the printed result should closely resemble the grayscale version.
+
+\begin{figure}
+	\centering 
+	\tikzsetnextfilename{fig_lineplots_colorblindness}
+	\input{\here/tikz_lineplotcolorblindness.tex}
+	\caption{\textbf{Line plots, color blindness and grayscale conversion.} The three rows show different color palettes. The top row uses the high-contrast palette from Ref.~\cite{paultol}. The middle row the default Matplotlib palette and the last row some default \LaTeX colors. The first column shows the original figures, the second column simulates green blindness and the last column shows the colors after grayscale conversion. See the main text for more details.}
+	\label{fig:lineplotcolorblindness}
+\end{figure}
+
+
+
+\section{Colormaps I: Basics}
+
+Besides line plots, surface plots, showing a color-coded quantity as a function of two variables are the second major plot type that you will certainly encounter in your thesis. Of course, it is possible to show a three-dimensional plot with an additional axis for the value of the function that replaces or supports the color coding. However, I always prefer a two-dimensional plot where the quantity of interest is only color-coded. In non-interactive, printed axis environments, I ususally think that a three-dimensional representation hides some of the informations or makes it a least more difficult to grasp.
+
+One distinguishes between sequential colormaps, divergent colormaps, and qualitative colormaps (along with some additional rare cases). Examples of each can be seen in \figref{fig:surfaceplotflavours}. The choice of colormap depends on the dataset and the message you want to convey.
+
+\begin{figure}
+	\centering
+	\tikzsetnextfilename{fig_surfaceplots_flavours}
+	\input{\here/tikz_surfaceplotflavours.tex}
+	\caption{\textbf{Different flavours of surface plots.} (a) A heatmap of the function $f(x) = \cos x + \cos y$, color-coded with the sequential \texttt{viridis} colormap. (b) The same function $f(x)$, encoded with ColorBrewer’s \texttt{RdBu} colormap. Note how panel (b) puts a stronger focus on division of the shown data in the three regions of high, low and intermediate values of $f(x)$. (c) A qualitative colormap (ColorBrewer's \texttt{Set1}), that is well suited to encode categorical data as, e.g., in a phase diagram. }
+	\label{fig:surfaceplotflavours}
+\end{figure}
+
+
+\subsection{Sequential colormaps}
+Sequential colormaps are ideal for data that progresses in a continuous, ordered manner without any particularly pivotal values. These colormaps transition from a highly saturated color to progressively desaturated shades, often increasing in luminance until they terminate at or close to white. The gradual shift in saturation and luminance maps naturally to scalar values, making sequential colormaps often the default choice in visualization software. A well-known example is the \texttt{viridis} colormap used in \figref{fig:surfaceplotflavours}(a), which is not only colorblind-friendly but also perceptually uniform---a very important property of a colormap that is explained further in the next section.
+
+\subsection{Diverging colormaps}
+Diverging colormaps contain two dominant color components, transitioning from one to the other through an unsaturated midpoint (typically white or yellow), see \figref{fig:surfaceplotflavours}(b). This design visually separates the data into three regions: low, midrange, and high values. Diverging colormaps are particularly useful for bimodal datasets, where values deviate from a central reference point. A classic example is a topographic elevation map, where sea level is represented in white, elevations below sea level in blue, and elevations above in tan.
+In my thesis, I used diverging colormaps to represent scalar values that remained on a plateau in both the localized and chaotic phases, with a transition occurring in an intermediate region. I found ColorBrewer’s \texttt{RdBu} colormap to be particularly effective, as it quickly and intuitively highlights the key point: chaos dominates one region, localization another, and a ``twilight zone'' exists in between. See, e.g., Fig.~4.13 in my thesis.
+
+One common drawback of diverging colormaps is the lack of a natural color ordering. To compensate for this, carefully selecting colors with intuitive associations---such as using `cool' colors for lower values and `warm' colors for higher values---can enhance readability.
+
+\subsection{Qualitative colormaps}
+Qualitative colormaps consist of a collection of highly distinguishable yet unordered colors. They are best suited for categorical data, where distinct values need to be visually separated but do not follow a natural sequence. A good application is phase diagrams, where different areas of, e.g., a two-parameter landscape are assigned unique colors based on the phase a system resides in.
+
+\subsection{Cyclic Colormaps}
+A use case I never encountered in my work is cyclic colormaps. These are designed for data where values wrap around at the endpoints, such as phase angles or times of day. Start and end colors are the same to convey periodicity in the data.
+
+
+\section{Color maps II: Nerdy knowledge}
+\href{https://xkcd.com/1882/}{Colors are a complicated issue.} There is a plethora of different, usually threedimensional color models: RGB, BGR, HSV, HSL, Lab, Luv and many more, where each color is specified by three parameters, e.g. the amount of red, green and blue (RGB), or hue, saturation and lightness (HSL).   
+
+Let's say that we picked two colors that should serve as the end colors of a yet to be defined colormap. We can think of this colormap as a line in a three-dimensional colorspace that connects these two endcolors. Say that we want to pick a discrete number of colors, maybe only 10. 
+For a good colormap, it is certainly reasonable to pick the colors in a way that guarantees that the `color distance' is the same for any two pairs of neighboring colors, e.g., the colors 1 and 2 should `differ as much' as the colors 2 and 3, and so on. At this point, we have no precise idea of what a distance between two colors actually is, but a naive guess is to simply take the Eucledian distance $||\vect{p}_1-\vect{p}_2||$, where $\vect{p}_i$ is the three-dimensional vector containing the three parameters that determine the color $i$. 
+Let's do that for 
+
+
+This is easily accomplished with Julia's \verb|Colors.jl| package and the \verb|\range| function:
+\begin{listing}[h]
+\begin{minted}[xleftmargin = 1.5cm]{julia} 
+c1, c2 = RGB(0.0, 1.0, 0.0), RGB(0.0, 0.0, 1.0)
+cmapRGB = range(c1, stop = c2, length = 10) 
+cmapHSV = range(HSV(c1), stop = HSV(c2), length = 10) 
+cmapLab = range(Lab(c1), stop = Lab(c2), length = 10) 
+\end{minted}
+\end{listing}
+This creates three arrays of color where the parameters of the respective color space change uniformly from \verb|c1| to \verb|c2|. For example, the blue (B) values of the colors in \verb|cmapRGB| are uniformely spaced, $0,\frac{1}{9},\frac{2}{9},\ldots,1$, and similarly for the hue (H) values in  \verb|cmapHSV|, taking the values $120,133\frac{1}{3},146\frac{2}{3},\ldots,240$.
+The resulting color arrays are shown in \figref{fig:colorspaces}. Note that the end colors are the same, but the intermediate colors depend on the colorspace in which we interpolate. The most striking feature is, that even though all colors from the HSV map have the same distance in the three-dimensional HSV space, the greenish colors are barely distinguishable, whereas the blueish colors are very distinct. This would constitute a very bad color map as it would lead to `flat' areas where differences between scalar values are not correctly resolved. To a lesser extend, the RGB colors suffer from a similar problem near the blue end.
+
+Die Hauptaussage dieses kleinen Experiments ist: Ein vernuenftiger Abstand zwischen zwei Farben misst sich nicht in dem Abstand in einem Color Space, sondern darin wie das menschliche Auge und Gehirn Farbunterschiede interpretieren!
+For example, researchers have found that the human brain perceives changes in the lightness parameter as changes in the data much better than, for example, changes in hue. Therefore, colormaps which have monotonically increasing lightness through the colormap will be better interpreted by the viewer.
+
+
+Scientifically derived colour maps are perceptually uniform. This means the same data variation is weighted equally across the dataspace, and so the true data variation is accurately represented without unnecessary visual error (Fig. 3a, c, e, g, i). Just like a spatial x-, y-, or z-axis needs to have equal spacing between all axis tick marks (Fig. 3g, h), a colour axis (commonly termed colour bar; Supplementary Fig. 1) needs to have equidistant colour gradients. In other words, a certain data variation should appear the same no matter whether it occurs at low temperatures or high temperatures.
+
+The colour bar should be perceptually uniform to prevent data distortion and visual error. This means the perceptual colour differences between all neighbouring colours should appear the same. If two neighbouring colours have a different variation compared to other neighbouring colours (e.g., two greenish versus two yellowish-reddish colours in rainbow colour maps), the colour bar is perceptually non-uniform and not scientific (as shown in Fig. 4).
+
+\begin{figure}
+	\centering
+	\tikzsetnextfilename{fig_colorspaces}
+	\input{\here/tikz_colorspaces.tex}
+	\caption{xxx}
+	\label{fig:colorspaces}
+\end{figure}
+
+
+
+
+
+% \begin{tikzpicture} 
+% 	\begin{groupplot}[
+% 		group style = {
+% 			group name = name1,
+% 			group size = 2 by 1,
+% 			vertical sep = 1cm,
+% 			horizontal sep = 1cm, 
+% 			},
+% 			view={0}{90},
+% 			simpleax1,
+% 		]
+	
+% 		\nextgroupplot[colormap/jet, colorbar horizontal]
+% 		% \addplot3[surfstyle, samples = 500, domain = 0:7, y domain = 0:1]{(1 - y) * cos(deg(x)*cos(deg(x)))}; 
+% 		\addplot3[surfstyle, samples = 500, domain = 0:7, y domain = 0:1]{cos(deg(x))}; 
+		 
+% 		% \nextgroupplot[colormap/viridis, colorbar horizontal] 
+% 		% \addplot3[surfstyle]{cos(deg(y)) + cos(deg(x))}; 
+	
+% 	\end{groupplot} 
+% \end{tikzpicture}
+
+
+
+% Why is viridis a good color map? Perceptional 
+
+
+
+% Describe example...
+
+% Main message: Human perception does not linearly 
+% .
+% What we actually want is that colors that are equally apart in our colormap are also perceived by the human eye / brain as equally apart.
+% The $\Delta E$ we are looking for is actually the difference in the perception! to define such a dE, one needs to know a lot about how the eye/brean mechanism of color perception works one has to work with real humans! That goes back to the 30. One can come up with a good measure, has been refined, etc.
+%  Let us see how our three colormaps perform agains this metric.
+
+
+
+% it makes sense to choose the colors in a way that ensures 
+% It makes a lot of 
+% Besides being colorblind-friendly, the most reasonable claim is that the distance between 
+
+
+
+% \section{Know the enemy: An example of a really bad colormap}\label{sec:rainbow}
+
+
+
+% A colormap is a one-dimensional subspace of 
+
+
+
+% There are plenty of different color spa
+
+
+
+
+
+% perceptually uniform colorspaces are and why you should be using them:
+% Unfortunately many widely used colour maps 1 provided by vendors have
+% highly uneven perceptual contrast. Colour maps may have points of locally
+% high colour contrast leading to the perception of false anomalies in your data
+% when there is none. Conversely colour maps may also have ‘flat spots’ of
+% low perceptual contrast that prevent you from seeing features in the data.
+% In many cases these problems arise because the colour maps have been
+% designed as piecewise linear paths through RGB space
+
+
+
+
+% Perceptual uniformity: Same distance in color (difficult! Has to do with color perception, i.e. human vision), same distance in space. 
+% Not colorblind safe.
+% Not same order!
+% Mach bands!
+
+
+
+% This is the Mach band plot.
+% \begin{tikzpicture} 
+% 	\begin{groupplot}[
+% 		group style = {
+% 			group name = name1,
+% 			group size = 2 by 1,
+% 			vertical sep = .25cm,
+% 			horizontal sep = .25cm, 
+% 			},
+% 			view={0}{90},
+% 			simpleax1,
+% 			width = .7*\axisdefaultwidth,
+% 			height = .7*\axisdefaultwidth,
+% 			simpleax1,
+% 			xtick = {-6.28,0,6.28},
+% 			xticklabels = {$-2\pi$, $0$, $2\pi$},
+% 			ytick = {-6.28,0,6.28},
+% 			yticklabels = {$-2\pi$, $0$, $2\pi$},
+% 			xlabel = $x$,
+% 			ylabel style = {yshift = -0.4cm},
+% 			colorbar horizontal,
+% 			colorbar style={
+% 					axis line style = {line cap=rect},
+% 					ticklabel style = {font=\footnotesize},
+% 					thick,
+% 					at={(0,1.02)},            
+% 					anchor=below south west, 
+% 					width=1*\pgfkeysvalueof{/pgfplots/parent axis width},
+% 					xticklabel pos=upper,
+% 					xlabel = {$f(x)$},
+% 					axis on top,
+% 					xtick pos=right,
+% 					xlabel near ticks
+% 				}, 
+% 		]
+	
+% 		\nextgroupplot[colormap name = RdBu, colorbar, ylabel = $y$] 
+% 		\addplot3[samples = 30, surfstyle, domain=-6.29:6.29]{cos(deg(y)) + cos(deg(x))}; 
+
+% 		\nextgroupplot[colormap name = coolwarm, yticklabel = \empty]
+% 		\addplot3[surfstyle, domain=-6.29:6.29]{cos(deg(y)) + cos(deg(x))}; 
+
+% 	\end{groupplot} 
+% \end{tikzpicture}
+
+
+% \section{Summary}

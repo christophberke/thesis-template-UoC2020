@@ -1,0 +1,58 @@
+\begin{tikzpicture}
+	\begin{groupplot}[
+		group style = {
+			group name = lineplots,
+			group size = 3 by 3,
+			vertical sep = .25cm,
+			horizontal sep = .25cm, 
+			},
+		width = .7*\axisdefaultwidth,
+		height = .7*\axisdefaultheight,
+		enlargelimits = 0.05,
+		simpleax1,
+		yticklabel = \empty,
+		xticklabel = \empty
+		]
+
+		\nextgroupplot[cycle list name = highcontrast] 
+		\lineplot
+
+		\nextgroupplot[cycle list name = hcqdeut] 
+		\lineplot
+
+		\nextgroupplot[cycle list name = hcqmono] 
+		\lineplot
+
+		\nextgroupplot[cycle list name = matplotlib, ylabel = {$y$ axis}] 
+		\lineplot
+		
+		\nextgroupplot[cycle list name = matplotlibdeut] 
+		\lineplot
+
+		\nextgroupplot[cycle list name = matplotlibmono] 
+		\lineplot
+		
+		\nextgroupplot[cycle list name = latexdefault] 
+		\lineplot
+
+		\nextgroupplot[cycle list name = latexdeut, xlabel = {$x$ axis}] 
+		\lineplot 
+
+		\nextgroupplot[cycle list name = latexmono] 
+		\lineplot
+
+	\end{groupplot} 
+
+	\node[xshift = .5ex]at (lineplots c1r1.north west) {\subcaptionbox{\label{lpa}}{}};
+	\node[xshift = .5ex]at (lineplots c2r1.north west) {\subcaptionbox{\label{lpb}}{}};
+	\node[xshift = .5ex]at (lineplots c3r1.north west) {\subcaptionbox{\label{lpc}}{}};
+
+	\node[xshift = .5ex]at (lineplots c1r2.north west) {\subcaptionbox{\label{lpd}}{}};
+	\node[xshift = .5ex]at (lineplots c2r2.north west) {\subcaptionbox{\label{lpe}}{}};
+	\node[xshift = .5ex]at (lineplots c3r2.north west) {\subcaptionbox{\label{lpf}}{}};
+	
+	\node[xshift = .5ex]at (lineplots c1r3.north west) {\subcaptionbox{\label{lpg}}{}};
+	\node[xshift = .5ex]at (lineplots c2r3.north west) {\subcaptionbox{\label{lph}}{}};
+	\node[xshift = .5ex]at (lineplots c3r3.north west) {\subcaptionbox{\label{lpi}}{}};
+
+\end{tikzpicture}
