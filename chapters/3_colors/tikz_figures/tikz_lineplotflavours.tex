@@ -1,0 +1,38 @@
+% tikz_lineplotflavours.tex
+\begin{tikzpicture} 
+	\begin{groupplot}[
+		group style = {
+			group name = lpflavour,
+			group size = 3 by 1,
+			vertical sep = .25cm,
+			horizontal sep = .25cm, 
+			},
+		width = .75*\axisdefaultwidth,
+		height = .75*\axisdefaultheight,
+		enlargelimits = 0.05,
+		simpleax1,
+		yticklabel = \empty,
+		xticklabel = \empty,
+		ylabel style = {yshift = -0.4cm}
+		]
+	
+		\nextgroupplot[cycle list name = bright, ylabel = {$y$ axis}] 
+		\lineplot
+
+		\nextgroupplot[cycle list name = mediumcontrast, xlabel = {$x$ axis}]
+		\addplot+[domain = 0:3.2, ultra thick, samples = 200] {cos(deg(x))}; 
+		\addplot+[domain = 0:3.2, ultra thick, samples = 200] {cos(deg(1.15*x))}; 
+		
+		\addplot+[domain = 0:3.2, ultra thick] {0.5 * x - 1}; 
+		\addplot+[domain = 0:3.2, ultra thick] {0.55 * x - 0.9}; 
+
+		\nextgroupplot[cycle list name = SCM]
+		\foreach \i in {1,...,9}{
+		\addplot+[domain = 0:3.2, ultra thick, samples = 200] {cos(deg(sqrt(\i) * x))}; 
+		}
+
+	\end{groupplot} 
+	\node[text width=1em, anchor=south, yshift=.5ex, xshift = .5ex]at(lpflavour c1r1.north west){\subcaptionbox{\label{lpfa}}{}};
+	\node[text width=1em, anchor=south, yshift=.5ex, xshift = .5ex]at(lpflavour c2r1.north west){\subcaptionbox{\label{lpfb}}{}};
+	\node[text width=1em, anchor=south, yshift=.5ex, xshift = .5ex]at(lpflavour c3r1.north west){\subcaptionbox{\label{lpfc}}{}};
+\end{tikzpicture}
