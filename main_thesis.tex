@@ -28,8 +28,13 @@
 \usepackage{dsfont}
 \usepackage{bbding}
 
+% Needed in chapter 3.
+\usepgfplotslibrary{groupplots}
+\usepgfplotslibrary{colorbrewer}
 
 % For folder tree
+\usepackage[newfloat]{minted}
+\usemintedstyle{default}
 \usepackage{bookmark}
 \usepackage{dirtytalk}
 \usepackage{dirtree}
@@ -46,7 +51,6 @@
 
 \usepackage[labelformat=simple]{subcaption}
 \renewcommand\thesubfigure{(\alph{subfigure})}
-
 
 \usepackage[
 	natbib = true,
@@ -83,21 +87,25 @@
 }
 
 % Overwrite \chapter to turn of tikzexternalization of chapter title
-% \let\oldchapter\chapter		% Store \chapter in \oldchapter
-% \renewcommand{\chapter}{	%
-% 	\tikzexternaldisable
-% 	\oldchapter%
-% }
+\let\oldchapter\chapter		% Store \chapter in \oldchapter
+\renewcommand{\chapter}{	%
+	\tikzexternaldisable
+	\oldchapter%
+}
 
 % \widowpenalty10000
 % \clubpenalty10000
 
 % For setting paths for tikz/
+\usetikzlibrary{external}
+\tikzexternalize
+\pgfplotsset{compat = 1.18}
 \newcommand{\here}{here}
 
 % To control depth of ToC (0 = chapters, 1 = sections, etc)
 % \setcounter{tocdepth}{2}
 
+\includeonly{chapters/3_colors/3_colors}
 \begin{document}
 	
 	%%%%%%%%%%%%%%%%%%%% Front part %%%%%%%%%%%%%%%%%%%%
@@ -132,6 +140,7 @@
 	\include{chapters/4_biblatex/4_biblatex}			% Regular chapter
 	\include{chapters/5_remarks/5_remarks}			% Regular chapter
 
+	\tikzexternaldisable
 	\chapterimage
 	\part{Example part page}\label{part:examplepartpage}
 
