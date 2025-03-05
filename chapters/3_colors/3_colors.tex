@@ -21,7 +21,23 @@
         samples=100,
 	},
 	colormap/RdBu,
+	legend1/.style = 
+	{
+		font = \footnotesize,
+		legend cell align={left},
+		draw = none,
+		/pgfplots/legend image code/.code={
+			\draw[mark repeat=2,mark phase=2] 
+			plot coordinates {
+				(0cm,0cm) 
+				(0.2cm,0cm)
+				(0.4cm,0cm)
+			};
+		}
+	},
 }
+
+
 
 \newcommand\lineplot{
 	\addplot+[ultra thick]table[]{lineplots.tex};
@@ -183,12 +199,31 @@ This creates three arrays of color where the parameters of the respective color 
 The resulting color arrays are shown in \figref{fig:colorspaces}. Note that the end colors are the same, but the intermediate colors depend on the colorspace in which we interpolate. The most striking feature is, that even though all colors from the HSV map have the same distance in the three-dimensional HSV space, the greenish colors are barely distinguishable, whereas the blueish colors are very distinct. This would constitute a very bad color map as it would lead to `flat' areas where differences between scalar values are not correctly resolved. To a lesser extend, the RGB colors suffer from a similar problem near the blue end.
 
 Die Hauptaussage dieses kleinen Experiments ist: Ein vernuenftiger Abstand zwischen zwei Farben misst sich nicht in dem Abstand in einem Color Space, sondern darin wie das menschliche Auge und Gehirn Farbunterschiede interpretieren!
+A good colormap is \emph{perceptually uniform}:
+In a topographic elevation map, a change in altitude from 1500 meters below sea level to 1200 meters below sea level (i.e., a shift from dark blue to a lighter blue) should be interpreted as the same raise in height as a stept from 1000 meters above sea level to 1300 meters above sea level, i.e., (more tanned).
+Just like a certain distance on the $x$ or $y$ axis of a regular 2D axis always means the step on the scale.
+
+This allows us to specify our sofar only vague idea about a distance measure in color space: it should incorporate not only details about the actual colors but also about how these are processed by the human eye and brain. Unsurprisingly, this is a complicated issue, not fully understood and requires field studies.
+
 For example, researchers have found that the human brain perceives changes in the lightness parameter as changes in the data much better than, for example, changes in hue. Therefore, colormaps which have monotonically increasing lightness through the colormap will be better interpreted by the viewer.
 
+We can have a look at the lightness of the ten colors of our maps and see whether our intuition (Lab is best, followed by RGB and then by HSV) was correct.
 
-Scientifically derived colour maps are perceptually uniform. This means the same data variation is weighted equally across the dataspace, and so the true data variation is accurately represented without unnecessary visual error (Fig. 3a, c, e, g, i). Just like a spatial x-, y-, or z-axis needs to have equal spacing between all axis tick marks (Fig. 3g, h), a colour axis (commonly termed colour bar; Supplementary Fig. 1) needs to have equidistant colour gradients. In other words, a certain data variation should appear the same no matter whether it occurs at low temperatures or high temperatures.
+It is not a coincidence that Lab performs best: It is an example of a perceptually uniform color space that was specifically designed to allow for perceptual uniform colors by choosing regular points in a color space. The L turns out to be precisely the lightness (and the data in Fig. xx was created by converting all colors to Lab colors and then extract the `L' parameter.)
+There are a variety of perceptual uniform color spaces, the first one being the CIE... , (where CIE stands for Commission internationale de l'éclairage ) defined in 1936 which was replaced by the imporved Lab and Luv spaces in 1976. 
 
-The colour bar should be perceptually uniform to prevent data distortion and visual error. This means the perceptual colour differences between all neighbouring colours should appear the same. If two neighbouring colours have a different variation compared to other neighbouring colours (e.g., two greenish versus two yellowish-reddish colours in rainbow colour maps), the colour bar is perceptually non-uniform and not scientific (as shown in Fig. 4).
+ International Commission on Illumination calls
+
+
+As our understanding of color perception matures, increasingly better metrics for a color distance (according to the CIE usually called $\Delta E^*$, where $E$ stands for the German word `Empfindung') become available. The first definition of $\Delta E^*$ (from 1976) is simply the Eucledian distance in the Lab color space.
+This definition has been updated several times when it was discovered, that the CIELAB is not perfectly perceptual uniform.
+CIELAB space turned out to be not as perceptually uniform as intended, especially in the saturated regions. 
+The current definition is called CIEDE2000, usually abbreviated as $\Delta E^*_{00}$ and--when written in terms of the Lab parametrs becomes a pretty ugly thing.
+
+Fig.dd does not only show the lightness but also the metrics ... 
+
+
+
 
 \begin{figure}
 	\centering
@@ -199,6 +234,65 @@ The colour bar should be perceptually uniform to prevent data distortion and vis
 \end{figure}
 
 
+\begin{figure}
+	\centering
+	\tikzsetnextfilename{fig_colordiffs}
+	\input{\here/tikz_colordiffs.tex}
+	\caption{xxx}
+	\label{fig:colordiffs}
+\end{figure}
+
+% \begin{figure}
+% 	\centering
+% 	\tikzsetnextfilename{fig_colorbars}
+% 	\input{\here/tikz_colorbars.tex}
+% 	\caption{xxx}
+% 	\label{fig:colorbars}
+% \end{figure}
+
+
+% \begin{figure}
+% 	\centering
+% 	\tikzsetnextfilename{fig_sensitivityfunction}
+% 	\input{\here/tikz_sensitivityfunction.tex}
+% 	\caption{xxx}
+% 	\label{fig:sensitivityfunction}
+% \end{figure}
+
+
+% \begin{figure}
+% 	\centering
+% 	\tikzsetnextfilename{fig_sensitivityCVD}
+% 	\input{\here/tikz_sensitivityCVD.tex}
+% 	\caption{xxx}
+% 	\label{fig:sensitivityCVD}
+% \end{figure}
+
+% \begin{figure}
+% 	\centering
+% 	\tikzsetnextfilename{fig_cmapanalytics}
+% 	\input{\here/tikz_cmapanalytics.tex}
+% 	\caption{Note: Scales are not directly comparable! But shape of each individual line is what matters here.}
+% 	\label{fig:cmapanalytics}
+% \end{figure}
+
+% \begin{figure}
+% 	\centering
+% 	\tikzsetnextfilename{fig_machbands}
+% 	\input{\here/tikz_machbands.tex}
+% 	\caption{\textbf{Mach bands.}}
+% 	\label{fig:machbands}
+% \end{figure}
+
+
+% Here is how you define a new ColorScheme:
+% \begin{listing}[h]
+% \begin{minted}[xleftmargin = 1.5cm]{julia} 
+% using Colors, ColorSchemes
+% cividis_cols = ColorSchemes.cividis.colors
+% cividis_protanopic = ColorScheme(protanopic.(cividis_cols, 1))
+% \end{minted}
+% \end{listing}
 
 
 
@@ -279,50 +373,6 @@ The colour bar should be perceptually uniform to prevent data distortion and vis
 
 
 
-% This is the Mach band plot.
-% \begin{tikzpicture} 
-% 	\begin{groupplot}[
-% 		group style = {
-% 			group name = name1,
-% 			group size = 2 by 1,
-% 			vertical sep = .25cm,
-% 			horizontal sep = .25cm, 
-% 			},
-% 			view={0}{90},
-% 			simpleax1,
-% 			width = .7*\axisdefaultwidth,
-% 			height = .7*\axisdefaultwidth,
-% 			simpleax1,
-% 			xtick = {-6.28,0,6.28},
-% 			xticklabels = {$-2\pi$, $0$, $2\pi$},
-% 			ytick = {-6.28,0,6.28},
-% 			yticklabels = {$-2\pi$, $0$, $2\pi$},
-% 			xlabel = $x$,
-% 			ylabel style = {yshift = -0.4cm},
-% 			colorbar horizontal,
-% 			colorbar style={
-% 					axis line style = {line cap=rect},
-% 					ticklabel style = {font=\footnotesize},
-% 					thick,
-% 					at={(0,1.02)},            
-% 					anchor=below south west, 
-% 					width=1*\pgfkeysvalueof{/pgfplots/parent axis width},
-% 					xticklabel pos=upper,
-% 					xlabel = {$f(x)$},
-% 					axis on top,
-% 					xtick pos=right,
-% 					xlabel near ticks
-% 				}, 
-% 		]
-	
-% 		\nextgroupplot[colormap name = RdBu, colorbar, ylabel = $y$] 
-% 		\addplot3[samples = 30, surfstyle, domain=-6.29:6.29]{cos(deg(y)) + cos(deg(x))}; 
-
-% 		\nextgroupplot[colormap name = coolwarm, yticklabel = \empty]
-% 		\addplot3[surfstyle, domain=-6.29:6.29]{cos(deg(y)) + cos(deg(x))}; 
-
-% 	\end{groupplot} 
-% \end{tikzpicture}
 
 
 % \section{Summary}
