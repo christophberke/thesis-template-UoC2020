@@ -179,6 +179,7 @@ A use case I never encountered in my work is cyclic colormaps. These are designe
 
 
 \section{Color maps II: Nerdy knowledge}
+\subsection{Perceptual uniformity}
 \href{https://xkcd.com/1882/}{Colors are a complicated issue.} There is a plethora of different, usually threedimensional color models: RGB, BGR, HSV, HSL, Lab and many more. Each color is specified by three parameters, e.g. the amount of red, green and blue (RGB), or hue, saturation and lightness (HSL).   
 
 Let's say that we picked two colors as the end colors of a yet to be defined colormap. We can think of this colormap as a line in a threedimensional colorspace connecting the end colors. We want a discrete number of colors, say ten. It is certainly reasonable to choose the colors such that their `distance' is the same for any two pairs of neighboring colors, e.g., the colors 1 and 2 should `differ as much' as 2 and 3, and so on. At this point, we have no precise idea of what a color distance actually is. A naive guess is to take the Eucledian distance $||\vect{p}_1-\vect{p}_2||$, where $\vect{p}_i$ is the vector of the three parameters that determine the color $i$.  Let's do this for three colorspaces: RGB, HSV, and Lab. This is easily accomplished with Julia's \verb|Colors.jl| package:
@@ -238,6 +239,29 @@ The CIE also introduced various color distance metrics, typically denoted as $\D
 Per definition, $\Delta E^*_{ab}$ remains constant for the Lab colors, while it peaks in the other two cases and decreases toward the edges. For $\Delta E^*_{00}$, the absolute magnitude is particularly significant: as noted earlier, colors in the green (HSV) and blue (RGB) regions are hard to distinguish. This is reflected in the $\Delta E^*_{00}$ values, which approach zero in those areas, whereas in the Lab space, a certain minimum distance is consistently maintained.
 
 
+\subsection{Mach bands in diverging color maps}
+
+Diverging colormaps typically pass through an unsaturated midpoint, often white. As a result, creating a perceptually uniform colormap by interpolating colors in the Lab color space (as done previously) is not possible. One possible approach is piecewise interpolation, i.e., moving from one color to white and then taking a sharp turn.  Such a sudden transition from increasing to decreasing lightness can activate the human eye's edge-detection mechanisms and create artificial visual features called Mach bands. It is often beneficial to soften the lightness gradient near the midpoint to avoid abrupt visual edges. This comes at the cost of a slight perceptual flat spot around the vanishing lightness gradient. For technical details on how to smoothen the lightness transition, see, e.g., Refs.~\cite{moreland2009} and KOVESI.
+
+\figref{fig:machbands} compares two diverging colormaps applied to the function $f(x) = \cos x + \cos y$. The colormaps share identical edge colors, but (a) has a sharp peak in lightness, while (c) has a smoother transition. The respective lightness values are shown in panel (b). In (a), the peak creates white Mach bands, whereas in (c), these artificial features are absent, thanks to the flattened lightness transition.
+While (c) may be preferable in many situations, it is not always the better choice. In some cases, a sharp transition can be desirable, especially when the white midpoint carries specific significance. For example, in \figref{fig:machbands}, the contour lines where $f(x)=0$ could represent the Fermi lines of a square lattice tight-binding model. If the goal is to highlight the precise shape of the Fermi line, a sharp contrast can be advantageous.
+
+In summary, when selecting a diverging colormap, be mindful of potential artifacts and carefully consider whether these are undesirable or beneficial.
+
+
+
+
+
+\begin{figure}
+	\centering
+	\tikzsetnextfilename{fig_machbands}
+	\input{\here/tikz_machbands.tex}
+	\caption{\textbf{Mach bands in diverging colormaps.} Shown is the function $f(x) = \cos x + \cos y$, color-coded with a colormap with (a) a sharp change in lightness at the white point, resulting in white Mach bands and (c) a smoothened lightness evolution. Panel (b) shows the lightness values $L$ for the two colormaps.}
+	\label{fig:machbands}
+\end{figure}
+
+
+
 
 % \begin{figure}
 % 	\centering
@@ -273,13 +297,6 @@ Per definition, $\Delta E^*_{ab}$ remains constant for the Lab colors, while it 
 % 	\label{fig:cmapanalytics}
 % \end{figure}
 
-% \begin{figure}
-% 	\centering
-% 	\tikzsetnextfilename{fig_machbands}
-% 	\input{\here/tikz_machbands.tex}
-% 	\caption{\textbf{Mach bands.}}
-% 	\label{fig:machbands}
-% \end{figure}
 
 
 % Here is how you define a new ColorScheme:
@@ -331,8 +348,6 @@ Per definition, $\Delta E^*_{ab}$ remains constant for the Lab colors, while it 
 
 
 
-% it makes sense to choose the colors in a way that ensures 
-% It makes a lot of 
 % Besides being colorblind-friendly, the most reasonable claim is that the distance between 
 
 
@@ -357,8 +372,6 @@ Per definition, $\Delta E^*_{ab}$ remains constant for the Lab colors, while it 
 % high colour contrast leading to the perception of false anomalies in your data
 % when there is none. Conversely colour maps may also have ‘flat spots’ of
 % low perceptual contrast that prevent you from seeing features in the data.
-% In many cases these problems arise because the colour maps have been
-% designed as piecewise linear paths through RGB space
 
 
 
@@ -369,7 +382,5 @@ Per definition, $\Delta E^*_{ab}$ remains constant for the Lab colors, while it 
 % Mach bands!
 
 
+\section{Summary}
 
-
-
-% \section{Summary}
