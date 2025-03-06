@@ -257,7 +257,39 @@ In summary, when selecting a diverging colormap, be mindful of potential artifac
 
 \section{An example: Rainbow vs. good colormaps}\label{sec:rainbow}
 
-To end this section, let us look at an exampler that illustrates the advantages of a good scientifically derived colormap and some serious drawbacks of a bad colormap. We will look at a two-dimensional plot of the function $f(x)= \ldots$
+To end this section, let us look at an exampler that illustrates the advantages of a good scientifically derived colormap and some serious drawbacks of a bad colormap. We will look at a two-dimensional plot of the function $f(x)= \left(1 - \sqrt{y} \right)  \cos x^3$, i.e., a harmonic oscillation in $x$ direction that is damped in $y$ direction (we restrict $y$ to $\left[0,1\right]$) This is my quick-and-dirty attempt to mimic the spatial contrast sensitivity function that are often used for a similar purpose, e.g., in Ref.~\cite{moreland2009}. I do not know whether there is a default definition that should be used, but I think my choice does convey the primary message sufficiently well.
+A twodimensional plot of this function, using the perceptually uniform \verb|viridis| colormap is shown in \figref{fig:sensitivityfunction}. Note how the plot correctly resolves the oscillations even in the limit of strong damping at the upper edge, where $y=1$.
+
+Next, we will consider the same plot using three different colormaps and their colorblind and monochromatic versions.
+Specifically, we will consider
+\begin{itemize}
+\item the \verb|cividis| colormap, introduced in Ref.~\cite{cividis}. This colormap is derived from the \verb|viridis| scheme and modified to optimize readability for colorblind readers.
+\item the \verb|batlow| colormap, one of several perceptually uniform colormaps designed by F.Cramaeri and introduced in ...
+\item the \verb|gist_rainbow| colormap as an example for a really bad colormap that obscures data, introduce artificial features, and, therefore confuses users.
+\end{itemize}
+
+In fact, rainbow color maps are more widespread than one might expect given their well-documented shortcomings. 
+It wasn't too long ago that rainbow maps were the standard color schemes of many common plotting libraries, e.g., the \verb|jet| colormap in Matplotlib before the 2.0 release in 2017.
+In the 2000's, rainbow-like colormaps were by far the most common colormaps in scientific visualization CITE.
+In recent years, the awareness about the problems has increased, witnessed by the advent of many good alternatives, \verb|viridis| being the most popular.
+
+
+
+
+\begin{figure}
+\captionsetup{format = sidebyside, indention = 0cm} 
+\begin{minipage}[t]{0.4\textwidth}
+	\vspace{-5pt}
+	\caption{xxx}
+	\label{fig:sensitivityfunction}
+\end{minipage}\hfill 
+\begin{minipage}[t]{0.55\textwidth}
+	\centering 
+	\vspace{0pt}
+	\tikzsetnextfilename{fig_sensitivityfunction}
+	\input{\here/tikz_sensitivityfunction.tex}
+\end{minipage}
+\end{figure} 
 
 
 
@@ -274,13 +306,6 @@ To end this section, let us look at an exampler that illustrates the advantages 
 % \end{figure}
 
 
-% \begin{figure}
-% 	\centering
-% 	\tikzsetnextfilename{fig_sensitivityfunction}
-% 	\input{\here/tikz_sensitivityfunction.tex}
-% 	\caption{xxx}
-% 	\label{fig:sensitivityfunction}
-% \end{figure}
 
 
 % \begin{figure}
