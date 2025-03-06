@@ -56,7 +56,7 @@ This chapter explores key aspects of color selection, outlining fundamental requ
 Selecting well-suited colors is a surprisingly complex challenge, yet a well-designed colormap is crucial for effectively conveying information. An effective color scheme should ideally:
 \begin{itemize}
 	\item maximize perceptual resolution,
-    \item be distinguishable for color-blind readers, see Secs.~\ref{sec:lineplots} and \ref{sec:rainbow},
+    \item be distinguishable for color-blind readers, see Secs.~\ref{sub:lineplots_and_color_deficiency} and \ref{sec:rainbow},
     \item work in monochrome print,
     \item be aesthetically pleasing,
     \item perform well on both screens and paper (addressing the `RGB vs. CMYK' issue---colors that appear vibrant on screens, where they are created by mixing red (R), green (G), and blue (B) light, often look duller when converted to the CMYK color space used in printing),
@@ -65,11 +65,11 @@ Selecting well-suited colors is a surprisingly complex challenge, yet a well-des
     \item maintain a consistent order for all viewers.
 \end{itemize}
 
-Depending on the specific use case, additional points may apply (see Moreland). The importance of color-blind accessibility should not be underestimated, given that approximately 6\% of all males have deutan color vision deficiency (green-blindness).
-Creating a colormap that meets all these criteria is difficult—if not impossible. Every good colormap is ultimately a compromise.
+Depending on the specific use case, additional points may apply (see, e.g., Ref.~\cite{moreland2009}). The importance of color-blind accessibility should not be underestimated, given that approximately 6\% of all males have deutan color vision deficiency (green-blindness).
+Creating a colormap that meets all these criteria is difficult---if not impossible. Every good colormap is ultimately a compromise.
 
 \subsection{Useful resources}
-The good news is that most modern plotting tools come with well-designed default color cycles for line plots (e.g., Matplotlib or Makie) and colormaps for surface plots (e.g., the widely used \verb|viridis|). This means that if you're satisfied with the default appearance of your plot, you may not need to change anything. However, if you're not entirely happy with the look, there are plenty of excellent resources available online.
+The good news is that most modern plotting tools come with well-designed default color cycles for line plots (e.g., Matplotlib or Makie) and colormaps for surface plots (e.g., the widely used \verb|viridis|, sometimes referred to as the current gold standard of colormaps). This means that if you're satisfied with the default appearance of your plot, you may not need to change anything. However, if you're not entirely happy with the look, there are plenty of excellent resources available online.
 
 In my thesis, I frequently used Paul Tol’s color schemes \cite{paultol}, which are specifically designed for color-blind accessibility, as well as the ColorBrewer colormaps \cite{colorbrewer}. Both resources are highly regarded and are integrated into various plotting libraries. In particular, the entire ColorBrewer palette is available in Julia’s ColorSchemes.jl package, as well as in Makie and pgfplots. A selection of Paul Tol's color schemes is also available via ColorSchemes.jl.
 Lastly, while I didn’t end up using any of the colormaps designed there, I found \href{https://www.vis4.net/palettes/}{vis4.net} \cite{chromajs} to be a handy tool. Built on \href{https://github.com/gka/chroma.js}{chroma.js}, it helps users create custom color palettes and provides a simulation of how the chosen colors appear to individuals with different types of color blindness.
@@ -123,7 +123,7 @@ Unlike qualitative color schemes, there appears to be no studies on how to desig
 \end{figure}
 
 
-\subsection{Lineplots and color deficiency}
+\subsection{Lineplots and color vision deficiency}\label{sub:lineplots_and_color_deficiency}
 
 Figure 1 compares three color palettes for line plots: 
 The top row uses the high-contrast palette from Ref.~\cite{paultol}, the middle row the first four colors of the standard Matplotlib palette and the bottom row the \LaTeX versions of the same color tones (blue, orange, green, red). The first column shows the original colors. The second column simulates deuteranomaly (partial loss of middle-wavelength photopigments, commonly known as green blindness), with a 70\% pigment loss (not  `deuteranopia', total color blindness). This simulation was generated using the \verb|deuteranopic| function from Julia’s \verb|Colors.jl| package. The last column presents the same plots after grayscale conversion, serving as an approximation for monochrome printouts.
@@ -135,7 +135,7 @@ Second, the Matplotlib palette is moderately effective. It remains usable for in
 
 Third, the LaTeX colors perform poorly. In my opinion, there is an aesthetic issue as the colors are visually unappealing. Red and green both shift towards a yellowish/orangish tone in the second column, making them harder to distinguish. This is a poor choice for readers with color vision deficiency. After grayscale conversion, green and orange become difficult to differentiate in the monochrome version.
 
-These examples illustrate the importance of carefully selecting colors to ensure accessibility for all readers. Disclaimer: The last column presents colors after grayscale conversion, which may not be identical to an actual monochrome printout, see \href{https://1800officesolutions.com/monochrome-vs-grayscale-printing/}{this discussion}. However, based on available discussions on the topic, the printed result should closely resemble the grayscale version.
+These examples illustrate the importance of carefully selecting colors to ensure accessibility for all readers. Disclaimer: The last column presents colors after grayscale conversion, which may not be identical to an actual monochrome printout, see \href{https://1800officesolutions.com/monochrome-vs-grayscale-printing/}{this link}. However, based on available discussions on the topic, the printed result should closely resemble the grayscale version.
 
 \begin{figure}
 	\centering 
@@ -144,8 +144,6 @@ These examples illustrate the importance of carefully selecting colors to ensure
 	\caption{\textbf{Line plots, color blindness and grayscale conversion.} The three rows show different color palettes. The top row uses the high-contrast palette from Ref.~\cite{paultol}. The middle row the default Matplotlib palette and the last row some default \LaTeX colors. The first column shows the original figures, the second column simulates green blindness and the last column shows the colors after grayscale conversion. See the main text for more details.}
 	\label{fig:lineplotcolorblindness}
 \end{figure}
-
-
 
 \section{Colormaps I: Basics}
 
@@ -257,6 +255,14 @@ In summary, when selecting a diverging colormap, be mindful of potential artifac
 \end{figure}
 
 
+\section{An example: Rainbow vs. good colormaps}\label{sec:rainbow}
+
+To end this section, let us look at an exampler that illustrates the advantages of a good scientifically derived colormap and some serious drawbacks of a bad colormap. We will look at a two-dimensional plot of the function $f(x)= \ldots$
+
+
+
+\subsection{The original colormap}
+\subsection{Color vision deficiency}
 
 
 % \begin{figure}
