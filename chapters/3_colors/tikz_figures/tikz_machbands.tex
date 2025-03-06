@@ -45,9 +45,20 @@
 		\nextgroupplot[xmin=0, xmax=100, xshift = .6cm, ylabel = {lightness $L$}, xlabel = color, xtick = \empty, ymin = 37, ymax = 100, ytick = {40, 100}, yticklabels = {40, 100}, colorbar = false, ylabel style = {yshift = -0.3cm},]
 		\addplot[colormap name = coolwarm, scatter, scatter src = x, ultra thin] table[]{machbands2.txt};
 		\addplot[colormap name = coolwarmB, scatter, scatter src = x, ultra thin] table[y index = 2]{machbands2.txt};
+		\coordinate (m1) at (axis cs: 50.0, 94.662);
+		\coordinate (m2) at (axis cs: 75.0, 72.33121);
 
 		\nextgroupplot[colormap name = coolwarm, ytick pos = right, yticklabel pos = right, ylabel style = {yshift = 0.8cm}]
 		\addplot3[surfstyle, domain=-6.29:6.29]{cos(deg(y)) + cos(deg(x))}; 
 
 	\end{groupplot} 
+
+	\draw[-stealth, ultra thick, hcqblue] (m1) -- (m1 -| name1 c1r1.east);
+	\draw[-stealth, ultra thick, hcqblue] (m2) -- (m2 -| name1 c3r1.west);
+
+	\node[yshift = 0.3cm, text width = 1em, anchor = south east]at (name1 c1r1.north west) {\subcaptionbox{\label{mach-a}}{}};
+	\node[yshift = 0.3cm, text width = 1em, anchor = south east]at (name1 c2r1.north west) {\subcaptionbox{\label{mach-b}}{}};
+	\node[yshift = 0.3cm, text width = 1em, anchor = south east]at (name1 c3r1.north west) {\subcaptionbox{\label{mach-c}}{}};
+
+
 \end{tikzpicture}
