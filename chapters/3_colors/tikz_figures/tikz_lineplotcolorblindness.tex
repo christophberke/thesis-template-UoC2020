@@ -14,7 +14,7 @@
 		xticklabel = \empty
 		]
 
-		\nextgroupplot[cycle list name = highcontrast] 
+		\nextgroupplot[cycle list name = highcontrast, ylabel = {Paul Tol's high contrast}] 
 		\lineplot
 
 		\nextgroupplot[cycle list name = hcqdeut] 
@@ -23,7 +23,7 @@
 		\nextgroupplot[cycle list name = hcqmono] 
 		\lineplot
 
-		\nextgroupplot[cycle list name = matplotlib, ylabel = {$y$ axis}] 
+		\nextgroupplot[cycle list name = matplotlib, ylabel = {Matplotlib}] 
 		\lineplot
 		
 		\nextgroupplot[cycle list name = matplotlibdeut] 
@@ -32,13 +32,13 @@
 		\nextgroupplot[cycle list name = matplotlibmono] 
 		\lineplot
 		
-		\nextgroupplot[cycle list name = latexdefault] 
+		\nextgroupplot[cycle list name = latexdefault, ylabel = {\LaTeX colors}, xlabel = {original}] 
 		\lineplot
 
-		\nextgroupplot[cycle list name = latexdeut, xlabel = {$x$ axis}] 
+		\nextgroupplot[cycle list name = latexdeut, xlabel = {deuteranomaly}] 
 		\lineplot 
 
-		\nextgroupplot[cycle list name = latexmono] 
+		\nextgroupplot[cycle list name = latexmono, xlabel = {monochrome}] 
 		\lineplot
 
 	\end{groupplot} 
