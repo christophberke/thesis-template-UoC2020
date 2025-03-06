@@ -6,7 +6,7 @@
 			group name = name1,
 			group size = 3 by 1,
 			vertical sep = .25cm,
-			horizontal sep = .5cm, 
+			horizontal sep = .6cm, 
 			},
 			view={0}{90},
 			simpleax1,
@@ -42,7 +42,7 @@
 		\nextgroupplot[colormap name = RdBu, yticklabel = \empty, colorbar style={xlabel = {$f(x)$}}]
 		\addplot3[surfstyle, domain=-6.29:6.29]{cos(deg(y)) + cos(deg(x))}; 
 
-		\nextgroupplot[ytick pos = right, yticklabel pos = right, ylabel = {$y$}, ylabel style = {yshift = 0.4cm}, colorbar = false, title = {A phase diagram}, title style = {font = \footnotesize}, ]
+		\nextgroupplot[ytick pos = right, yticklabel pos = right, ylabel = {$y$}, yticklabels = {}, xticklabels = {}, ylabel style = {yshift = 0.45cm}, colorbar = false, title = {A phase diagram}, title style = {font = \footnotesize}, ]
 		\addplot3[opacity = 0]{x}; 
 
 		\fill[SetA] (rel axis cs:0,0) rectangle (rel axis cs:0.33,0.33);
@@ -61,7 +61,7 @@
 
 	\end{groupplot} 
 
-	\node[text width=1em, anchor = south east]at (name1 c1r1.south east) {\subcaptionbox{\label{spfA}}{}};
-	\node[text width=1em, anchor = south east]at (name1 c2r1.north west) {\subcaptionbox{\label{spfB}}{}};	
-	\node[text width=1em, anchor = south east]at (name1 c3r1.north west) {\subcaptionbox{\label{spfC}}{}};
+	\node[text width=1em, anchor = south east, yshift = 0.3cm]at (name1 c1r1.north west) {\subcaptionbox{\label{spfA}}{}};
+	\node[text width=1em, anchor = south east, yshift = 0.3cm]at (name1 c2r1.north west) {\subcaptionbox{\label{spfB}}{}};	
+	\node[text width=1em, anchor = south east, yshift = 0.3cm]at (name1 c3r1.north west) {\subcaptionbox{\label{spfC}}{}};
 \end{tikzpicture}
