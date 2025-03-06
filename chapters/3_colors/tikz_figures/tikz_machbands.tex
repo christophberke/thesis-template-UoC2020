@@ -1,0 +1,53 @@
+% This is the Mach band plot.
+\begin{tikzpicture} 
+	\begin{groupplot}[
+		group style = {
+			group name = name1,
+			group size = 3 by 1,
+			vertical sep = .25cm,
+			horizontal sep = .15cm, 
+			},
+			view={0}{90},
+			simpleax1,
+			width = .7*\axisdefaultwidth,
+			height = .7*\axisdefaultwidth,
+			simpleax1,
+			xtick = {-6.28,0,6.28},
+			xticklabels = {$-2\pi$, $0$, $2\pi$},
+			ytick = {-6.28,0,6.28},
+			yticklabels = {$-2\pi$, $0$, $2\pi$},
+			xlabel = $x$,
+			ylabel = $y$,
+			scatter/use mapped color={
+       			draw=black,
+        		fill=mapped color,
+    		}, 
+			ylabel style = {yshift = -0.4cm},
+			colorbar horizontal,
+			colorbar style={
+					axis line style = {line cap=rect},
+					ticklabel style = {font=\footnotesize},
+					thick,
+					at={(0,1.02)},            
+					anchor=below south west, 
+					width=1*\pgfkeysvalueof{/pgfplots/parent axis width},
+					xticklabel pos=upper,
+					xlabel = {$f(x)$},
+					axis on top,
+					xtick pos=right,
+					xlabel near ticks
+				}, 
+		]
+	
+		\nextgroupplot[colormap name = coolwarmB, colorbar] 
+		\addplot3[surfstyle, domain=-6.29:6.29]{cos(deg(y)) + cos(deg(x))}; 
+
+		\nextgroupplot[xmin=0, xmax=100, xshift = .6cm, ylabel = {lightness $L$}, xlabel = color, xtick = \empty, ymin = 37, ymax = 100, ytick = {40, 100}, yticklabels = {40, 100}, colorbar = false, ylabel style = {yshift = -0.3cm},]
+		\addplot[colormap name = coolwarm, scatter, scatter src = x, ultra thin] table[]{machbands2.txt};
+		\addplot[colormap name = coolwarmB, scatter, scatter src = x, ultra thin] table[y index = 2]{machbands2.txt};
+
+		\nextgroupplot[colormap name = coolwarm, ytick pos = right, yticklabel pos = right, ylabel style = {yshift = 0.8cm}]
+		\addplot3[surfstyle, domain=-6.29:6.29]{cos(deg(y)) + cos(deg(x))}; 
+
+	\end{groupplot} 
+\end{tikzpicture}
