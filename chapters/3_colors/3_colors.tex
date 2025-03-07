@@ -255,15 +255,15 @@ In summary, when selecting a diverging colormap, be mindful of potential artifac
 
 \section{An example: Rainbow vs. good colormaps}\label{sec:rainbow}
 
-To conclude this chapter, let's examine an example that highlights the advantages of a scientifically derived colormap and the serious drawbacks of a poorly chosen one. We consider a two-dimensional plot of the function $f(x)= \left(1 - \sqrt{y} \right)  \cos x^3$, which represents a harmonic oscillation in $x$ direction that is damped along the $y$ axis, where we restrict $y$ to $\left[0,1\right]$. This function is a rough approximation of the spatial contrast sensitivity function often used for similar purposes, as seen, e.g., in Ref.~\cite{moreland2009}. While I am unsure if a standardized definition exists, I believe my choice effectively conveys the intended message.
-\figref{fig:sensitivityfunction} presents a two-dimensional plot of this function using the perceptually uniform \verb|viridis| colormap.
+To conclude this chapter, let's examine an example that highlights the advantages of a scientifically derived colormap and the serious drawbacks of a poorly chosen one. We consider a two-dimensional plot of the function $f(x)= \left(1 - \sqrt{y} \right)  \cos x^3$, which represents a harmonic oscillation in $x$ direction that is damped along the $y$ axis, where we restrict $y$ to $\left[0,1\right]$. This function is a rough approximation of the spatial contrast sensitivity (SCS) function often used for similar purposes, as seen, e.g., in Ref.~\cite{moreland2009}. While I am unsure if a standardized definition of the SCS function exists, I believe my choice effectively conveys the intended message (and I will continue to use the abbreviation SCS function for $f(x)$.
+\figref{fig:sensitivityfunction} presents a two-dimensional plot of the SCS function using the perceptually uniform \verb|viridis| colormap.
 Notably, the oscillations remain well-resolved in the strongly damped upper region where $y \lesssim 1$.
 
 \begin{figure}
 \captionsetup{format = sidebyside, indention = 0cm} 
 \begin{minipage}[t]{0.4\textwidth}
 	\vspace{-5pt}
-	\caption{\textbf{Spatial contrast sensitivity function},  $f(x)= \left(1 - \sqrt{y} \right)  \cos x^3$. The oscillations along the $x$ axis and the damping along the $y$ axis are clearly visible throughout the selected region of the two-dimensional $xy$ plane. In this section, we will use the resolution of these features in $f(x,y)$ to evaluate the performance of different colormaps.}
+	\caption{\textbf{Spatial contrast sensitivity (SCS) function},  $f(x)= \left(1 - \sqrt{y} \right)  \cos x^3$. The oscillations along the $x$ axis and the damping along the $y$ axis are clearly visible throughout the selected region of the two-dimensional $xy$ plane. In this section, we will use the resolution of these features in $f(x,y)$ to evaluate the performance of different colormaps.}
 	\label{fig:sensitivityfunction}
 \end{minipage}\hfill 
 \begin{minipage}[t]{0.55\textwidth}
@@ -274,34 +274,32 @@ Notably, the oscillations remain well-resolved in the strongly damped upper regi
 \end{minipage}
 \end{figure} 
 
-
-Next, we will consider the same plot using three different colormaps and their colorblind and monochromatic versions.
-Specifically, we will consider
+Next, we will examine the same plot using three different colormaps, along with their colorblind and monochromatic versions. Specifically, we will consider:
 \begin{itemize}
-\item the \verb|cividis| colormap, introduced in Ref.~\cite{nunez2018}. This colormap is derived from the \verb|viridis| scheme and modified to optimize readability for colorblind readers as the cost of being less aesthetically pleasing (in the opinion of the creators of that colormap \cite{nunez2018}).
+\item the \verb|cividis| colormap, introduced in Ref.~\cite{nunez2018}. This colormap is derived from the \verb|viridis| scheme and modified to optimize readability for colorblind readers (albeit at the cost of being less aesthetically pleasing, according to its creators \cite{nunez2018}).
 \item the \verb|batlow| colormap, one of several perceptually uniform colormaps designed by Fabio Crameri and introduced in Ref.~\cite{crameri2020}
-\item the \verb|gist_rainbow| colormap as an example for a really bad colormap that obscures data, introduce artificial features, and, therefore confuses users.
+\item the \verb|gist_rainbow| colormap  which serves as an example of a poor colormap that obscures data, introduces artificial features, and ultimately confuses users.\footnote{Given their well-documented and long-known shortcomings, it is surprising how widespread rainbow-like colormaps are. Not too long ago, they were the standard color schemes of many common plotting libraries, e.g., the \texttt{jet} colormap in Matplotlib before 2017. In the 2000's, rainbow-like colormaps were by far the most common choice for scientific visualization.
+In recent years, the awareness about their problems has increased, witnessed by the advent of many good alternatives, \texttt{viridis} being the most popular.}
 \end{itemize}
 
-In fact, rainbow color maps are more widespread than one might expect given their well-documented shortcomings. 
-It wasn't too long ago that rainbow maps were the standard color schemes of many common plotting libraries, e.g., the \verb|jet| colormap in Matplotlib before the 2.0 release in 2017.
-In the 2000's, rainbow-like colormaps were by far the most common colormaps in scientific visualization CITE.
-In recent years, the awareness about the problems has increased, witnessed by the advent of many good alternatives, \verb|viridis| being the most popular.
-
-One can already gain insights from the colorbars of the corresponding maps. Those are shown in \figref{fig:colorbars}. In addition to the original colors, the most common types of color blindness are also considered, along with the colorbar after grayscale conversion. Note that in contrast to \figref{fig:lineplotcolorblindness}, we assume total instead of only partial loss of one of the three types of human photopigments (i.e., deuteranopia, not deuteranomaly, etc.) 
-
-The main observations are: (i) The \verb|cividis| and \verb|batlow| colormaps exhibit a clear and uniform progression toward higher brightness, which is consistently maintained across all color blindness variants. (ii) \verb|cividis| does not include green or red tones, so the colors in protanopia or deuteranopia hardly change at all. (iii) The \verb|gist_rainbow| colormap shows distinct brightness peaks in yellow and cyan, with intermediate areas where the color appears almost unchanged, particularly in the green range. These extended flat regions are especially problematic for colorblind readers. For instance, with protanopia, there are essentially only four broad areas of nearly constant color (gray, yellow, white, and blue), with very short transitions between them. Additionally, the colors lack a clear order, which is most apparent in the monochrome version: multiple recurring light and dark regions make it impossible to determine which color represents high or low numerical values.
-It is easy to imagine that this colormap leaves ample space for misinterpretation of data, even for non-colorblind readers. Let us now look at the spatial contrast sensitivity function to see whether this expectation is confirmed.
+We can already draw insights from the colorbars associated with these colormaps, shown in \figref{fig:colorbars}. In addition to the original colors, the figure includes versions accounting for the most common types of color blindness, as well as grayscale conversion. Unlike in \figref{fig:lineplotcolorblindness}, where partial photopigment loss was assumed, this time we consider total loss of one of the three types of human photopigments (e.g., deuteranopia rather than deuteranomaly, etc.).
 
 
+The main observations include: (i) The \verb|cividis| and \verb|batlow| colormaps exhibit a clear and uniform progression toward higher brightness, which is consistently maintained across all color blindness variants. (ii) \verb|cividis| avoids green or red hues, meaning its appearance changes minimally for individuals with protanopia or deuteranopia. (iii) \verb|gist_rainbow| has sharp lightness peaks in yellow and cyan, and extended intermediate regimes where the colors appear almost unchanged, particularly in the green range. The effect of these `flat' areas worsens for colorblind users. For example, in protanopia, the colormap effectively reduces to just four broad color bands (gray, yellow, and blue) with very short transitions between them. (iv) \verb|gist_rainbow| lacks a clear order, which is particularly apparent after grayscale conversion, where multiple recurring light and dark regions make it impossible to determine which shade correspond to high or low numerical values. This ambiguity leaves ample room for misinterpretation, even for non-colorblind readers.
 
+
+We now discuss the spatial contrast sensitivity function to see how the three colormaps perform in a real use case.
+% highly uneven perceptual contrast. Colour maps may have points of locally
+% high colour contrast leading to the perception of false anomalies in your data
+% when there is none. Conversely colour maps may also have ‘flat spots’ of
+% low perceptual contrast that prevent you from seeing features in the data.
 
 
 \begin{figure}
 	\centering
 	\tikzsetnextfilename{fig_colorbars}
 	\input{\here/tikz_colorbars.tex}
-	\caption{xxx}
+	\caption{\textbf{Colorbars} for the three colormaps whose performance in conveying data effectively we will examine further with the SCS function shown in \figref{fig:sensitivityfunction}. The columns 2--4 show how these colorbars are perceived by individuals with a reduced sensitivity to red (protanopia), green (deuteranopia, the most common form of colorblindness), and blue (tritanopia, very rare) light.}
 	\label{fig:colorbars}
 \end{figure}
 
@@ -313,13 +311,13 @@ It is easy to imagine that this colormap leaves ample space for misinterpretatio
 
 
 
-% \begin{figure}
-% 	\centering
-% 	\tikzsetnextfilename{fig_sensitivityCVD}
-% 	\input{\here/tikz_sensitivityCVD.tex}
-% 	\caption{xxx}
-% 	\label{fig:sensitivityCVD}
-% \end{figure}
+\begin{figure}
+	\centering
+	\tikzsetnextfilename{fig_sensitivityCVD}
+	\input{\here/tikz_sensitivityCVD.tex}
+	\caption{xxx}
+	\label{fig:sensitivityCVD}
+\end{figure}
 
 % \begin{figure}
 % 	\centering
@@ -341,31 +339,6 @@ It is easy to imagine that this colormap leaves ample space for misinterpretatio
 % \end{listing}
 
 
-
-% \begin{tikzpicture} 
-% 	\begin{groupplot}[
-% 		group style = {
-% 			group name = name1,
-% 			group size = 2 by 1,
-% 			vertical sep = 1cm,
-% 			horizontal sep = 1cm, 
-% 			},
-% 			view={0}{90},
-% 			simpleax1,
-% 		]
-	
-% 		\nextgroupplot[colormap/jet, colorbar horizontal]
-% 		% \addplot3[surfstyle, samples = 500, domain = 0:7, y domain = 0:1]{(1 - y) * cos(deg(x)*cos(deg(x)))}; 
-% 		\addplot3[surfstyle, samples = 500, domain = 0:7, y domain = 0:1]{cos(deg(x))}; 
-		 
-% 		% \nextgroupplot[colormap/viridis, colorbar horizontal] 
-% 		% \addplot3[surfstyle]{cos(deg(y)) + cos(deg(x))}; 
-	
-% 	\end{groupplot} 
-% \end{tikzpicture}
-
-
-
 % Why is viridis a good color map? Perceptional 
 
 
@@ -375,35 +348,16 @@ It is easy to imagine that this colormap leaves ample space for misinterpretatio
 % Main message: Human perception does not linearly 
 % .
 % What we actually want is that colors that are equally apart in our colormap are also perceived by the human eye / brain as equally apart.
-% The $\Delta E$ we are looking for is actually the difference in the perception! to define such a dE, one needs to know a lot about how the eye/brean mechanism of color perception works one has to work with real humans! That goes back to the 30. One can come up with a good measure, has been refined, etc.
+
 %  Let us see how our three colormaps perform agains this metric.
 
 
 
-% Besides being colorblind-friendly, the most reasonable claim is that the distance between 
-
-
-
-% \section{Know the enemy: An example of a really bad colormap}\label{sec:rainbow}
-
-
-
-% A colormap is a one-dimensional subspace of 
-
-
-
-% There are plenty of different color spa
-
-
-
-
+% Besides being colorblind-friendly, the most reasonable claim is 
 
 % perceptually uniform colorspaces are and why you should be using them:
 % Unfortunately many widely used colour maps 1 provided by vendors have
-% highly uneven perceptual contrast. Colour maps may have points of locally
-% high colour contrast leading to the perception of false anomalies in your data
-% when there is none. Conversely colour maps may also have ‘flat spots’ of
-% low perceptual contrast that prevent you from seeing features in the data.
+
 
 
 
