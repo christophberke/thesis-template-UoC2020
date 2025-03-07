@@ -1,0 +1,35 @@
+% tikz_sensitivityCVD.tex
+
+\begin{tikzpicture} 
+	
+	\node[draw = black, thick, inner sep = 0pt] (c11) {\includegraphics[width = 4.5cm]{\here/sensitivity/sensitivity_11.png}};
+	\node[draw = black, thick, inner sep = 0pt, anchor = north, yshift = -0.2cm] (c21) at (c11.south)  {\includegraphics[width = 4.5cm]{\here/sensitivity/sensitivity_21.png}};
+	\node[draw = black, thick, inner sep = 0pt, anchor = north, yshift = -0.2cm] (c31) at (c21.south) {\includegraphics[width = 4.5cm]{\here/sensitivity/sensitivity_31.png}};
+	\node[draw = black, thick, inner sep = 0pt, anchor = north, yshift = -0.2cm] (c41) at (c31.south) {\includegraphics[width = 4.5cm]{\here/sensitivity/sensitivity_41.png}};
+	\node[draw = black, thick, inner sep = 0pt, anchor = north, yshift = -0.2cm] (c51) at (c41.south) {\includegraphics[width = 4.5cm]{\here/sensitivity/sensitivity_51.png}};
+
+	\node[draw = black, thick, inner sep = 0pt, anchor = west, xshift = 0.3cm] (b12) at (c11.east){\includegraphics[width = 4.5cm]{\here/sensitivity/sensitivity_12.png}};
+	\node[draw = black, thick, inner sep = 0pt, anchor = north, yshift = -0.2cm] (b22) at (b12.south)  {\includegraphics[width = 4.5cm]{\here/sensitivity/sensitivity_22.png}};
+	\node[draw = black, thick, inner sep = 0pt, anchor = north, yshift = -0.2cm] (b32) at (b22.south) {\includegraphics[width = 4.5cm]{\here/sensitivity/sensitivity_32.png}};
+	\node[draw = black, thick, inner sep = 0pt, anchor = north, yshift = -0.2cm] (b42) at (b32.south) {\includegraphics[width = 4.5cm]{\here/sensitivity/sensitivity_42.png}};
+	\node[draw = black, thick, inner sep = 0pt, anchor = north, yshift = -0.2cm] (b52) at (b42.south) {\includegraphics[width = 4.5cm]{\here/sensitivity/sensitivity_52.png}};
+
+
+	\node[draw = black, thick, inner sep = 0pt, anchor = west, xshift = 0.3cm] (r12) at (b12.east){\includegraphics[width = 4.5cm]{\here/sensitivity/sensitivity_13.png}};
+	\node[draw = black, thick, inner sep = 0pt, anchor = north, yshift = -0.2cm] (r22) at (r12.south)  {\includegraphics[width = 4.5cm]{\here/sensitivity/sensitivity_23.png}};
+	\node[draw = black, thick, inner sep = 0pt, anchor = north, yshift = -0.2cm] (r32) at (r22.south) {\includegraphics[width = 4.5cm]{\here/sensitivity/sensitivity_33.png}};
+	\node[draw = black, thick, inner sep = 0pt, anchor = north, yshift = -0.2cm] (r42) at (r32.south) {\includegraphics[width = 4.5cm]{\here/sensitivity/sensitivity_43.png}};
+	\node[draw = black, thick, inner sep = 0pt, anchor = north, yshift = -0.2cm] (r52) at (r42.south) {\includegraphics[width = 4.5cm]{\here/sensitivity/sensitivity_53.png}};
+
+
+	\node[font = \footnotesize, anchor = east] at (c11.west){\rotatebox{90}{original}};
+	\node[font = \footnotesize, anchor = east] at (c21.west){\rotatebox{90}{protanopia}};
+	\node[font = \footnotesize, anchor = east] at (c31.west){\rotatebox{90}{deuteranopia}};
+	\node[font = \footnotesize, anchor = east] at (c41.west){\rotatebox{90}{tritanopia}};
+	\node[font = \footnotesize, anchor = east] at (c51.west){\rotatebox{90}{monochrome}};
+
+	\node[anchor = south] at (c11.north){\texttt{cividis}};
+	\node[anchor = south] at (b12.north){\texttt{batlow}};
+	\node[anchor = south] at (r12.north){\texttt{gist\_rainbow}};
+
+\end{tikzpicture}
