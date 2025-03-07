@@ -1,1 +1,26 @@
-\chapter{Appendix for Chapter 1}
+% Externalization settings:
+\renewcommand{\here}{chapters/Appendix_A/tikz_figures}	% Set path to tikz source code
+\pgfplotsset{table/search path={\here/data}}			% Set path to data used in tikz source code
+\tikzsetexternalprefix{chapters/Appendix_A/figures/}	% Set path for externalized tikz pdfs.
+
+
+\chapter{Appendix for Chapter 3}
+
+\begin{figure}
+	\centering
+	\tikzsetnextfilename{fig_cmapanalytics}
+	\input{\here/tikz_cmapanalytics.tex}
+	\caption{Note: Scales are not directly comparable! But shape of each individual line is what matters here.}
+	\label{fig:cmapanalytics}
+\end{figure}
+
+
+Here is how you define a new ColorScheme:
+\begin{listing}[h]
+\begin{minted}[xleftmargin = 1.5cm]{julia} 
+using Colors, ColorSchemes
+cividis_cols = ColorSchemes.cividis.colors
+cividis_protanopic = ColorScheme(protanopic.(cividis_cols, 1))
+\end{minted}
+\end{listing}
+
