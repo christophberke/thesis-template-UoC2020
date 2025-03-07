@@ -179,21 +179,6 @@ A use case I never encountered in my work is cyclic colormaps. These are designe
 \subsection{Perceptual uniformity}\label{sec:perceptualuniform}
 \href{https://xkcd.com/1882/}{Colors are a complicated issue.} There is a plethora of different, usually threedimensional color models: RGB, BGR, HSV, HSL, Lab and many more. Each color is specified by three parameters, e.g. the amount of red, green and blue (RGB), or hue, saturation and lightness (HSL).   
 
-Let's say that we picked two colors as the end colors of a yet to be defined colormap. We can think of this colormap as a line in a threedimensional colorspace connecting the end colors. We want a discrete number of colors, say ten. It is certainly reasonable to choose the colors such that their `distance' is the same for any two pairs of neighboring colors, e.g., the colors 1 and 2 should `differ as much' as 2 and 3, and so on. At this point, we have no precise idea of what a color distance actually is. A naive guess is to take the Eucledian distance $||\vect{p}_1-\vect{p}_2||$, where $\vect{p}_i$ is the vector of the three parameters that determine the color $i$.  Let's do this for three colorspaces: RGB, HSV, and Lab. This is easily accomplished with Julia's \verb|Colors.jl| package:
-
-\begin{listing}[h]
-\begin{minted}[xleftmargin = 1.5cm]{julia} 
-c1, c2 = RGB(0.0, 1.0, 0.0), RGB(0.0, 0.0, 1.0)
-cmapRGB = range(c1, stop = c2, length = 10) 
-cmapHSV = range(HSV(c1), stop = HSV(c2), length = 10) 
-cmapLab = range(Lab(c1), stop = Lab(c2), length = 10) 
-\end{minted}
-\end{listing}
-
-This creates arraysof colors whose parameters (in the respective color space) change uniformly from \verb|c1| to \verb|c2|. For example, the `blue' values in \verb|cmapRGB| are uniformely spaced, $0,\frac{1}{9},\frac{2}{9},\ldots,1$, and the `hue' parameter in \verb|cmapHSV| takes the values $120,133\frac{1}{3},146\frac{2}{3},\ldots,240$.
-The resulting colors are shown in \figref{fig:colorspaces}. 
-The end colors remain the same, but the intermediate colors vary depending on the color space used for interpolation. A striking observation is that, despite all neighboring colors having equal distance in one color space, we perceive the three colormaps very differently. For example, the greenish HSV colors are barely distinguishable, while the bluish tones appear distinct. This results in a poor color map with `flat' areas, where differences between scalar values are not accurately resolved. To a lesser extent, the RGB colors exhibit a similar issue near the blue end, whereas the Lab colors remain well-distinguished throughout.
-
 \begin{figure}
 \captionsetup{format = sidebyside, indention = 0cm} 
 \begin{minipage}[t]{0.4\textwidth}
@@ -208,6 +193,21 @@ The end colors remain the same, but the intermediate colors vary depending on th
 	\input{\here/tikz_colorspaces.tex}
 \end{minipage}
 \end{figure} 
+
+Let's say that we picked two colors as the end colors of a yet to be defined colormap. We can think of this colormap as a line in a threedimensional colorspace connecting the end colors. We want a discrete number of colors, say ten. It is certainly reasonable to choose the colors such that their `distance' is the same for any two pairs of neighboring colors, e.g., the colors 1 and 2 should `differ as much' as 2 and 3, and so on. At this point, we have no precise idea of what a color distance actually is. A naive guess is to take the Eucledian distance $||\vect{p}_1-\vect{p}_2||$, where $\vect{p}_i$ is the vector of the three parameters that determine the color $i$.  Let's do this for three colorspaces: RGB, HSV, and Lab. This is easily accomplished with Julia's \verb|Colors.jl| package:
+
+\begin{listing}[h]
+\begin{minted}[xleftmargin = 1.5cm]{julia} 
+c1, c2 = RGB(0.0, 1.0, 0.0), RGB(0.0, 0.0, 1.0)
+cmapRGB = range(c1, stop = c2, length = 10) 
+cmapHSV = range(HSV(c1), stop = HSV(c2), length = 10) 
+cmapLab = range(Lab(c1), stop = Lab(c2), length = 10) 
+\end{minted}
+\end{listing}
+
+This creates arraysof colors whose parameters (in the respective color space) change uniformly from \verb|c1| to \verb|c2|. For example, the `blue' values in \verb|cmapRGB| are uniformely spaced, $0,\frac{1}{9},\frac{2}{9},\ldots,1$, and the `hue' parameter in \verb|cmapHSV| takes the values $120,133\frac{1}{3},146\frac{2}{3},\ldots,240$.
+The resulting colors are shown in \figref{fig:colorspaces}. 
+The end colors remain the same, but the intermediate colors vary depending on the color space used for interpolation. A striking observation is that, despite all neighboring colors having equal distance in one color space, we perceive the three colormaps very differently. For example, the greenish HSV colors are barely distinguishable, while the bluish tones appear distinct. This results in a poor color map with `flat' areas, where differences between scalar values are not accurately resolved. To a lesser extent, the RGB colors exhibit a similar issue near the blue end, whereas the Lab colors remain well-distinguished throughout.
 
 The key takeaway here is that a reasonable colors distance metric is not necessarily determined by an Eucledian color space distance, but by how the human eye and brain interpret those differences. A well-designed colormap is \emph{perceptually uniform}: Equal steps in the data should correspond to equal perceived changes in color---just as a fixed distance on the $x$ axis of a plot always represents the same step in scale. For example, in a topographic elevation map, a shift from 1500 meters to 1200 meters below sea level (represented by a change from dark to lighter blue) should be perceived as the same elevation increase as a shift from 1000 meters to 1300 meters above sea level (which might be represented by a transition from tan to a lighter tan).
 Unsurprisingly, the human vision is a very complex issue and one that requires extensive empirical studies, see e.g. Refs.~\cite{rogowitz1996,mullen1985,crameri2020}. For example, research has shown that the human brain perceives changes in lightness far more effectively than changes in hue when interpreting data~\cite{rogowitz1996}. As a result, colormaps with a monotonically increasing lightness are generally more intuitive and easier to interpret for viewers.
@@ -235,14 +235,6 @@ The CIE also introduced various color distance metrics, typically denoted as $\D
 Per definition, $\Delta E^*_{ab}$ remains constant for the Lab colors, while it peaks in the other two cases and decreases toward the edges. For $\Delta E^*_{00}$, the absolute magnitude is particularly significant: as noted earlier, colors in the green (HSV) and blue (RGB) regions are hard to distinguish. This is reflected in the $\Delta E^*_{00}$ values, which approach zero in those areas, whereas in the Lab space, a certain minimum distance is consistently maintained.
 
 
-\subsection{Mach bands in diverging color maps}
-
-Diverging colormaps typically pass through an unsaturated midpoint, often white. As a result, creating a perceptually uniform colormap by interpolating colors in the Lab color space (as done previously) is not possible. One possible approach is piecewise interpolation, i.e., moving from one color to white and then taking a sharp turn.  Such a sudden transition from increasing to decreasing lightness can activate the human eye's edge-detection mechanisms and create artificial visual features called Mach bands. It is often beneficial to soften the lightness gradient near the midpoint to avoid abrupt visual edges. This comes at the cost of a slight perceptual flat spot around the vanishing lightness gradient. For technical details on how to smoothen the lightness transition, see, e.g., Refs.~\cite{moreland2009,kovesi2015}.
-
-\figref{fig:machbands} compares two diverging colormaps (taken from Ref.~\cite{moreland2009}) applied to the function $f(x) = \cos x + \cos y$. The colormaps share identical edge colors, but (a) has a sharp peak in lightness, while (c) has a smoother transition. The respective lightness values are shown in panel (b). In (a), the peak creates white Mach bands, whereas in (c), these artificial features are absent, thanks to the flattened lightness transition.
-While (c) may be preferable in many situations, it is not always the better choice. In some cases, a sharp transition can be desirable, especially when the white midpoint carries specific significance. For example, in \figref{fig:machbands}, the contour lines where $f(x)=0$ could represent the Fermi lines of a square lattice tight-binding model. If the goal is to highlight the precise shape of the Fermi line, a sharp contrast can be advantageous.
-
-In summary, when selecting a diverging colormap, be mindful of potential artifacts and carefully consider whether these are undesirable or beneficial.
 
 \begin{figure}
 	\centering
@@ -252,6 +244,14 @@ In summary, when selecting a diverging colormap, be mindful of potential artifac
 	\label{fig:machbands}
 \end{figure}
 
+\subsection{Mach bands in diverging color maps}
+
+Diverging colormaps typically pass through an unsaturated midpoint, often white. As a result, creating a perceptually uniform colormap by interpolating colors in the Lab color space (as done previously) is not possible. One possible approach is piecewise interpolation, i.e., moving from one color to white and then taking a sharp turn.  Such a sudden transition from increasing to decreasing lightness can activate the human eye's edge-detection mechanisms and create artificial visual features called Mach bands. It is often beneficial to soften the lightness gradient near the midpoint to avoid abrupt visual edges. This comes at the cost of a slight perceptual flat spot around the vanishing lightness gradient. For technical details on how to smoothen the lightness transition, see, e.g., Refs.~\cite{moreland2009,kovesi2015}.
+
+\figref{fig:machbands} compares two diverging colormaps (taken from Ref.~\cite{moreland2009}) applied to the function $f(x) = \cos x + \cos y$. The colormaps share identical edge colors, but (a) has a sharp peak in lightness, while (c) has a smoother transition. The respective lightness values are shown in panel (b). In (a), the peak creates white Mach bands, whereas in (c), these artificial features are absent, thanks to the flattened lightness transition.
+While (c) may be preferable in many situations, it is not always the better choice. In some cases, a sharp transition can be desirable, especially when the white midpoint carries specific significance. For example, in \figref{fig:machbands}, the contour lines where $f(x)=0$ could represent the Fermi lines of a square lattice tight-binding model. If the goal is to highlight the precise shape of the Fermi line, a sharp contrast can be advantageous.
+
+In summary, when selecting a diverging colormap, be mindful of potential artifacts and carefully consider whether these are undesirable or beneficial.
 
 \section{An example: Rainbow vs. good colormaps}\label{sec:rainbow}
 
@@ -278,22 +278,11 @@ Next, we will examine the same plot using three different colormaps, along with 
 \begin{itemize}
 \item the \verb|cividis| colormap, introduced in Ref.~\cite{nunez2018}. This colormap is derived from the \verb|viridis| scheme and modified to optimize readability for colorblind readers (albeit at the cost of being less aesthetically pleasing, according to its creators \cite{nunez2018}).
 \item the \verb|batlow| colormap, one of several perceptually uniform colormaps designed by Fabio Crameri and introduced in Ref.~\cite{crameri2020}
-\item the \verb|gist_rainbow| colormap  which serves as an example of a poor colormap that obscures data, introduces artificial features, and ultimately confuses users.\footnote{Given their well-documented and long-known shortcomings, it is surprising how widespread rainbow-like colormaps are. Not too long ago, they were the standard color schemes of many common plotting libraries, e.g., the \texttt{jet} colormap in Matplotlib before 2017. In the 2000's, rainbow-like colormaps were by far the most common choice for scientific visualization.
+\item the \verb|gist_rainbow| colormap  which serves as an example of a poor colormap that obscures data, introduces artificial features, and ultimately confuses users.\footnote{Given their well-documented and long-known shortcomings, it is surprising how widespread rainbow-like colormaps are. Not too long ago, they were the standard color schemes of many common plotting libraries, e.g., the \texttt{jet} colormap in Matplotlib before 2017. In the 2000's, rainbow-like colormaps were by far the most common choice for scientific visualization \cite{borland2007}.
 In recent years, the awareness about their problems has increased, witnessed by the advent of many good alternatives, \texttt{viridis} being the most popular.}
 \end{itemize}
 
 We can already draw insights from the colorbars associated with these colormaps, shown in \figref{fig:colorbars}. In addition to the original colors, the figure includes versions accounting for the most common types of color blindness, as well as grayscale conversion. Unlike in \figref{fig:lineplotcolorblindness}, where partial photopigment loss was assumed, this time we consider total loss of one of the three types of human photopigments (e.g., deuteranopia rather than deuteranomaly, etc.).
-
-
-The main observations include: (i) The \verb|cividis| and \verb|batlow| colormaps exhibit a clear and uniform progression toward higher brightness, which is consistently maintained across all color blindness variants. (ii) \verb|cividis| avoids green or red hues, meaning its appearance changes minimally for individuals with protanopia or deuteranopia. (iii) \verb|gist_rainbow| has sharp lightness peaks in yellow and cyan, and extended intermediate regimes where the colors appear almost unchanged, particularly in the green range. The effect of these `flat' areas worsens for colorblind users. For example, in protanopia, the colormap effectively reduces to just four broad color bands (gray, yellow, and blue) with very short transitions between them. (iv) \verb|gist_rainbow| lacks a clear order, which is particularly apparent after grayscale conversion, where multiple recurring light and dark regions make it impossible to determine which shade correspond to high or low numerical values. This ambiguity leaves ample room for misinterpretation, even for non-colorblind readers.
-
-
-We now discuss the spatial contrast sensitivity function to see how the three colormaps perform in a real use case.
-% highly uneven perceptual contrast. Colour maps may have points of locally
-% high colour contrast leading to the perception of false anomalies in your data
-% when there is none. Conversely colour maps may also have ‘flat spots’ of
-% low perceptual contrast that prevent you from seeing features in the data.
-
 
 \begin{figure}
 	\centering
@@ -303,70 +292,30 @@ We now discuss the spatial contrast sensitivity function to see how the three co
 	\label{fig:colorbars}
 \end{figure}
 
+The main observations include: (i) The \verb|cividis| and \verb|batlow| colormaps exhibit a clear and uniform progression toward higher brightness, which is consistently maintained across all color blindness variants. (ii) \verb|cividis| avoids green or red hues, meaning its appearance changes minimally for individuals with protanopia or deuteranopia. (iii) \verb|gist_rainbow| has sharp lightness peaks in yellow and cyan, and extended intermediate regimes where the colors appear almost unchanged, particularly in the green range. The effect of these `flat' areas worsens for colorblind users. For example, in protanopia, the colormap effectively reduces to just four broad color bands (gray, yellow, and blue) with very short transitions between them. (iv) \verb|gist_rainbow| lacks a clear order, which is particularly apparent after grayscale conversion, where multiple recurring light and dark regions make it impossible to determine which shade correspond to high or low numerical values. This ambiguity leaves ample room for misinterpretation, even for non-colorblind readers.
 
-\subsection{The original colormap}
-\subsection{Color vision deficiency}
+We now turn to a real-world use case to evaluate the effectiveness of different colormaps in communicating information, specifically when applied to color-code the SCS function. The results are shown in \figref{fig:sensitivityCVD}. I was surprised by how much less effectively the rainbow colormap resolves the features of the SCS function compared to the scientifically derived colormaps, \verb|cividis| and \verb|batlow|. Let's break down the differences and issues, starting with the original colormaps shown in the first row.
 
+\paragraph{The original colormaps}
+Both \verb|cividis| and \verb|batlow| are able to resolve the oscillations across the entire $y$ range, providing a clear visual representation. In contrast, \verb|gist_rainbow| exhibits several problems. As noted earlier, the map features areas of high local contrast where lightness peaks, creating false anomalies---specifically, the thin, bright, dome-shaped lines in cyan and yellow. Additionally, the colormap contains flat regions of nearly constant lightness, resulting in low perceptual contrast. This makes it difficult to distinguish variations, particularly in the greenish area where $f(x) \approx 0$. Finally, the rainbow colormap lacks a clear order: the starting color (red) and the ending color (pink) are very close in brightness, making it challenging to intuitively map colors to numerical values without constantly referring to the colorbar.
 
+\paragraph{The CVD colormaps} 
+Individuals with color vision deficiency can still resolve all relevant features when using one of the two scientific colormaps,  \verb|cividis| and \verb|batlow|. As discussed earlier, due to the absence of green and red tones, the \verb|cividis| plots appear nearly identical to readers without colorblindness or with red- or green-blindness. However, the colorblind versions of \verb|gist_rainbow| are problematic. For example, in the case of protanopia, large regions of gray, blue, yellow, and white (if the screen brightness is at maximum) dominate the image, while details within these areas are very hard to distinguish. Similar issues occur for the other types of color blindness. For individuals with deuteranopia, the colormap even suggests a non-monotonic behavior in the $y$ direction. Bright yellow lines appear, but on either side, the color tone becomes muddier, creating the illusion of similar numerical values on both sides.
+This poses a serious problem, as more than 5\% of all males have deuteranomaly or deuteranopia (meaning the percentage is likely even higher among physicists (hopefully, this will change in the future)).
 
-
+\paragraph{Monochrome colormaps} Due to their monotonically increasing lightness, \verb|cividis| and \verb|batlow| continue to convey information effectively in monochrome prints. In contrast, the non-monotonic lightness of the rainbow colormap has its most detrimental effect here. As mentioned earlier, it is impossible to infer a numerical value from a particular gray shade, even when the colorbar is provided. Additionally, oscillations near the upper edge of the plot are not properly resolved.
 
 \begin{figure}
 	\centering
 	\tikzsetnextfilename{fig_sensitivityCVD}
 	\input{\here/tikz_sensitivityCVD.tex}
-	\caption{xxx}
+	\caption{\textbf{Comparison of colormap effectiveness.} The figure shows the SCS function colored with three different colormaps: \texttt{cividis}, \texttt{batlow}, and \texttt{gist\_rainbow}. Each colormap is also displayed in its colorblind and grayscale versions. \texttt{cividis} and \texttt{batlow}, with their monotonically increasing lightness, effectively convey the function's features across all visual impairments and in monochrome print. In contrast, \texttt{gist\_rainbow} exhibits problematic color transitions, with areas of high contrast leading to perceived anomalies, especially in colorblind versions, and poor resolution in regions with low contrast. In addition, the lack of a clear order between colors hampers interpretation.}
 	\label{fig:sensitivityCVD}
 \end{figure}
 
-% \begin{figure}
-% 	\centering
-% 	\tikzsetnextfilename{fig_cmapanalytics}
-% 	\input{\here/tikz_cmapanalytics.tex}
-% 	\caption{Note: Scales are not directly comparable! But shape of each individual line is what matters here.}
-% 	\label{fig:cmapanalytics}
-% \end{figure}
-
-
-
-% Here is how you define a new ColorScheme:
-% \begin{listing}[h]
-% \begin{minted}[xleftmargin = 1.5cm]{julia} 
-% using Colors, ColorSchemes
-% cividis_cols = ColorSchemes.cividis.colors
-% cividis_protanopic = ColorScheme(protanopic.(cividis_cols, 1))
-% \end{minted}
-% \end{listing}
-
-
-% Why is viridis a good color map? Perceptional 
-
-
-
-% Describe example...
-
-% Main message: Human perception does not linearly 
-% .
-% What we actually want is that colors that are equally apart in our colormap are also perceived by the human eye / brain as equally apart.
-
-%  Let us see how our three colormaps perform agains this metric.
-
-
-
-% Besides being colorblind-friendly, the most reasonable claim is 
-
-% perceptually uniform colorspaces are and why you should be using them:
-% Unfortunately many widely used colour maps 1 provided by vendors have
-
-
-
-
-
-% Perceptual uniformity: Same distance in color (difficult! Has to do with color perception, i.e. human vision), same distance in space. 
-% Not colorblind safe.
-% Not same order!
-% Mach bands!
-
+What we've discussed qualitatively can be supported quantitatively by explicitly calculating lightness variations or assessing the performance of the colormaps using CIE distance metrics, see \secref{sec:perceptualuniform}. A detailed quantitative analysis, along with additional technical information, is provided in \appref{app:A}.
 
 \section{Summary}
+In this chapter, we explored various areas where colors are used, such as in text, backgrounds, scientific plots, and for highlighting, while providing useful advice on what to consider when choosing colors. We discussed different types of plots, including line and surface plots. The key takeaways from our discussion are: (i) ensuring readability for readers with color blindness, and (ii) for surface plots, prioritizing perceptual uniformity: Scientifically derived colormaps should be used, where an equal change in data corresponds to the same perceptual difference in color. Fortunately, in recent years, these concerns have been recognized by creators of common visualization software, making it easy to design plots that are both aesthetically pleasing and effectively communicate information to all readers.
 
+Finally, if this discussion has sparked your interest in colors and color spaces, then Refs.~\cite{kovesi2015,moreland2015,moreland2009,crameri2020} are a good starting point to learn more.
