@@ -8,25 +8,26 @@
 			horizontal sep = .25cm, 
 			},
 		width = .75*\axisdefaultwidth,
-		height = .75*\axisdefaultheight,
+		height = .72*\axisdefaultheight,
 		enlargelimits = 0.05,
 		simpleax1,
 		yticklabel = \empty,
 		xticklabel = \empty,
-		ylabel style = {yshift = -0.4cm}
+		ylabel style = {yshift = -0.3cm},
+		xlabel style = {yshift = 0.3cm},
 		]
 	
-		\nextgroupplot[cycle list name = bright, ylabel = {$y$ axis}] 
+		\nextgroupplot[cycle list name = bright, ylabel = {$y$ axis}, xlabel = {qualitative}] 
 		\lineplot
 
-		\nextgroupplot[cycle list name = mediumcontrast, xlabel = {$x$ axis}]
+		\nextgroupplot[cycle list name = mediumcontrast, xlabel = {pairwise}]
 		\addplot+[domain = 0:3.2, ultra thick, samples = 200] {cos(deg(x))}; 
 		\addplot+[domain = 0:3.2, ultra thick, samples = 200] {cos(deg(1.15*x))}; 
 		
 		\addplot+[domain = 0:3.2, ultra thick] {0.5 * x - 1}; 
 		\addplot+[domain = 0:3.2, ultra thick] {0.55 * x - 0.9}; 
 
-		\nextgroupplot[cycle list name = SCM]
+		\nextgroupplot[cycle list name = SCM, xlabel = {sequential}]
 		\foreach \i in {1,...,9}{
 		\addplot+[domain = 0:3.2, ultra thick, samples = 200] {cos(deg(sqrt(\i) * x))}; 
 		}
