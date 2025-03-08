@@ -125,6 +125,26 @@ I highly recommend the \verb|booktabs| package that provides the commands \verb|
 
 \section{Figures}
 \subsection{Caption and figures side by side}
+For smaller figures, positioning the figure and its caption side by side can enhance aesthetics and minimize unnecessary white space. Several packages are specifically designed for this purpose, such as \verb|floatrow| or \verb|sidecap|. However, I found that the simple and robust approach of using \verb|minipage| environments was more than sufficient for my needs:
+
+\begin{lstlisting}
+\begin{figure}
+\captionsetup{format = sidebyside, indention = 0cm} 
+\begin{minipage}[t]{0.4\textwidth}
+	\caption{Some caption}
+	\label{fig:somefigure}
+\end{minipage}\hfill 
+\begin{minipage}[t]{0.55\textwidth}
+	\centering 
+	\includegraphics[]{somefigure.png} % or input tikz-file.
+\end{minipage}
+\end{figure} 
+\end{lstlisting}
+
+The positional parameter (here \verb|[t]|) and the width of the two minipages can be adjusted as needed. To finetune the relative vertical positions, one can add \verb|\vspace{}| before \verb|\caption| or \verb|\includegraphics[]{}|.
+The \verb|\captionsetup| in the second line activates the \verb|sidebyside| caption layout, that is defined in \verb|latex/layout.tex| (the main difference to the regular caption layout is a linebreak between the `Figure X' label and the descriptive part of the caption).
+
+
 \subsection{Hyperlinks to subpanels}
 
 \section{Fine-tuning}
