@@ -4,18 +4,13 @@
 \tikzsetexternalprefix{chapters/Appendix_A/figures/}	% Set path for externalized tikz pdfs.
 
 
-\chapter{Appendix for Chapter 3}
+\chapter{Appendix for Chapter 3}\label{app:A}
 
-\begin{figure}
-	\centering
-	\tikzsetnextfilename{fig_cmapanalytics}
-	\input{\here/tikz_cmapanalytics.tex}
-	\caption{Note: Scales are not directly comparable! But shape of each individual line is what matters here.}
-	\label{fig:cmapanalytics}
-\end{figure}
+In this appendix, we substantiate the qualitative observations about the effectiveness of the \verb|cividis|, \verb|batlow| and \verb|gist_rainbow| colormaps from \secref{sec:rainbow} with a quantitative analysis and provide details on how to convert a colormap to its colorblind version.
 
+\section{Simulating colorblindness}
+Given a colormap, e.g., \verb|cividis|, the following Julia code generates the color scheme as perceived by a reader with protanopia:
 
-Here is how you define a new ColorScheme:
 \begin{listing}[h]
 \begin{minted}[xleftmargin = 1.5cm]{julia} 
 using Colors, ColorSchemes
@@ -23,4 +18,22 @@ cividis_cols = ColorSchemes.cividis.colors
 cividis_protanopic = ColorScheme(protanopic.(cividis_cols, 1))
 \end{minted}
 \end{listing}
+
+\section{A quantitative analysis of \texttt{cividis}, \texttt{batlow} and \texttt{gist\_rainbow}}
+
+\figref{fig:cmapanalytics} presents a quantitative analysis of the three colormaps used in \figref{fig:sensitivityCVD}. Panel (a) displays the lightness values. As expected from the visual appearance of the colormaps, \verb|gist_rainbow| exhibits two pronounced peaks, with the brightest colors being yellow and cyan, while the lightness remains nearly constant in the greenish region. As discussed in \secref{sec:rainbow}, both of these characteristics obscure the data: the bright peaks create Mach band-like artifacts, while the flat region prevents variations in data from being accurately perceived within that range. In contrast, the two scientifically derived colormaps exhibit a nearly perfect linear increase in lightness, which is precisely the behavior expected from a perceptually uniform colormap.
+
+Panel (b) illustrates the distance between adjacent colors, measured using the $\Delta E^*_{00}$ metric. While the absolute values are not directly comparable (\verb|gist_rainbow| contains 64 colors, whereas \verb|cividis| and \verb|batlow| each contain 256, naturally resulting in smaller distances), the overall trend is more important. For \verb|cividis| and \verb|batlow|, the distance remains roughly constant with only minor fluctuations---again precisely what one would expect from a perceptually uniform colormap. In contrast, \verb|gist_rainbow| deviates significantly: near the brightest areas, the distance peaks at two high maxima, while in the green region, it drops to very low values. This once again confirms our observations from \figref{fig:sensitivityCVD}: artificial features emerge due to the maxima, while fine details are lost in areas of minimal color distance.
+
+Panel (c) illustrates the cumulative distance $\Delta E_{00}^{\text{cum}}$ between colors, defined as the distance from each color to the starting color. A uniformly increasing distance indicates that doubling the change in a data value results in a color change of twice the perceptual magnitude. This property holds, at least approximately, for the two scientifically derived colormaps. However, it does not apply to the rainbow colormap. Instead, the plot highlights yet another previously observed issue: the lack of a clear perceptual order. For instance, the color distance between red and pink is significantly smaller than that between red and green, despite the fact that the underlying data values exhibit the maximum possible difference for these colors.
+
+\begin{figure}
+	\centering
+	\tikzsetnextfilename{fig_cmapanalytics}
+	\input{\here/tikz_cmapanalytics.tex}
+	\caption{\textbf{Quantitative analysis of the three colormaps used in \figref{fig:sensitivityCVD}}. (a) Evolution of the lightness $L$ across the colormaps. (b) Distance between adjacent colors measured using the $\Delta E^*_{00}$ metric. Note that the absolut values for the different colormaps are not directly comparable. (c) Cumulative color distance from the starting color. A steady increase, as seen roughly in the scientific colormaps, ensures proportional mapping between numerical differences and perceptual changes. For more details, see the main text.}
+	\label{fig:cmapanalytics}
+\end{figure}
+
+
 
