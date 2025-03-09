@@ -196,14 +196,12 @@ A use case I never encountered in my work is cyclic colormaps. These are designe
 
 Let's say that we picked two colors as the end colors of a yet to be defined colormap. We can think of this colormap as a line in a threedimensional colorspace connecting the end colors. We want a discrete number of colors, say ten. It is certainly reasonable to choose the colors such that their `distance' is the same for any two pairs of neighboring colors, e.g., the colors 1 and 2 should `differ as much' as 2 and 3, and so on. At this point, we have no precise idea of what a color distance actually is. A first guess is to take the Eucledian distance $||\vect{p}_1-\vect{p}_2||$, where $\vect{p}_i$ is the vector of the three parameters of the color $i$.  Let's do this for three colorspaces, RGB, HSV, and Lab, which is easily accomplished with Julia's \verb|Colors.jl| package:
 
-\begin{listing}[h]
-\begin{minted}[xleftmargin = 1.5cm]{julia} 
+\begin{lstlisting}
 c1, c2 = RGB(0.0, 1.0, 0.0), RGB(0.0, 0.0, 1.0)
 cmapRGB = range(c1, stop = c2, length = 10) 
 cmapHSV = range(HSV(c1), stop = HSV(c2), length = 10) 
 cmapLab = range(Lab(c1), stop = Lab(c2), length = 10) 
-\end{minted}
-\end{listing}
+\end{lstlisting}
 
 This creates arrays of colors whose parameters (in the respective color space) change uniformly from \verb|c1| to \verb|c2|. For example, the `blue' values in \verb|cmapRGB| are uniformely spaced, $0,\frac{1}{9},\frac{2}{9},\ldots,1$, and the `hue' parameter in \verb|cmapHSV| takes the values $120,133\frac{1}{3},146\frac{2}{3},\ldots,240$.
 The resulting colors are shown in \figref{fig:colorspaces}. 

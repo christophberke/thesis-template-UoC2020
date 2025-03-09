@@ -5,19 +5,18 @@
 
 
 \chapter{Appendix for Chapter 3}\label{app:A}
+\tikzexternalenable
 
 In this appendix, we substantiate the qualitative observations about the effectiveness of the \verb|cividis|, \verb|batlow| and \verb|gist_rainbow| colormaps from \secref{sec:rainbow} with a quantitative analysis and provide details on how to convert a colormap to its colorblind version.
 
 \section{Simulating colorblindness}
 Given a colormap, e.g., \verb|cividis|, the following Julia code generates the color scheme as perceived by a reader with protanopia:
 
-\begin{listing}[h]
-\begin{minted}[xleftmargin = 1.5cm]{julia} 
+\begin{lstlisting} 
 using Colors, ColorSchemes
 cividis_cols = ColorSchemes.cividis.colors
 cividis_protanopic = ColorScheme(protanopic.(cividis_cols, 1))
-\end{minted}
-\end{listing}
+\end{lstlisting}
 
 \section{A quantitative analysis of \texttt{cividis}, \texttt{batlow} and \texttt{gist\_rainbow}}
 
